@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class TestConnect: MonoBehaviourPunCallbacks {
     #region Fields
+
+    [SerializeField] private GameSettings gameSettings;
+
     #endregion
 
     #region Properties
@@ -16,6 +19,7 @@ public class TestConnect: MonoBehaviourPunCallbacks {
     public TestConnect():
         base()
     {
+        gameSettings = null;
     }
 
     #endregion
@@ -24,19 +28,19 @@ public class TestConnect: MonoBehaviourPunCallbacks {
 
     private void Start() {
         print("Connecting to server...");
-        PhotonNetwork.GameVersion = MasterManager.MyGameSettings.GameVer; //Local ver
-        PhotonNetwork.NickName = MasterManager.MyGameSettings.Nickname;
+        PhotonNetwork.GameVersion = gameSettings.GameVer; //Local ver
+        PhotonNetwork.NickName = gameSettings.Nickname;
         PhotonNetwork.ConnectUsingSettings();
     }
 
     #endregion
 
     public override void OnConnectedToMaster() {
-        //Debug.Log("<color=green>Connected to server</color>", this);
+        Debug.Log("<color=green>Connected to server</color>", this);
         print(PhotonNetwork.LocalPlayer.NickName); //Server ver
     }
 
     public override void OnDisconnected(DisconnectCause cause) {
-        //Debug.Log("<color=green>Disconnected to server: " + cause.ToString() + "</color>", this);
+        Debug.Log("<color=green>Disconnected to server: " + cause + "</color>", this);
     }
 }

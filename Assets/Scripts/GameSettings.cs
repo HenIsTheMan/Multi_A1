@@ -21,7 +21,7 @@ public class GameSettings: ScriptableObject {
 
     public string Nickname {
         get {
-            return nickname + Random.Range(0, 99999).ToString();
+            return nickname + Random.Range(0, 99999);
         }
     }
 
