@@ -24,7 +24,8 @@ public class TestConnect: MonoBehaviourPunCallbacks {
 
     private void Start() {
         print("Connecting to server...");
-        PhotonNetwork.GameVersion = "4.0";
+        PhotonNetwork.GameVersion = MasterManager.MyGameSettings.GameVer; //Local ver
+        PhotonNetwork.NickName = MasterManager.MyGameSettings.Nickname;
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -32,6 +33,7 @@ public class TestConnect: MonoBehaviourPunCallbacks {
 
     public override void OnConnectedToMaster() {
         print("Connected to server");
+        print(PhotonNetwork.LocalPlayer.NickName); //Server ver
     }
 
     public override void OnDisconnected(DisconnectCause cause) {
