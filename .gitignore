@@ -47,10 +47,8 @@ ExportedObj/
 *.opendb
 *.VC.db
 
-# Unity3D generated meta files
-*.pidb.meta
-*.pdb.meta
-*.mdb.meta
+# Meta files (28/11/2020: edited by HenIsTheMan)
+*.meta
 
 # Unity3D generated file on crash reports
 sysinfo.txt
