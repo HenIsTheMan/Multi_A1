@@ -21,7 +21,7 @@ public class GameSettings: ScriptableObject {
 
     public string Nickname {
         get {
-            return nickname + Random.Range(0, 99999);
+            return $"{nickname}_{(char)Random.Range(65, 90)}{Random.Range(0, 999)}"; //Interpolated str
         }
     }
 
@@ -31,7 +31,7 @@ public class GameSettings: ScriptableObject {
 
     public GameSettings() {
         gameVer = "4.0";
-        nickname = "Pun";
+        nickname = "Player";
     }
 
     #endregion

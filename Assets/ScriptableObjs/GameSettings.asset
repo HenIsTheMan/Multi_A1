@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   gameVer: 4.0
-  nickname: Pun
+  nickname: Player
