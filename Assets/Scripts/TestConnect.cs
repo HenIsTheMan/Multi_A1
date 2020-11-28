@@ -32,11 +32,11 @@ public class TestConnect: MonoBehaviourPunCallbacks {
     #endregion
 
     public override void OnConnectedToMaster() {
-        print("Connected to server");
+        //Debug.Log("<color=green>Connected to server</color>", this);
         print(PhotonNetwork.LocalPlayer.NickName); //Server ver
     }
 
     public override void OnDisconnected(DisconnectCause cause) {
-        print("Disconnected to server: " + cause.ToString());
+        //Debug.Log("<color=green>Disconnected to server: " + cause.ToString() + "</color>", this);
     }
 }

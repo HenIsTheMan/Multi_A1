@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public abstract class Singleton<T>: ScriptableObject where T: ScriptableObject {
+public abstract class Singleton<T>: ScriptableObject where T : ScriptableObject {
     #region Fields
 
     private static T globalInstance;
@@ -15,9 +15,7 @@ public abstract class Singleton<T>: ScriptableObject where T: ScriptableObject {
     public static T GlobalInstance {
         get {
             if(globalInstance == null) {
-                T[] results = Resources.FindObjectsOfTypeAll<T>();
-                Assert.AreEqual(results.Length, 1);
-                globalInstance = results[0];
+                globalInstance = CreateInstance<T>();
             }
             return globalInstance;
         }
@@ -26,7 +24,7 @@ public abstract class Singleton<T>: ScriptableObject where T: ScriptableObject {
     #endregion
 
     #region Ctors and Dtor
-    
+
     static Singleton() {
         globalInstance = null;
     }
