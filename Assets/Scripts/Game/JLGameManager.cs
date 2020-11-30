@@ -10,34 +10,36 @@ using Photon.Pun;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public sealed class JLGameManager: MonoBehaviourPunCallbacks{
+    [SerializeField] private List<GameObject> prefabs;
+
     public static JLGameManager Instance = null;
     public Text InfoText;
     public GameObject wayPoints;
 
-    //public GameObject[] AsteroidPrefabs;
-
     #region UNITY
 
-    public void Awake()
-    {
+    private void Awake() {
         Instance = this;
     }
 
-    public override void OnEnable()
-    {
+    public override void OnEnable() {
         base.OnEnable();
-
         CountdownTimer.OnCountdownTimerHasExpired += OnCountdownTimerIsExpired;
     }
 
-    public void Start()
-    {
-        Hashtable props = new Hashtable
-                {
-                    {JLGame.PLAYER_LOADED_LEVEL, true}
-                };
+    private void Start() {
+        Hashtable props = new Hashtable {
+            {JLGame.PLAYER_LOADED_LEVEL, true}
+        };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-    }
+
+		///Manually fill ResourceCache of DefaultPool
+		if(PhotonNetwork.PrefabPool is DefaultPool pool && prefabs != null) {
+			foreach(GameObject prefab in prefabs) {
+				pool.ResourceCache.Add(prefab.name, prefab);
+			}
+		}
+	}
 
     public override void OnDisable()
     {
@@ -49,38 +51,6 @@ public sealed class JLGameManager: MonoBehaviourPunCallbacks{
     #endregion
 
     #region COROUTINES
-
-    //private IEnumerator SpawnAsteroid()
-    //{
-    //    while (true)
-    //    {
-    //        yield return new WaitForSeconds(Random.Range(JLGame.ASTEROIDS_MIN_SPAWN_TIME, JLGame.ASTEROIDS_MAX_SPAWN_TIME));
-
-    //        Vector2 direction = Random.insideUnitCircle;
-    //        Vector3 position = Vector3.zero;
-
-    //        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-    //        {
-    //            // Make it appear on the left/right side
-    //            position = new Vector3(Mathf.Sign(direction.x) * Camera.main.orthographicSize * Camera.main.aspect, 0, direction.y * Camera.main.orthographicSize);
-    //        }
-    //        else
-    //        {
-    //            // Make it appear on the top/bottom
-    //            position = new Vector3(direction.x * Camera.main.orthographicSize * Camera.main.aspect, 0, Mathf.Sign(direction.y) * Camera.main.orthographicSize);
-    //        }
-
-    //        // Offset slightly so we are not out of screen at creation time (as it would destroy the asteroid right away)
-    //        position -= position.normalized * 0.1f;
-
-
-    //        Vector3 force = -position.normalized * 1000.0f;
-    //        Vector3 torque = Random.insideUnitSphere * Random.Range(500.0f, 1500.0f);
-    //        object[] instantiationData = { force, torque, true };
-
-    //        PhotonNetwork.InstantiateRoomObject("BigAsteroid", position, Quaternion.Euler(Random.value * 360.0f, Random.value * 360.0f, Random.value * 360.0f), 0, instantiationData);
-    //    }
-    //}
 
     private IEnumerator EndOfGame(string winner, int score)
     {
@@ -164,13 +134,10 @@ public sealed class JLGameManager: MonoBehaviourPunCallbacks{
     #endregion
 
     private void StartGame(){
-        //float angularStart = (360.0f / PhotonNetwork.CurrentRoom.PlayerCount) * PhotonNetwork.LocalPlayer.GetPlayerNumber();
-        //float x = 20.0f * Mathf.Sin(angularStart * Mathf.Deg2Rad);
-        //float z = 20.0f * Mathf.Cos(angularStart * Mathf.Deg2Rad);
         Vector3 position = new Vector3(-9.8f, 0.0f, -3.2f);
         Quaternion rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
 
-        PhotonNetwork.Instantiate("JohnLemon", position, rotation, 0); //Avoid this call on rejoin (ship was network instantiated before)
+        PhotonNetwork.Instantiate("JohnLemon", position, rotation, 0); //Avoid this call on rejoin (JL was network-instantiated before)
 
         if(PhotonNetwork.IsMasterClient){
             SpawnGhosts();
