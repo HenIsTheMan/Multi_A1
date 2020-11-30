@@ -20,7 +20,11 @@ namespace Impasta.Lobby {
         #region Ctors and Dtor
 
         public RoomListEntry() {
+            roomName = "";
 
+            RoomNameText = null;
+            RoomPlayersText = null;
+            JoinRoomButton = null;
         }
 
         #endregion

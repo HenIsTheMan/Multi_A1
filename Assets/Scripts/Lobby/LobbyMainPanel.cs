@@ -46,7 +46,28 @@ namespace Impasta.Lobby {
         #region Ctors and Dtor
 
         public LobbyMainPanel() {
+            cachedRoomList = null;
+            roomListEntries = null;
+            playerListEntries = null;
 
+            LoginPanel = null;
+            PlayerNameInput = null;
+
+            SelectionPanel = null;
+
+            CreateRoomPanel = null;
+            RoomNameInputField = null;
+            MaxPlayersInputField = null;
+
+            JoinRandomRoomPanel = null;
+
+            RoomListPanel = null;
+            RoomListContent = null;
+            RoomListEntryPrefab = null;
+
+            InsideRoomPanel = null;
+            StartGameButton = null;
+            PlayerListEntryPrefab = null;
         }
 
         #endregion

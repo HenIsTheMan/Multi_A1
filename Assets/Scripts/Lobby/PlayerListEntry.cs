@@ -9,8 +9,8 @@ namespace Impasta.Lobby {
     internal class PlayerListEntry: MonoBehaviour {
         #region Fields
 
-        private int ownerId;
         private bool isPlayerReady;
+        private int ownerID;
 
         [Header("UI Refs")]
         [SerializeField] private Text PlayerNameText;
@@ -26,7 +26,13 @@ namespace Impasta.Lobby {
         #region Ctors and Dtor
 
         public PlayerListEntry() {
+            isPlayerReady = false;
+            ownerID = 0;
 
+            PlayerNameText = null;
+            PlayerColorImage = null;
+            PlayerReadyButton = null;
+            PlayerReadyImage = null;
         }
 
         #endregion
@@ -38,7 +44,7 @@ namespace Impasta.Lobby {
         }
 
         private void Start() {
-            if(PhotonNetwork.LocalPlayer.ActorNumber != ownerId) {
+            if(PhotonNetwork.LocalPlayer.ActorNumber != ownerID) {
                 PlayerReadyButton.gameObject.SetActive(false);
             } else {
                 Hashtable initialProps = new Hashtable() {{JLGame.PLAYER_READY, isPlayerReady}, {JLGame.PLAYER_LIVES, JLGame.PLAYER_MAX_LIVES}};
@@ -66,13 +72,13 @@ namespace Impasta.Lobby {
         #endregion
 
         public void Initialize(int playerId, string playerName) {
-            ownerId = playerId;
+            ownerID = playerId;
             PlayerNameText.text = playerName;
         }
 
         private void OnPlayerNumberingChanged() {
             foreach(Player p in PhotonNetwork.PlayerList) {
-                if(p.ActorNumber == ownerId) {
+                if(p.ActorNumber == ownerID) {
                     PlayerColorImage.color = JLGame.GetColor(p.GetPlayerNumber());
                 }
             }
