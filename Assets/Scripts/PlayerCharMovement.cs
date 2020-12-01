@@ -9,6 +9,7 @@ namespace Impasta.Game {
 		private float vertAxis;
 		private Rigidbody rigidbodyComponent;
 
+		[SerializeField] private bool isFacingRight;
 		[SerializeField] private float spd;
 
 		#endregion
@@ -24,6 +25,7 @@ namespace Impasta.Game {
 			vertAxis = 0.0f;
 			rigidbodyComponent = null;
 
+			isFacingRight = true;
 			spd = 0.0f;
 		}
 
@@ -39,8 +41,14 @@ namespace Impasta.Game {
 			if(Input.GetButtonDown("Kill")) {
 				isKillButtonPressed = true;
 			}
+
 			horizAxis = Input.GetAxisRaw("Horizontal");
 			vertAxis = Input.GetAxisRaw("Vertical");
+
+			if(Mathf.Approximately(horizAxis, 0.0f)) {
+				return;
+			}
+			isFacingRight = horizAxis > 0.0f;
 		}
 
 		private void FixedUpdate() {

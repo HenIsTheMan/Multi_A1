@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 using System;
 
 namespace Impasta.Game {
-    internal sealed class SpriteAniWithSingleDelay: MonoBehaviour {
+    internal sealed class SingleSpriteAniWithSingleDelay: MonoBehaviour {
         #region Fields
 
         private float BT;
@@ -20,7 +21,7 @@ namespace Impasta.Game {
 
         #region Ctors and Dtor
 
-        public SpriteAniWithSingleDelay() {
+        public SingleSpriteAniWithSingleDelay() {
             BT = 0.0f;
             elapsedTime = 0.0f;
             currFrameIndex = 0;
@@ -38,6 +39,10 @@ namespace Impasta.Game {
             spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         }
 
+        private void Start() {
+            Assert.IsTrue(currFrameIndex >= 0);
+        }
+
         private void Update() {
             elapsedTime += Time.deltaTime;
 
@@ -50,7 +55,7 @@ namespace Impasta.Game {
 
         #endregion
 
-        public void ResetSpriteAni(int frameIndex) {
+        public void ResetSpriteAni() {
             currFrameIndex = 0;
             BT = elapsedTime = 0.0f;
         }

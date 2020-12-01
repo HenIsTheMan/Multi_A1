@@ -3,7 +3,7 @@ using UnityEngine.Assertions;
 using System;
 
 namespace Impasta.Game {
-    internal sealed class SpriteAniWithDiffDelays: MonoBehaviour {
+    internal sealed class SingleSpriteAniWithDiffDelays: MonoBehaviour {
         #region Fields
 
         private float BT;
@@ -21,7 +21,7 @@ namespace Impasta.Game {
 
         #region Ctors and Dtor
 
-        public SpriteAniWithDiffDelays() {
+        public SingleSpriteAniWithDiffDelays() {
             BT = 0.0f;
             elapsedTime = 0.0f;
             currFrameIndex = 0;
@@ -40,6 +40,7 @@ namespace Impasta.Game {
         }
 
         private void Start() {
+            Assert.IsTrue(currFrameIndex >= 0);
             Assert.AreEqual(delays.Length, frames.Length);
         }
 
@@ -55,7 +56,7 @@ namespace Impasta.Game {
 
         #endregion
 
-        public void ResetSpriteAni(int frameIndex) {
+        public void ResetSpriteAni() {
             currFrameIndex = 0;
             BT = elapsedTime = 0.0f;
         }
