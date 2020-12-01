@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameEnding : MonoBehaviour
@@ -53,12 +55,26 @@ public class GameEnding : MonoBehaviour
         {
             if (doRestart)
             {
-                SceneManager.LoadScene (0);
+                StartCoroutine(DisconnectAndLoad());
             }
             else
             {
                 Application.Quit ();
             }
         }
+    }
+
+    IEnumerator DisconnectAndLoad() {
+        PhotonNetwork.Disconnect();
+        //PhotonNetwork.LeaveRoom();
+
+		while(PhotonNetwork.IsConnected) {
+			yield return null;
+		}
+		//while(PhotonNetwork.InRoom) {
+        //  yield return null;
+        //}
+
+        SceneManager.LoadScene(0);
     }
 }

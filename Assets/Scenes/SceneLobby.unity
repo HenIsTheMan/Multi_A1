@@ -251,7 +251,7 @@ PrefabInstance:
     - target: {fileID: 3726591497156307985, guid: 76bef9dd98b554940a60a4163414b808,
         type: 3}
       propertyPath: lvlName
-      value: SceneTest
+      value: SceneGame
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76bef9dd98b554940a60a4163414b808, type: 3}
