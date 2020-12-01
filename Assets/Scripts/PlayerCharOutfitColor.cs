@@ -33,7 +33,7 @@ namespace Impasta.Game{
         }
 
         private void Start() {
-            //childSpriteRenderer.color = JLGame.GetColor(photonView.Owner.GetPlayerNumber());
+            //childSpriteRenderer.color = GetColor(photonView.Owner.GetPlayerNumber());
             childSpriteRenderer.color = Color.red;
         }
 

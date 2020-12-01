@@ -47,7 +47,7 @@ namespace Impasta.Lobby {
             if(PhotonNetwork.LocalPlayer.ActorNumber != ownerID) {
                 PlayerReadyButton.gameObject.SetActive(false);
             } else {
-                Hashtable initialProps = new Hashtable() {{JLGame.PLAYER_READY, isPlayerReady}, {JLGame.PLAYER_LIVES, JLGame.PLAYER_MAX_LIVES}};
+                Hashtable initialProps = new Hashtable() {{"IsPlayerReady", isPlayerReady}, {"PlayerLives", "PlayerMaxLives"} };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(initialProps);
                 PhotonNetwork.LocalPlayer.SetScore(0);
 
@@ -55,7 +55,7 @@ namespace Impasta.Lobby {
                     isPlayerReady = !isPlayerReady;
                     SetPlayerReady(isPlayerReady);
 
-                    Hashtable props = new Hashtable() {{JLGame.PLAYER_READY, isPlayerReady}};
+                    Hashtable props = new Hashtable() {{"IsPlayerReady", isPlayerReady}};
                     PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
                     if(PhotonNetwork.IsMasterClient) {
@@ -79,13 +79,13 @@ namespace Impasta.Lobby {
         private void OnPlayerNumberingChanged() {
             foreach(Player p in PhotonNetwork.PlayerList) {
                 if(p.ActorNumber == ownerID) {
-                    PlayerColorImage.color = JLGame.GetColor(p.GetPlayerNumber());
+                    PlayerColorImage.color = Color.red;
                 }
             }
         }
 
         public void SetPlayerReady(bool playerReady) {
-            PlayerReadyButton.GetComponentInChildren<Text>().text = playerReady ? "Ready!" : "Ready?";
+            PlayerReadyButton.GetComponentInChildren<Text>().text = playerReady ? "Very Ready" : "Not Ready";
             PlayerReadyImage.enabled = playerReady;
         }
     }

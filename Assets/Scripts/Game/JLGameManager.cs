@@ -29,7 +29,7 @@ public sealed class JLGameManager: MonoBehaviourPunCallbacks{
 
     private void Start() {
         Hashtable props = new Hashtable {
-            {JLGame.PLAYER_LOADED_LEVEL, true}
+            {"PlayerLoadedLevel", true}
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
@@ -96,7 +96,7 @@ public sealed class JLGameManager: MonoBehaviourPunCallbacks{
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
 {
-    if (changedProps.ContainsKey(JLGame.PLAYER_LIVES))
+    if (changedProps.ContainsKey("PlayerLives"))
     {
         CheckEndOfGame();
         return;
@@ -112,7 +112,7 @@ public sealed class JLGameManager: MonoBehaviourPunCallbacks{
     int startTimestamp;
     bool startTimeIsSet = CountdownTimer.TryGetStartTime(out startTimestamp);
 
-    if (changedProps.ContainsKey(JLGame.PLAYER_LOADED_LEVEL))
+    if (changedProps.ContainsKey("PlayerLoadedLevel"))
     {
         if (CheckAllPlayerLoadedLevel())
         {
@@ -174,7 +174,7 @@ public sealed class JLGameManager: MonoBehaviourPunCallbacks{
     {
         object playerLoadedLevel;
 
-        if (p.CustomProperties.TryGetValue(JLGame.PLAYER_LOADED_LEVEL, out playerLoadedLevel))
+        if (p.CustomProperties.TryGetValue("PlayerLoadedLevel", out playerLoadedLevel))
         {
             if ((bool)playerLoadedLevel)
             {
@@ -190,42 +190,42 @@ public sealed class JLGameManager: MonoBehaviourPunCallbacks{
 
     private void CheckEndOfGame()
     {
-    //bool allDestroyed = true;
+        //bool allDestroyed = true;
 
-    //foreach (Player p in PhotonNetwork.PlayerList)
-    //{
-    //    object lives;
-    //    if (p.CustomProperties.TryGetValue(JLGame.PLAYER_LIVES, out lives))
-    //    {
-    //        if ((int)lives > 0)
-    //        {
-    //            allDestroyed = false;
-    //            break;
-    //        }
-    //    }
-    //}
+        //foreach (Player p in PhotonNetwork.PlayerList)
+        //{
+        //    object lives;
+        //    if (p.CustomProperties.TryGetValue("PlayerLives", out lives))
+        //    {
+        //        if ((int)lives > 0)
+        //        {
+        //            allDestroyed = false;
+        //            break;
+        //        }
+        //    }
+        //}
 
-    //if (allDestroyed)
-    //{
-    //    if (PhotonNetwork.IsMasterClient)
-    //    {
-    //        StopAllCoroutines();
-    //    }
+        //if (allDestroyed)
+        //{
+        //    if (PhotonNetwork.IsMasterClient)
+        //    {
+        //        StopAllCoroutines();
+        //    }
 
-    //    string winner = "";
-    //    int score = -1;
+        //    string winner = "";
+        //    int score = -1;
 
-    //    foreach (Player p in PhotonNetwork.PlayerList)
-    //    {
-    //        if (p.GetScore() > score)
-    //        {
-    //            winner = p.NickName;
-    //            score = p.GetScore();
-    //        }
-    //    }
+        //    foreach (Player p in PhotonNetwork.PlayerList)
+        //    {
+        //        if (p.GetScore() > score)
+        //        {
+        //            winner = p.NickName;
+        //            score = p.GetScore();
+        //        }
+        //    }
 
-    //    StartCoroutine(EndOfGame(winner, score));
-    //}
+        //    StartCoroutine(EndOfGame(winner, score));
+        //}
     }
 
     private void OnCountdownTimerIsExpired()

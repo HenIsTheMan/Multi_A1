@@ -134,7 +134,7 @@ namespace Impasta.Lobby {
                 entry.transform.localScale = Vector3.one;
                 entry.GetComponent<PlayerListEntry>().Initialize(p.ActorNumber, p.NickName);
 
-				if(p.CustomProperties.TryGetValue(JLGame.PLAYER_READY, out object isPlayerReady)) { //Inline var declaration
+				if(p.CustomProperties.TryGetValue("IsPlayerReady", out object isPlayerReady)) { //Inline var declaration
                     entry.GetComponent<PlayerListEntry>().SetPlayerReady((bool)isPlayerReady);
 				}
 
@@ -144,7 +144,7 @@ namespace Impasta.Lobby {
             StartGameButton.gameObject.SetActive(CheckPlayersReady());
 
             Hashtable props = new Hashtable {
-                {JLGame.PLAYER_LOADED_LEVEL, false}
+                {"PlayerLoadedLevel", false}
             };
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }
@@ -190,7 +190,7 @@ namespace Impasta.Lobby {
             }
 
 			if(playerListEntries.TryGetValue(targetPlayer.ActorNumber, out GameObject entry)) { //Inline var declaration
-                if(changedProps.TryGetValue(JLGame.PLAYER_READY, out object isPlayerReady)) { //Inline var declaration
+                if(changedProps.TryGetValue("IsPlayerReady", out object isPlayerReady)) { //Inline var declaration
 					entry.GetComponent<PlayerListEntry>().SetPlayerReady((bool)isPlayerReady);
 				}
 			}
@@ -263,7 +263,7 @@ namespace Impasta.Lobby {
             }
 
             foreach(Player p in PhotonNetwork.PlayerList) {
-				if(p.CustomProperties.TryGetValue(JLGame.PLAYER_READY, out object isPlayerReady)) { //Inline var declaration
+				if(p.CustomProperties.TryGetValue("IsPlayerReady", out object isPlayerReady)) { //Inline var declaration
                     if(!(bool)isPlayerReady) {
 						return false;
 					}
