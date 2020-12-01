@@ -1,0 +1,22 @@
+using UnityEngine;
+
+namespace {
+    internal sealed class #SCRIPTNAME#: MonoBehaviour {
+        #region Fields
+        #endregion
+
+        #region Properties
+        #endregion
+
+        #region Ctors and Dtor
+
+        public #SCRIPTNAME#() {
+
+        }
+
+        #endregion
+
+        #region Unity User Callback Event Funcs
+        #endregion
+    }
+}
