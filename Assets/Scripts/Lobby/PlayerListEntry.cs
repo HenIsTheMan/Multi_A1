@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 
 namespace Impasta.Lobby {
-    internal class PlayerListEntry: MonoBehaviour {
+    internal sealed class PlayerListEntry: MonoBehaviour {
         #region Fields
 
         private bool isPlayerReady;

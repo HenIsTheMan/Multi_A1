@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Impasta.Lobby {
-    internal class RoomListEntry: MonoBehaviour {
+    internal sealed class RoomListEntry: MonoBehaviour {
         #region Fields
 
         private string roomName;

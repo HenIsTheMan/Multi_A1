@@ -3,35 +3,37 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-internal class ConnectionStatus: MonoBehaviour {
-    #region Fields
+namespace Impasta.Lobby {
+    internal sealed class ConnectionStatus: MonoBehaviour {
+        #region Fields
 
-    [SerializeField] private string leftText;
-    [SerializeField] private Text connectionStatus;
+        [SerializeField] private string leftText;
+        [SerializeField] private Text connectionStatus;
 
-    #endregion
+        #endregion
 
-    #region Properties
-    #endregion
+        #region Properties
+        #endregion
 
-    #region Ctors and Dtor
+        #region Ctors and Dtor
 
-    public ConnectionStatus() {
-        leftText = "";
-        connectionStatus = null;
+        public ConnectionStatus() {
+            leftText = "";
+            connectionStatus = null;
+        }
+
+        #endregion
+
+        #region Unity User Callback Event Funcs
+
+        private void Start() {
+            Assert.IsNotNull(connectionStatus);
+        }
+
+        private void Update() {
+            connectionStatus.text = leftText + PhotonNetwork.NetworkClientState;
+        }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Unity User Callback Event Funcs
-
-    private void Start() {
-        Assert.IsNotNull(connectionStatus);
-    }
-
-    private void Update() {
-        connectionStatus.text = leftText + PhotonNetwork.NetworkClientState;
-    }
-
-    #endregion
 }

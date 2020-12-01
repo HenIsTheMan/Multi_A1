@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 namespace Impasta.Lobby {
-    internal class LobbyMainPanel: MonoBehaviourPunCallbacks {
+    internal sealed class LobbyMainPanel: MonoBehaviourPunCallbacks {
         #region Fields
 
         private Dictionary<string, RoomInfo> cachedRoomList;
