@@ -32,7 +32,7 @@ internal class PlayerCharMovement: MonoBehaviour {
 
 	#region Unity User Callback Event Funcs
 
-	private void Start() {
+	private void Awake() {
 		rigidbodyComponent = GetComponent<Rigidbody>();
 	}
 
