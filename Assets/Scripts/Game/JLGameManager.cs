@@ -91,14 +91,12 @@ public sealed class JLGameManager: MonoBehaviourPunCallbacks{
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer){
-        CheckEndOfGame();
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
 {
     if (changedProps.ContainsKey("PlayerLives"))
     {
-        CheckEndOfGame();
         return;
     }
 
@@ -168,64 +166,20 @@ public sealed class JLGameManager: MonoBehaviourPunCallbacks{
         }
     }
 
-    private bool CheckAllPlayerLoadedLevel()
-{
-    foreach (Player p in PhotonNetwork.PlayerList)
-    {
-        object playerLoadedLevel;
+    private bool CheckAllPlayerLoadedLevel() {
+        foreach(Player p in PhotonNetwork.PlayerList) {
+            object playerLoadedLevel;
 
-        if (p.CustomProperties.TryGetValue("PlayerLoadedLevel", out playerLoadedLevel))
-        {
-            if ((bool)playerLoadedLevel)
-            {
-                continue;
+            if(p.CustomProperties.TryGetValue("PlayerLoadedLevel", out playerLoadedLevel)) {
+                if((bool)playerLoadedLevel) {
+                    continue;
+                }
             }
+
+            return false;
         }
 
-        return false;
-    }
-
-    return true;
-}
-
-    private void CheckEndOfGame()
-    {
-        //bool allDestroyed = true;
-
-        //foreach (Player p in PhotonNetwork.PlayerList)
-        //{
-        //    object lives;
-        //    if (p.CustomProperties.TryGetValue("PlayerLives", out lives))
-        //    {
-        //        if ((int)lives > 0)
-        //        {
-        //            allDestroyed = false;
-        //            break;
-        //        }
-        //    }
-        //}
-
-        //if (allDestroyed)
-        //{
-        //    if (PhotonNetwork.IsMasterClient)
-        //    {
-        //        StopAllCoroutines();
-        //    }
-
-        //    string winner = "";
-        //    int score = -1;
-
-        //    foreach (Player p in PhotonNetwork.PlayerList)
-        //    {
-        //        if (p.GetScore() > score)
-        //        {
-        //            winner = p.NickName;
-        //            score = p.GetScore();
-        //        }
-        //    }
-
-        //    StartCoroutine(EndOfGame(winner, score));
-        //}
+        return true;
     }
 
     private void OnCountdownTimerIsExpired()

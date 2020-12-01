@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using UnityEngine;
 
 namespace Impasta.Game{
@@ -33,8 +34,7 @@ namespace Impasta.Game{
         }
 
         private void Start() {
-            //childSpriteRenderer.color = GetColor(photonView.Owner.GetPlayerNumber());
-            childSpriteRenderer.color = Color.red;
+            childSpriteRenderer.color = PlayerColors.GetPlayerColor(photonView.Owner.GetPlayerNumber());
         }
 
         #endregion
