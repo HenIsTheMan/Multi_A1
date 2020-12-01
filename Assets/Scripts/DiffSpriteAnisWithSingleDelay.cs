@@ -51,6 +51,8 @@ namespace Impasta.Game {
             Assert.IsTrue(currSpriteAniIndex >= 0);
             Assert.IsTrue(currSpriteAniIndex <= spriteAnis.Length);
             Assert.IsTrue(currFrameIndex <= spriteAnis[currSpriteAniIndex].frames.Length);
+
+            elapsedTime = BT - Time.deltaTime;
         }
 
         private void Update() {
@@ -74,7 +76,9 @@ namespace Impasta.Game {
 
         public void ResetSpriteAni() {
             currFrameIndex = 0;
-            BT = elapsedTime = 0.0f;
+            spriteRenderer.sprite = spriteAnis[currSpriteAniIndex].frames[currFrameIndex];
+            BT = 0.0f;
+            elapsedTime = BT - Time.deltaTime;
         }
     }
 }
