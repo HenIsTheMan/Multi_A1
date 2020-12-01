@@ -13,6 +13,8 @@ namespace Impasta.Lobby {
         private Dictionary<string, GameObject> roomListEntries;
         private Dictionary<int, GameObject> playerListEntries;
 
+        [SerializeField] private string lvlName;
+
         [Header("Login")]
         [SerializeField] private GameObject LoginPanel;
         [SerializeField] private InputField PlayerNameInput;
@@ -49,6 +51,8 @@ namespace Impasta.Lobby {
             cachedRoomList = null;
             roomListEntries = null;
             playerListEntries = null;
+
+            lvlName = "";
 
             LoginPanel = null;
             PlayerNameInput = null;
@@ -248,7 +252,7 @@ namespace Impasta.Lobby {
         public void OnStartGameButtonClicked() {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
-            PhotonNetwork.LoadLevel("MainScene");
+            PhotonNetwork.LoadLevel(lvlName);
         }
 
         #endregion
