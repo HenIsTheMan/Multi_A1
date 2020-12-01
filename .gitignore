@@ -50,6 +50,9 @@ ExportedObj/
 # Meta files (28/11/2020: edited by HenIsTheMan)
 *.meta
 
+# Lib folder
+Library/
+
 # Unity3D generated file on crash reports
 sysinfo.txt
 
