@@ -2,15 +2,15 @@
 using System;
 
 namespace Impasta.Game {
-    internal sealed class SpriteAni: MonoBehaviour {
+    internal sealed class SpriteAniWithSingleDelay: MonoBehaviour {
         #region Fields
 
         private float BT;
+        private float elapsedTime;
         private int currFrameIndex;
         private SpriteRenderer spriteRenderer;
 
         [SerializeField] private float delay;
-        [SerializeField] private float elapsedTime;
         [SerializeField] private Sprite[] frames;
 
         #endregion
@@ -20,14 +20,14 @@ namespace Impasta.Game {
 
         #region Ctors and Dtor
 
-        public SpriteAni() {
-            frames = Array.Empty<Sprite>();
-            currFrameIndex = 0;
+        public SpriteAniWithSingleDelay() {
             BT = 0.0f;
-            delay = 0.0f;
             elapsedTime = 0.0f;
-
+            currFrameIndex = 0;
             spriteRenderer = null;
+
+            delay = 0.0f;
+            frames = Array.Empty<Sprite>();
         }
 
         #endregion
@@ -38,18 +38,21 @@ namespace Impasta.Game {
             spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         }
 
-        private void Start() {
-        }
-
         private void Update() {
             elapsedTime += Time.deltaTime;
 
             if(BT <= elapsedTime) {
-                spriteRenderer.sprite = frames[++currFrameIndex % frames.Length];
+                currFrameIndex = (currFrameIndex + 1) % frames.Length;
+                spriteRenderer.sprite = frames[currFrameIndex];
                 BT = elapsedTime + delay;
             }
         }
 
         #endregion
+
+        public void ResetSpriteAni(int frameIndex) {
+            currFrameIndex = 0;
+            BT = elapsedTime = 0.0f;
+        }
     }
 }
