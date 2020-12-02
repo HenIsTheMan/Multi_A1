@@ -76,6 +76,7 @@ namespace Impasta.Game {
 
         private void KennaKilled() {
             isDead = true;
+            transform.position -= new Vector3(0.0f, 0.0f, -0.1f);
             //Dead animation??
             myCollider.enabled = false;
         }
