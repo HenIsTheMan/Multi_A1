@@ -115,32 +115,37 @@ namespace Impasta.Game{
         }
 
         private void StartGame() {
-            GameObject playerChar = PhotonNetwork.Instantiate(
+            Transform parentTransform = GameObject.Find("SceneTest").transform;
+
+            GameObject playerChar0 = PhotonNetwork.Instantiate(
                 "PlayerChar",
                 new Vector3(0.0f, 0.0f, 0.0f),
                 Quaternion.Euler(0.0f, 0.0f, 0.0f),
                 0
             ); //Avoid this call on rejoin (JL was network-instantiated before)??
+            playerChar0.transform.SetParent(parentTransform, true);
 
-            PlayerCharKill playerCharKill = playerChar.GetComponent<PlayerCharKill>();
+            PlayerCharKill playerCharKill = playerChar0.GetComponent<PlayerCharKill>();
             playerCharKill.IsImposter = true;
 
-            PlayerCharMovement playerCharMovement = playerChar.GetComponent<PlayerCharMovement>();
+            PlayerCharMovement playerCharMovement = playerChar0.GetComponent<PlayerCharMovement>();
             playerCharMovement.CanMove = true;
 
-            PhotonNetwork.Instantiate(
+            GameObject playerChar1 = PhotonNetwork.Instantiate(
                 "PlayerChar",
                 new Vector3(0.0f, 2.0f, 0.0f),
                 Quaternion.Euler(0.0f, 0.0f, 0.0f),
                 0
             );
+            playerChar1.transform.SetParent(parentTransform, true);
 
-            PhotonNetwork.Instantiate(
+            GameObject playerChar2 = PhotonNetwork.Instantiate(
                 "PlayerChar",
                 new Vector3(2.0f, 3.0f, 0.0f),
                 Quaternion.Euler(0.0f, 0.0f, 0.0f),
                 0
             );
+            playerChar2.transform.SetParent(parentTransform, true);
 
             if(PhotonNetwork.IsMasterClient) {
                 //SpawnGhosts();
