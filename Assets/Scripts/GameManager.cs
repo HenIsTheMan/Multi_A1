@@ -128,6 +128,13 @@ namespace Impasta.Game{
             PlayerCharMovement playerCharMovement = playerChar.GetComponent<PlayerCharMovement>();
             playerCharMovement.CanMove = true;
 
+            PhotonNetwork.Instantiate(
+                "PlayerChar",
+                new Vector3(0.0f, 2.0f, 0.0f),
+                Quaternion.Euler(0.0f, 0.0f, 0.0f),
+                0
+            );
+
             if(PhotonNetwork.IsMasterClient) {
                 //SpawnGhosts();
             }

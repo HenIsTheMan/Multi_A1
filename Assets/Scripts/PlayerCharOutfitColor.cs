@@ -34,7 +34,7 @@ namespace Impasta.Game{
         }
 
         private void Start() {
-            //childSpriteRenderer.color = PlayerColors.GetPlayerColor(photonView.Owner.GetPlayerNumber());
+            childSpriteRenderer.color = PlayerColors.GetPlayerColor(photonView.Owner.GetPlayerNumber());
         }
 
         #endregion

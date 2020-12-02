@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Impasta.Game {
     internal sealed class PlayerCharKill: MonoBehaviour {
@@ -76,8 +77,21 @@ namespace Impasta.Game {
 
         private void KennaKilled() {
             isDead = true;
-            transform.position -= new Vector3(0.0f, 0.0f, -0.1f);
-            //Dead animation??
+            transform.position -= new Vector3(0.0f, 0.0f, -0.1f); //Ensure killer renders over killed player
+
+            ///Make player look like a ghost
+            try {
+                Transform childTransform = gameObject.transform.Find("PlayerCharOutfitSprite");
+                SpriteRenderer childSpriteRenderer = childTransform.GetComponent<SpriteRenderer>();
+                childSpriteRenderer.color -= new Color(0.0f, 0.0f, 0.0f, 0.5f);
+
+                Transform grandchildTransform = childTransform.Find("PlayerCharSprite");
+                SpriteRenderer grandchildSpriteRenderer = grandchildTransform.GetComponent<SpriteRenderer>();
+                grandchildSpriteRenderer.color = new Color(0.5f, 0.5f, 1.0f, 0.5f);
+            } catch(NullReferenceException) {
+                UnityEngine.Assertions.Assert.IsTrue(false);
+            }
+
             myCollider.enabled = false;
         }
     }
