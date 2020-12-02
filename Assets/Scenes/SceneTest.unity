@@ -191,7 +191,7 @@ PrefabInstance:
     - target: {fileID: 1405119089260395687, guid: 14c988c57f8c35f47b37a090c05e0020,
         type: 3}
       propertyPath: m_Name
-      value: PlayerCam
+      value: PlayerCharCam
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14c988c57f8c35f47b37a090c05e0020, type: 3}

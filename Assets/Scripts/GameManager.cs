@@ -6,12 +6,17 @@ using Photon.Pun;
 
 using UnityEngine;
 using UnityEngine.UI;
-
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Impasta.Game{
     internal sealed class GameManager: MonoBehaviourPunCallbacks { //Singleton
+        public enum EventCode: byte {
+            NotAnEvent,
+            PlayerCharsCreatedEvent,
+            Amt
+        };
+
+
         #region Fields
 
         public static GameManager globalInstance;
@@ -115,47 +120,55 @@ namespace Impasta.Game{
         }
 
         private void StartGame() {
+            ///Avoid on rejoin (JL was network-instantiated before)??
+
             //* Spawn local instances of player char for each client
             Transform parentTransform = GameObject.Find("SceneTest").transform;
+            int arrLen = PhotonNetwork.PlayerList.Length;
+            Dictionary<int, string> playerCharNames = new Dictionary<int, string>();
 
-            GameObject playerChar0 = PhotonNetwork.Instantiate(
-                "PlayerChar",
-                new Vector3(0.0f, 0.0f, 0.0f),
-                Quaternion.Euler(0.0f, 0.0f, 0.0f),
-                0
-            ); //Avoid this call on rejoin (JL was network-instantiated before)??
-            playerChar0.transform.SetParent(parentTransform, true);
+            for(int i = 0; i < arrLen; ++i) {
+                GameObject playerChar = PhotonNetwork.Instantiate(
+                    "PlayerChar",
+                    Vector3.zero,
+                    Quaternion.identity,
+                    0
+                );
+                playerChar.transform.SetParent(parentTransform, true);
 
-            PlayerCharKill playerCharKill = playerChar0.GetComponent<PlayerCharKill>();
-            playerCharKill.IsImposter = true;
+                if(PhotonNetwork.IsMasterClient) {
+                    Vector3 pos = Vector3.zero;
+                    switch(i) {
+                        case 0:
+                            pos = new Vector3(0.0f, 3.0f, 0.0f);
+                            break;
+                        case 1:
+                            pos = new Vector3(2.0f, 2.0f, 0.0f);
+                            break;
+                        case 2:
+                            pos = new Vector3(4.0f, 1.0f, 0.0f);
+                            break;
+                    }
+                    playerChar.transform.position = pos;
+                }
 
-            PlayerCharMovement playerCharMovement = playerChar0.GetComponent<PlayerCharMovement>();
-            playerCharMovement.CanMove = true;
-
-            GameObject playerChar1 = PhotonNetwork.Instantiate(
-                "PlayerChar",
-                new Vector3(0.0f, 2.0f, 0.0f),
-                Quaternion.Euler(0.0f, 0.0f, 0.0f),
-                0
-            );
-            playerChar1.transform.SetParent(parentTransform, true);
-
-            GameObject playerChar2 = PhotonNetwork.Instantiate(
-                "PlayerChar",
-                new Vector3(2.0f, 3.0f, 0.0f),
-                Quaternion.Euler(0.0f, 0.0f, 0.0f),
-                0
-            );
-            playerChar2.transform.SetParent(parentTransform, true);
+                playerChar.name = "PlayerChar_" + i;
+                playerCharNames.Add(PhotonNetwork.PlayerList[i].ActorNumber, playerChar.name);
+            }
             //*/
 
+            //* Assign local PlayerCam instance to correct local instance of player char for each client
             if(PhotonNetwork.IsMasterClient) {
-                //SpawnGhosts();
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+                    Receivers = ReceiverGroup.All
+                }; //Will receive event on local client too
+                PhotonNetwork.RaiseEvent((byte)EventCode.PlayerCharsCreatedEvent, playerCharNames, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
             }
+            //*/
         }
 
         private bool LevelLoadedForAllPlayers() {
-            foreach(Player p in PhotonNetwork.PlayerList) {
+            foreach(var p in PhotonNetwork.PlayerList) {
                 object playerLoadedLevel;
 
                 if(p.CustomProperties.TryGetValue("PlayerLoadedLevel", out playerLoadedLevel)) {
