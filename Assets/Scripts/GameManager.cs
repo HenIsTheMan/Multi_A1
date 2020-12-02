@@ -12,10 +12,6 @@ using System.Collections.Generic;
 
 namespace Impasta.Game{
     internal sealed class GameManager: MonoBehaviourPunCallbacks { //Singleton
-        enum GO {
-            PlayerChar
-        }
-
         #region Fields
 
         public static GameManager globalInstance;
@@ -119,7 +115,18 @@ namespace Impasta.Game{
         }
 
         private void StartGame() {
-            PhotonNetwork.Instantiate("PlayerChar", new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f), 0); //Avoid this call on rejoin (JL was network-instantiated before)??
+            GameObject playerChar = PhotonNetwork.Instantiate(
+                "PlayerChar",
+                new Vector3(0.0f, 0.0f, 0.0f),
+                Quaternion.Euler(0.0f, 0.0f, 0.0f),
+                0
+            ); //Avoid this call on rejoin (JL was network-instantiated before)??
+
+            PlayerCharKill playerCharKill = playerChar.GetComponent<PlayerCharKill>();
+            playerCharKill.IsImposter = true;
+
+            PlayerCharMovement playerCharMovement = playerChar.GetComponent<PlayerCharMovement>();
+            playerCharMovement.CanMove = true;
 
             if(PhotonNetwork.IsMasterClient) {
                 //SpawnGhosts();

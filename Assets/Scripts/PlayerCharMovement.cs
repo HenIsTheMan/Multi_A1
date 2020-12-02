@@ -4,7 +4,7 @@ namespace Impasta.Game {
 	internal sealed class PlayerCharMovement: MonoBehaviour {
 		#region Fields
 
-		private bool isKillButtonPressed;
+		private bool canMove;
 		private float horizAxis;
 		private float vertAxis;
 		private DiffSpriteAnisWithSingleDelay script0;
@@ -17,12 +17,22 @@ namespace Impasta.Game {
 		#endregion
 
 		#region Properties
+
+		public bool CanMove {
+			get {
+				return canMove;
+			}
+			set {
+				canMove = value;
+			}
+		}
+
 		#endregion
 
 		#region Ctors and Dtor
 
 		public PlayerCharMovement() {
-			isKillButtonPressed = false;
+			canMove = false;
 			horizAxis = 0.0f;
 			vertAxis = 0.0f;
 			script0 = null;
@@ -50,8 +60,8 @@ namespace Impasta.Game {
 		}
 
 		private void Update() {
-			if(Input.GetButtonDown("Kill")) {
-				isKillButtonPressed = true;
+			if(!canMove){
+				return;
 			}
 
 			horizAxis = Input.GetAxisRaw("Horizontal");
@@ -82,13 +92,19 @@ namespace Impasta.Game {
 		}
 
 		private void FixedUpdate() {
-			rigidbodyComponent.velocity = new Vector3(horizAxis, vertAxis, 0.0f).normalized * spd * Time.fixedDeltaTime;
-
-			if(isKillButtonPressed) {
-				//Kill logic??
-
-				isKillButtonPressed = false;
+			if(!canMove) {
+				return;
 			}
+
+			rigidbodyComponent.velocity = new Vector3(horizAxis, vertAxis, 0.0f).normalized * spd * Time.fixedDeltaTime;
+		}
+
+		private void OnCollisionEnter(Collision otherCollision) {
+			otherCollision.rigidbody.isKinematic = true; //Can freeze pos instead for diff effect
+		}
+
+		private void OnCollisionExit(Collision otherCollision) {
+			otherCollision.rigidbody.isKinematic = false; //Can unfreeze pos instead for diff effect
 		}
 
 		#endregion
