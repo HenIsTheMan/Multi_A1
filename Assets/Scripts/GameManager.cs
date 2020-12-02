@@ -115,6 +115,7 @@ namespace Impasta.Game{
         }
 
         private void StartGame() {
+            //* Spawn local instances of player char for each client
             Transform parentTransform = GameObject.Find("SceneTest").transform;
 
             GameObject playerChar0 = PhotonNetwork.Instantiate(
@@ -146,6 +147,7 @@ namespace Impasta.Game{
                 0
             );
             playerChar2.transform.SetParent(parentTransform, true);
+            //*/
 
             if(PhotonNetwork.IsMasterClient) {
                 //SpawnGhosts();
