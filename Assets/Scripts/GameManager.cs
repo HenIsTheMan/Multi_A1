@@ -162,5 +162,17 @@ namespace Impasta.Game{
 
             return true;
         }
+
+        public static void SpawnDeadBody(in Vector3 pos) {
+            GameObject ghost = PhotonNetwork.Instantiate(
+                "PlayerChar",
+                pos,
+                Quaternion.Euler(0.0f, 0.0f, 90.0f),
+                0
+            );
+
+            CapsuleCollider ghostCapsuleCollider = ghost.GetComponent<CapsuleCollider>();
+            ghostCapsuleCollider.enabled = false;
+        }
     }
 }

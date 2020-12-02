@@ -81,6 +81,8 @@ namespace Impasta.Game {
                     transform.position = currClosestTargetPlayerCharKill.transform.position;
                     currClosestTargetPlayerCharKill.KennaKilled();
                     playerCharKillTargets.Remove(currClosestTargetPlayerCharKill);
+
+                    GameManager.SpawnDeadBody(transform.position);
                 }
 
                 isKillButtonPressed = false;
