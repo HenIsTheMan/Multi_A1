@@ -79,7 +79,7 @@ namespace Impasta.Lobby {
         private void OnPlayerNumberingChanged() {
             foreach(Player p in PhotonNetwork.PlayerList) {
                 if(p.ActorNumber == ownerID) {
-                    PlayerColorImage.color = PlayerColors.GetPlayerColor(ownerID);
+                    PlayerColorImage.color = PlayerColors.GetPlayerColor(p.GetPlayerNumber());
                 }
             }
         }

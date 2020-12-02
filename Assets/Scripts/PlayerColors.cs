@@ -5,7 +5,7 @@ namespace Impasta{
     internal static class PlayerColors {
         #region Fields
         
-        private static List<Color> colors;
+        private static readonly List<Color> colors;
 
         #endregion
 
