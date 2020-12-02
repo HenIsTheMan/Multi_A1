@@ -135,6 +135,13 @@ namespace Impasta.Game{
                 0
             );
 
+            PhotonNetwork.Instantiate(
+                "PlayerChar",
+                new Vector3(2.0f, 3.0f, 0.0f),
+                Quaternion.Euler(0.0f, 0.0f, 0.0f),
+                0
+            );
+
             if(PhotonNetwork.IsMasterClient) {
                 //SpawnGhosts();
             }

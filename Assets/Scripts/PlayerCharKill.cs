@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Impasta.Game {
@@ -9,7 +10,7 @@ namespace Impasta.Game {
         private bool isImposter;
         private bool isKillButtonPressed;
 
-        private PlayerCharKill targetPlayerCharKill;
+        private List<PlayerCharKill> playerCharKillTargets;
         private Collider myCollider;
 
         #endregion
@@ -34,7 +35,7 @@ namespace Impasta.Game {
             isImposter = false;
             isKillButtonPressed = false;
 
-            targetPlayerCharKill = null;
+            playerCharKillTargets = null;
             myCollider = null;
         }
 
@@ -46,6 +47,10 @@ namespace Impasta.Game {
             myCollider = gameObject.GetComponent<CapsuleCollider>();
         }
 
+        private void Start() {
+            playerCharKillTargets = new List<PlayerCharKill>();
+        }
+
         private void Update() {
             if(Input.GetButtonDown("Kill")) {
                 isKillButtonPressed = true;
@@ -54,10 +59,28 @@ namespace Impasta.Game {
 
         private void FixedUpdate(){
             if(isKillButtonPressed) {
-                if(targetPlayerCharKill != null) {
-					transform.position = targetPlayerCharKill.transform.position;
-                    targetPlayerCharKill.KennaKilled();
-                    targetPlayerCharKill = null;
+                int listCount = playerCharKillTargets.Count;
+                if(listCount > 0) {
+                    ///Find nearest non-imposter to kill
+                    float currShortestDist = float.MaxValue;
+                    PlayerCharKill currClosestTargetPlayerCharKill = null;
+
+                    for(int i = 0; i < listCount; ++i) {
+                        if(currClosestTargetPlayerCharKill == null) {
+                            currClosestTargetPlayerCharKill = playerCharKillTargets[i];
+                        } else {
+                            PlayerCharKill targetPlayerCharKill = playerCharKillTargets[i];
+                            float dist = (gameObject.transform.position - targetPlayerCharKill.gameObject.transform.position).magnitude;
+                            if(dist < currShortestDist) {
+                                currShortestDist = dist;
+                                currClosestTargetPlayerCharKill = targetPlayerCharKill;
+                            }
+                        }
+                    }
+
+                    transform.position = currClosestTargetPlayerCharKill.transform.position;
+                    currClosestTargetPlayerCharKill.KennaKilled();
+                    playerCharKillTargets.Remove(currClosestTargetPlayerCharKill);
                 }
 
                 isKillButtonPressed = false;
@@ -69,7 +92,16 @@ namespace Impasta.Game {
             UnityEngine.Assertions.Assert.IsNotNull(otherPlayerCharKill);
 
             if(isImposter && !isDead && otherCollider.tag == "Player" && !otherPlayerCharKill.isImposter && !otherPlayerCharKill.isDead) {
-                targetPlayerCharKill = otherPlayerCharKill;
+                playerCharKillTargets.Add(otherPlayerCharKill);
+            }
+        }
+
+        private void OnTriggerExit(Collider otherCollider) {
+            if(otherCollider.tag == "Player") {
+                PlayerCharKill otherPlayerCharKill = otherCollider.gameObject.GetComponent<PlayerCharKill>();
+                if(playerCharKillTargets.Contains(otherPlayerCharKill)) {
+                    playerCharKillTargets.Remove(otherPlayerCharKill);
+                }
             }
         }
 
