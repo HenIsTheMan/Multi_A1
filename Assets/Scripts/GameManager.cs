@@ -115,7 +115,15 @@ namespace Impasta.Game{
 
         #endregion
 
+        private int Bit(int x) {
+            return 1 << x;
+        }
+
         private void OnCountdownTimerExpired() {
+            Camera playerCharCam = GameObject.Find("PlayerCharCam").GetComponent<Camera>();
+            playerCharCam.cullingMask |= Bit(LayerMask.NameToLayer("Default"));
+            playerCharCam.cullingMask &= ~Bit(LayerMask.NameToLayer("OtherSide"));
+
             StartGame();
         }
 
