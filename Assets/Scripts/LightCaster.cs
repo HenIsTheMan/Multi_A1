@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class lightcaster : MonoBehaviour
-{
-    
-	public GameObject[] sceneObjects; //The objects in the scene to effect the lighting.
+public class LightCaster: MonoBehaviour {
+    [SerializeField] private float radius;
+    [SerializeField] private LayerMask objMask;
+    [SerializeField] private LayerMask ignoreMe;
+
+	private Collider[] colliders; //Colliders that affect lighting
 
 	private Mesh mesh; //The light mesh.
 
@@ -63,16 +63,16 @@ public class lightcaster : MonoBehaviour
         return concatted;
      }
 
-	// Update is called once per frame
-	void Update()
-    {
+	private void Update() {
+        GetColliders();
+
 		mesh.Clear(); //clears the mesh before changing it.
 
         // The next few lines create an array to store all vertices of all the scene objects that should react to the light.
-		Vector3[] objverts = sceneObjects[0].GetComponent<MeshFilter>().mesh.vertices;
-        for (int i = 1; i < sceneObjects.Length; i++)
+		Vector3[] objverts = colliders[0].GetComponent<MeshFilter>().mesh.vertices;
+        for (int i = 1; i < colliders.Length; i++)
         {
-            objverts = ConcatArrays(objverts, sceneObjects[i].GetComponent<MeshFilter>().mesh.vertices);
+            objverts = ConcatArrays(objverts, colliders[i].GetComponent<MeshFilter>().mesh.vertices);
         }
         
         //these lines (1) an array of structs which will be used to populate the light mesh and (2) the vertices and UVs to ultimately populate the mesh.
@@ -88,20 +88,20 @@ public class lightcaster : MonoBehaviour
 
         int h = 0; //a constantly increasing int to use to calculate the current location in the angleds struct array.
 
-        for (int j = 0; j < sceneObjects.Length; j++) //cycle through all scene objects.
+        for (int j = 0; j < colliders.Length; j++) //cycle through all scene objects.
         {
-            for (int i = 0; i < sceneObjects[j].GetComponent<MeshFilter>().mesh.vertices.Length; i++) //cycle through all vertices in the current scene object.
+            for (int i = 0; i < colliders[j].GetComponent<MeshFilter>().mesh.vertices.Length; i++) //cycle through all vertices in the current scene object.
 		    {
                 Vector3 me = this.transform.position;// just to make the current position shorter to reference.
-                Vector3 other = sceneObjects[j].transform.localToWorldMatrix.MultiplyPoint3x4(objverts[h]); //get the vertex location in world space coordinates.
+                Vector3 other = colliders[j].transform.localToWorldMatrix.MultiplyPoint3x4(objverts[h]); //get the vertex location in world space coordinates.
 
                 float angle1 = Mathf.Atan2(((other.y-me.y)-offset),((other.x-me.x)-offset));// calculate the angle of the two offsets, to be stored in the structs.
                 float angle3 = Mathf.Atan2(((other.y-me.y)+offset),((other.x-me.x)+offset));
                 
                 RaycastHit hit; //create and fire the two rays from the center of the light source in the direction of the vertex, with offsets.
-                Physics.Raycast(transform.position, new Vector2( (other.x-me.x)-offset , (other.y-me.y)-offset ) , out hit, 100);
+                Physics.Raycast(transform.position, new Vector2( (other.x-me.x)-offset , (other.y-me.y)-offset ) , out hit, 100, ~ignoreMe); //~ignoreMe for raycast to pass through objs of ignoreMe LayerMask
                 RaycastHit hit2;
-                Physics.Raycast(transform.position, new Vector2( (other.x-me.x)+offset , (other.y-me.y)+offset ), out hit2, 100);
+                Physics.Raycast(transform.position, new Vector2( (other.x-me.x)+offset , (other.y-me.y)+offset ), out hit2, 100, ~ignoreMe); //~ignoreMe for raycast to pass through objs of ignoreMe LayerMask
 
                 //store the hit locations as vertices in the struct, in model coordinates, as well as the angle of the ray cast and the UV at the vertex.
                 angleds[(h*2)].vert = lightRays.transform.worldToLocalMatrix.MultiplyPoint3x4(hit.point);
@@ -155,4 +155,8 @@ public class lightcaster : MonoBehaviour
 
 		mesh.triangles = triangles; //update the actual mesh with the new triangles.
   	}
+
+    private void GetColliders(){
+        colliders = Physics.OverlapSphere(transform.position, radius, objMask);
+    }
 }
