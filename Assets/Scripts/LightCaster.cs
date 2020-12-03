@@ -67,16 +67,16 @@ namespace Impasta.Game {
             lightMesh.Clear(); //clears the mesh before changing it.
 
             // The next few lines create an array to store all vertices of all the scene objects that should react to the light.
-            Vector3[] objverts = colliders[0].GetComponent<MeshFilter>().mesh.vertices;
+            Vector3[] vertices = colliders[0].GetComponent<MeshFilter>().mesh.vertices;
             for(int i = 1; i < colliders.Length; i++) {
-                objverts = ConcatenateArrs(objverts, colliders[i].GetComponent<MeshFilter>().mesh.vertices);
+                vertices = ConcatenateArrs(vertices, colliders[i].GetComponent<MeshFilter>().mesh.vertices);
             }
 
             //these lines (1) an array of structs which will be used to populate the light mesh and (2) the vertices and UVs to ultimately populate the mesh.
             // (the "*2" is because there are twice as many rays casted as vertices, and the "+1" because the first point in the mesh should be the center of the light source)
-            angledVerts[] angleds = new angledVerts[(objverts.Length * 2)];
-            Vector3[] verts = new Vector3[(objverts.Length * 2) + 1];
-            Vector2[] uvs = new Vector2[(objverts.Length * 2) + 1];
+            angledVerts[] angleds = new angledVerts[(vertices.Length * 2)];
+            Vector3[] verts = new Vector3[(vertices.Length * 2) + 1];
+            Vector2[] uvs = new Vector2[(vertices.Length * 2) + 1];
 
 
             //Store the vertex location and UV of the center of the light source in the first locations of verts and uvs.
@@ -90,7 +90,7 @@ namespace Impasta.Game {
                 for(int i = 0; i < colliders[j].GetComponent<MeshFilter>().mesh.vertices.Length; i++) //cycle through all vertices in the current scene object.
                 {
                     Vector3 me = this.transform.position;// just to make the current position shorter to reference.
-                    Vector3 other = colliders[j].transform.localToWorldMatrix.MultiplyPoint3x4(objverts[h]); //get the vertex location in world space coordinates.
+                    Vector3 other = colliders[j].transform.localToWorldMatrix.MultiplyPoint3x4(vertices[h]); //get the vertex location in world space coordinates.
 
                     float angle1 = Mathf.Atan2(((other.y - me.y) - offset), ((other.x - me.x) - offset));// calculate the angle of the two offsets, to be stored in the structs.
                     float angle3 = Mathf.Atan2(((other.y - me.y) + offset), ((other.x - me.x) + offset));
