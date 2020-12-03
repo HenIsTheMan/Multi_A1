@@ -32,7 +32,7 @@ namespace Impasta{
         #endregion
 
         public static Color GetPlayerColor(int index) {
-			UnityEngine.Assertions.Assert.IsTrue(index >= 0 && index < colors.Count - 1);
+			UnityEngine.Assertions.Assert.IsTrue(index >= 0 && index < colors.Count);
             return colors[index];
         }
     }

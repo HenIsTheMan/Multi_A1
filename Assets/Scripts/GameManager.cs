@@ -122,21 +122,19 @@ namespace Impasta.Game{
         private void StartGame() {
             ///Avoid on rejoin (JL was network-instantiated before)??
 
-            //* Spawn local instances of player char for each client
+            //* Spawn player char
             Transform parentTransform = GameObject.Find("SceneTest").transform;
+            GameObject playerChar = PhotonNetwork.Instantiate(
+               "PlayerChar",
+               Vector3.zero,
+               Quaternion.identity,
+               0
+            );
+            playerChar.transform.SetParent(parentTransform, true);
+
             int arrLen = PhotonNetwork.PlayerList.Length;
-            Dictionary<int, string> playerCharNames = new Dictionary<int, string>();
-
             for(int i = 0; i < arrLen; ++i) {
-                GameObject playerChar = PhotonNetwork.Instantiate(
-                    "PlayerChar",
-                    Vector3.zero,
-                    Quaternion.identity,
-                    0
-                );
-                playerChar.transform.SetParent(parentTransform, true);
-
-                if(PhotonNetwork.IsMasterClient) {
+                if(PhotonNetwork.LocalPlayer.ActorNumber == PhotonNetwork.PlayerList[i].ActorNumber) {
                     Vector3 pos = Vector3.zero;
                     switch(i) {
                         case 0:
@@ -150,20 +148,21 @@ namespace Impasta.Game{
                             break;
                     }
                     playerChar.transform.position = pos;
+                    break;
                 }
+			}
 
-                playerChar.name = "PlayerChar_" + i;
-                playerCharNames.Add(PhotonNetwork.PlayerList[i].ActorNumber, playerChar.name);
-            }
-            //*/
+            playerChar.name = "PlayerChar_" + PhotonNetwork.LocalPlayer.ActorNumber;
 
-            //* Assign local PlayerCam instance to correct local instance of player char for each client
-            if(PhotonNetwork.IsMasterClient) {
-                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-                    Receivers = ReceiverGroup.All
-                }; //Will receive event on local client too
-                PhotonNetwork.RaiseEvent((byte)EventCode.PlayerCharsCreatedEvent, playerCharNames, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-            }
+            GameObject playerCharCam = GameObject.Find("PlayerCharCam");
+            playerCharCam.transform.position = new Vector3(playerChar.transform.position.x, playerChar.transform.position.y, gameObject.transform.position.z);
+            playerCharCam.GetComponent<CamFollow>().TargetTransform = playerChar.transform;
+
+            PlayerCharKill playerCharKill = playerChar.GetComponent<PlayerCharKill>();
+            playerCharKill.IsImposter = true;
+
+            PlayerCharMovement playerCharMovement = playerChar.GetComponent<PlayerCharMovement>();
+            playerCharMovement.CanMove = true;
             //*/
         }
 
