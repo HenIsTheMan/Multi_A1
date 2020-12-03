@@ -77,8 +77,23 @@ namespace Impasta.Lobby {
         }
 
         private void OnPlayerNumberingChanged() {
-            int arrLen = PhotonNetwork.PlayerList.Length;
-            for(int i = 0; i < arrLen; ++i) {
+            if(PhotonNetwork.IsMasterClient && PlayerColors.InitColors()) {
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+                    Receivers = ReceiverGroup.All
+                }; //Will receive event on local client too
+
+                int colorsArrLen = PlayerColors.Colors.Length;
+                Vector3[] vecs = new Vector3[colorsArrLen];
+                for(int i = 0; i < colorsArrLen; ++i) {
+                    Color color = PlayerColors.Colors[i];
+                    vecs[i] = new Vector3(color.r, color.b, color.g);
+                }
+
+                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.InitColorsEvent, vecs, raiseEventOptions, SendOptions.SendReliable);
+            }
+
+            int playerListArrLen = PhotonNetwork.PlayerList.Length;
+            for(int i = 0; i < playerListArrLen; ++i) {
                 if(PhotonNetwork.PlayerList[i].ActorNumber == ownerID) {
                     PlayerColorImage.color = PlayerColors.GetPlayerColor(i);
                     break;

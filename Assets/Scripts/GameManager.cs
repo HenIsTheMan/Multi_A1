@@ -9,12 +9,6 @@ using UnityEngine.UI;
 
 namespace Impasta.Game{
     internal sealed class GameManager: MonoBehaviourPunCallbacks { //Singleton
-        public enum EventCode: byte {
-            NotAnEvent,
-            PlayerCharsCreatedEvent,
-            Amt
-        };
-
         #region Fields
 
         public static GameManager globalInstance;

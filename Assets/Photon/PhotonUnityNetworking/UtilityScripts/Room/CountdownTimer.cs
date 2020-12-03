@@ -156,7 +156,7 @@ namespace Photon.Pun.UtilityScripts
 
                 return false;
             } else {
-                Debug.LogWarning("<color=yellow>PhotonNetwork.CurrentRoom is null</color>");
+                Debug.LogWarning("<color=yellow>PhotonNetwork.CurrentRoom is null!</color>");
                 startTimestamp = 0;
                 return true;
             }
