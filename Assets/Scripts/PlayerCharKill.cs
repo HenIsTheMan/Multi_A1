@@ -90,16 +90,18 @@ namespace Impasta.Game {
         }
 
         private void OnTriggerEnter(Collider otherCollider) {
-            PlayerCharKill otherPlayerCharKill = otherCollider.gameObject.GetComponent<PlayerCharKill>();
-            UnityEngine.Assertions.Assert.IsNotNull(otherPlayerCharKill);
+            if(otherCollider.CompareTag("Player")) {
+                PlayerCharKill otherPlayerCharKill = otherCollider.gameObject.GetComponent<PlayerCharKill>();
+                UnityEngine.Assertions.Assert.IsNotNull(otherPlayerCharKill);
 
-            if(isImposter && !isDead && otherCollider.tag == "Player" && !otherPlayerCharKill.isImposter && !otherPlayerCharKill.isDead) {
-                playerCharKillTargets.Add(otherPlayerCharKill);
+                if(isImposter && !isDead && otherCollider.tag == "Player" && !otherPlayerCharKill.isImposter && !otherPlayerCharKill.isDead) {
+                    playerCharKillTargets.Add(otherPlayerCharKill);
+                }
             }
         }
 
         private void OnTriggerExit(Collider otherCollider) {
-            if(otherCollider.tag == "Player") {
+            if(otherCollider.CompareTag("Player")) {
                 PlayerCharKill otherPlayerCharKill = otherCollider.gameObject.GetComponent<PlayerCharKill>();
                 if(playerCharKillTargets.Contains(otherPlayerCharKill)) {
                     playerCharKillTargets.Remove(otherPlayerCharKill);

@@ -145,16 +145,21 @@ namespace Photon.Pun.UtilityScripts
 
         public static bool TryGetStartTime(out int startTimestamp)
         {
-            startTimestamp = PhotonNetwork.ServerTimestamp;
+            if(PhotonNetwork.CurrentRoom != null) {
+                startTimestamp = PhotonNetwork.ServerTimestamp;
 
-            object startTimeFromProps;
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CountdownStartTime, out startTimeFromProps))
-            {
-                startTimestamp = (int)startTimeFromProps;
+                object startTimeFromProps;
+                if(PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CountdownStartTime, out startTimeFromProps)) {
+                    startTimestamp = (int)startTimeFromProps;
+                    return true;
+                }
+
+                return false;
+            } else {
+                Debug.LogWarning("<color=yellow>PhotonNetwork.CurrentRoom is null</color>");
+                startTimestamp = 0;
                 return true;
             }
-
-            return false;
         }
 
 

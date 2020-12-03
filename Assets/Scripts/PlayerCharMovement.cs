@@ -32,7 +32,7 @@ namespace Impasta.Game {
 		#region Ctors and Dtor
 
 		public PlayerCharMovement() {
-			canMove = false;
+			canMove = true;
 			horizAxis = 0.0f;
 			vertAxis = 0.0f;
 			script0 = null;
@@ -100,11 +100,15 @@ namespace Impasta.Game {
 		}
 
 		private void OnCollisionEnter(Collision otherCollision) {
-			otherCollision.rigidbody.isKinematic = true; //Can freeze pos instead for diff effect
+			if(otherCollision.gameObject.CompareTag("Player")) {
+				otherCollision.rigidbody.isKinematic = true; //Can freeze pos instead for diff effect
+			}
 		}
 
 		private void OnCollisionExit(Collision otherCollision) {
-			otherCollision.rigidbody.isKinematic = false; //Can unfreeze pos instead for diff effect
+			if(otherCollision.gameObject.CompareTag("Player")) {
+				otherCollision.rigidbody.isKinematic = false; //Can unfreeze pos instead for diff effect
+			}
 		}
 
 		#endregion
