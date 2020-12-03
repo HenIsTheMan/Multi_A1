@@ -6,7 +6,6 @@ using Photon.Pun;
 
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 namespace Impasta.Game{
     internal sealed class GameManager: MonoBehaviourPunCallbacks { //Singleton
@@ -15,7 +14,6 @@ namespace Impasta.Game{
             PlayerCharsCreatedEvent,
             Amt
         };
-
 
         #region Fields
 
@@ -163,6 +161,10 @@ namespace Impasta.Game{
 
             PlayerCharMovement playerCharMovement = playerChar.GetComponent<PlayerCharMovement>();
             playerCharMovement.CanMove = true;
+
+            GameObject sceneLightMask = GameObject.Find("LightMask");
+            LightCaster playerCharLightCaster = playerChar.GetComponent<LightCaster>();
+            playerCharLightCaster.LightMask = sceneLightMask;
             //*/
         }
 

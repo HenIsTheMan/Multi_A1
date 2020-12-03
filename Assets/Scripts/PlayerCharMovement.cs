@@ -32,7 +32,7 @@ namespace Impasta.Game {
 		#region Ctors and Dtor
 
 		public PlayerCharMovement() {
-			canMove = true;
+			canMove = false;
 			horizAxis = 0.0f;
 			vertAxis = 0.0f;
 			script0 = null;

@@ -31,6 +31,9 @@ namespace Impasta{
 
         #endregion
 
+        #region Unity User Callback Event Funcs
+        #endregion
+
         public static Color GetPlayerColor(int index) {
             return (index >= 0 && index < colors.Count) ? colors[index] : Color.black;
         }
