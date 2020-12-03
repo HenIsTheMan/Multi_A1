@@ -19,6 +19,7 @@ namespace Impasta.Game{
 
         public static GameManager globalInstance;
 
+        [SerializeField] private Material otherSideMask;
         [SerializeField] private Text infoText;
 
         ///Work around for Jagged arr to be serialized
@@ -38,6 +39,7 @@ namespace Impasta.Game{
         private GameManager() {
             globalInstance = null;
 
+            otherSideMask = null;
             infoText = null;
 
             prefabs = null;
@@ -163,6 +165,9 @@ namespace Impasta.Game{
             playerCharMovement.CanMove = true;
 
             GameObject sceneLightMask = GameObject.Find("LightMask");
+            sceneLightMask.GetComponent<MeshRenderer>().materials = new Material[1]{
+                otherSideMask
+            };
             LightCaster playerCharLightCaster = playerChar.GetComponent<LightCaster>();
             playerCharLightCaster.LightMask = sceneLightMask;
             //*/
