@@ -1,9 +1,9 @@
 ﻿using ExitGames.Client.Photon;
 using Photon.Pun.UtilityScripts;
-using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
 namespace Impasta.Lobby {
     internal sealed class PlayerListEntry: MonoBehaviour {
@@ -76,22 +76,17 @@ namespace Impasta.Lobby {
             PlayerNameText.text = playerName;
         }
 
-        private void OnPlayerNumberingChanged() {
-            if(PhotonNetwork.IsMasterClient && PlayerColors.InitColors()) {
-                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-                    Receivers = ReceiverGroup.All
-                }; //Will receive event on local client too
+        [PunRPC] void SetPlayerColor(Vector3[] vecs) { //private??
+            int arrLen = vecs.Length;
+            PlayerColors.Colors = new Color[arrLen];
 
-                int colorsArrLen = PlayerColors.Colors.Length;
-                Vector3[] vecs = new Vector3[colorsArrLen];
-                for(int i = 0; i < colorsArrLen; ++i) {
-                    Color color = PlayerColors.Colors[i];
-                    vecs[i] = new Vector3(color.r, color.b, color.g);
-                }
-
-                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.InitColorsEvent, vecs, raiseEventOptions, SendOptions.SendReliable);
+            for(int i = 0; i < arrLen; ++i) {
+                Vector3 vec = vecs[i];
+                PlayerColors.Colors[i] = new Color(vec.x, vec.y, vec.z, 1.0f);
             }
+        }
 
+        private void OnPlayerNumberingChanged() {
             int playerListArrLen = PhotonNetwork.PlayerList.Length;
             for(int i = 0; i < playerListArrLen; ++i) {
                 if(PhotonNetwork.PlayerList[i].ActorNumber == ownerID) {

@@ -1,10 +1,8 @@
-﻿using ExitGames.Client.Photon;
-using Photon.Pun;
-using Photon.Realtime;
+﻿using Photon.Pun;
 using UnityEngine;
 
 namespace Impasta{
-    internal sealed class PlayerColors: MonoBehaviour, IOnEventCallback {
+    internal sealed class PlayerColors: MonoBehaviour {
         #region Fields
 
         private static Color[] colors;
@@ -17,7 +15,8 @@ namespace Impasta{
             get {
                 return colors;
             }
-            private set {
+            set {
+                colors = value;
             }
         }
 
@@ -43,33 +42,19 @@ namespace Impasta{
 
         #endregion
 
-        public void OnEvent(EventData photonEvent) {
-            EventCodes.EventCode eventCode = (EventCodes.EventCode)photonEvent.Code;
-            switch(eventCode) {
-                case EventCodes.EventCode.InitColorsEvent:
-                    colors = (Color[])photonEvent.CustomData;
-                    break;
-            }
-        }
-
-        public static bool InitColors() {
-            if(colors.Length == 0) {
-                colors = new Color[]{
-                    Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
-                    Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
-                    Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
-                    Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
-                    Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
-                    Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
-                    Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
-                    Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
-                    Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
-                    Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true)
-                };
-                return true;
-            } else {
-                return false;
-            }
+        public static void InitColors() {
+            colors = new Color[]{
+				Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
+				Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
+				Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
+				Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
+				Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
+				Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
+				Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
+				Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
+				Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true),
+				Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true)
+			};
         }
 
         public static Color GetPlayerColor(int index) {

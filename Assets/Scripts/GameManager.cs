@@ -1,9 +1,7 @@
 ﻿using Hashtable = ExitGames.Client.Photon.Hashtable;
-
 using Photon.Realtime;
 using Photon.Pun.UtilityScripts;
 using Photon.Pun;
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,8 +52,9 @@ namespace Impasta.Game{
 
         private void Start() {
             Hashtable props = new Hashtable {
-            {"PlayerLoadedLevel", true}
-        };
+                {"PlayerLoadedLevel", true}
+            };
+
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
             ///Manually fill ResourceCache of DefaultPool

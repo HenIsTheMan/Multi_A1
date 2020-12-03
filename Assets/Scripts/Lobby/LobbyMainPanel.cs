@@ -122,23 +122,36 @@ namespace Impasta.Lobby {
         }
 
         public override void OnJoinedRoom() {
+            if(PhotonNetwork.IsMasterClient) {
+                PlayerColors.InitColors();
+
+                int colorsArrLen = PlayerColors.Colors.Length;
+                Vector3[] vecs = new Vector3[colorsArrLen];
+                for(int i = 0; i < colorsArrLen; ++i) {
+                    Color color = PlayerColors.Colors[i];
+                    vecs[i] = new Vector3(color.r, color.b, color.g);
+                }
+
+                PhotonView.Get(this).RPC("SetPlayerColor", RpcTarget.All, vecs);
+            }
+
             SetActivePanel(InsideRoomPanel.name);
 
             if(playerListEntries == null) {
                 playerListEntries = new Dictionary<int, GameObject>();
             }
 
-            foreach (Player p in PhotonNetwork.PlayerList) {
+            foreach(Player p in PhotonNetwork.PlayerList) {
                 GameObject entry = Instantiate(PlayerListEntryPrefab);
                 entry.transform.SetParent(InsideRoomPanel.transform);
                 entry.transform.localScale = Vector3.one;
                 entry.GetComponent<PlayerListEntry>().Initialize(p.ActorNumber, p.NickName);
 
-				if(p.CustomProperties.TryGetValue("IsPlayerReady", out object isPlayerReady)) { //Inline var declaration
+                if(p.CustomProperties.TryGetValue("IsPlayerReady", out object isPlayerReady)) { //Inline var declaration
                     entry.GetComponent<PlayerListEntry>().SetPlayerReady((bool)isPlayerReady);
-				}
+                }
 
-				playerListEntries.Add(p.ActorNumber, entry);
+                playerListEntries.Add(p.ActorNumber, entry);
             }
 
             StartGameButton.gameObject.SetActive(CheckPlayersReady());
@@ -238,7 +251,7 @@ namespace Impasta.Lobby {
                     PhotonNetwork.ConnectUsingSettings();
                 }
             } else {
-                Debug.LogError("Player Name is invalid.");
+                Debug.LogWarning("<color=yellow>Player Name is invalid!</color>");
             }
         }
 
