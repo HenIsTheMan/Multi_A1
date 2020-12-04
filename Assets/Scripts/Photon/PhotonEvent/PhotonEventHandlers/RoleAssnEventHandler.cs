@@ -37,32 +37,34 @@ namespace Impasta.Game {
                 case EventCodes.EventCode.RoleAssnEvent:
                     Debug.Log("Here!");
 
+                    bool[] data = (bool[])photonEvent.CustomData;
+                    int dataArrLen = data.Length;
 
-                    bool isImposter = (bool)photonEvent.CustomData;
-
-                    gameObject.GetComponent<PlayerCharKill>().IsImposter = isImposter;
-
-                    Transform childTransform = gameObject.transform.Find("PlayerNameCanvas");
-                    Transform grandchildTransform = childTransform.Find("PlayerNameText");
-                    Text textComponent = grandchildTransform.GetComponent<Text>();
-
-                    textComponent.text = PhotonNetwork.LocalPlayer.NickName;
-
-                    GameObject[] playerCharGOs = GameObject.FindGameObjectsWithTag("Player");
-                    int arrLen = playerCharGOs.Length;
-                    for(int i = 0; i < arrLen; ++i) {
-                        if(isImposter){
-                            textComponent.color = Color.red;
-
-                            GameObject playerCharGO = playerCharGOs[i];
-                            if(playerCharGO != gameObject && playerCharGO.GetComponent<PlayerCharKill>().IsImposter) {
-                                Transform playerCharGOChildTransform = gameObject.transform.Find("PlayerNameCanvas");
-                                Transform playerCharGOGrandchildTransform = childTransform.Find("PlayerNameText");
-                                playerCharGOGrandchildTransform.GetComponent<Text>().color = Color.red;
-                            }
+                    bool isLocalClientImposter = false;
+                    for(int i = 0; i < dataArrLen; ++i) {
+                        if(PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[i]) {
+                            isLocalClientImposter = data[i];
+                            break;
                         }
+                        UnityEngine.Assertions.Assert.IsTrue(false);
                     }
 
+                    for(int i = 0; i < dataArrLen; ++i) {
+                        bool isImposter = data[i];
+                        GameObject playerCharGO = GameObject.Find("PlayerChar" + PhotonNetwork.PlayerList[i].ActorNumber);
+
+                        playerCharGO.GetComponent<PlayerCharKill>().IsImposter = isImposter;
+
+                        Transform childTransform = playerCharGO.transform.Find("PlayerNameCanvas");
+                        Transform grandchildTransform = childTransform.Find("PlayerNameText");
+                        Text textComponent = grandchildTransform.GetComponent<Text>();
+
+                        textComponent.text = PhotonNetwork.PlayerList[i].NickName + "   " + isImposter;
+
+                        if(isLocalClientImposter && isImposter) {
+                            textComponent.color = Color.red;
+                        }
+                    }
                     break;
             }
         }

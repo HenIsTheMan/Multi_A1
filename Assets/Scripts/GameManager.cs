@@ -154,7 +154,7 @@ namespace Impasta.Game{
                 }
 			}
 
-            playerChar.name = "PlayerChar_" + PhotonNetwork.LocalPlayer.ActorNumber;
+            playerChar.name = "PlayerChar" + PhotonNetwork.LocalPlayer.ActorNumber;
 
             GameObject playerCharCam = GameObject.Find("PlayerCharCam");
             playerCharCam.transform.position = new Vector3(playerChar.transform.position.x, playerChar.transform.position.y, gameObject.transform.position.z);
@@ -180,33 +180,27 @@ namespace Impasta.Game{
             int i;
             int arrLen = PhotonNetwork.PlayerList.Length;
 
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions();
-
-            List<int> actorNumbers = new List<int>();
+            List<bool> flags = new List<bool>();
             for(i = 0; i < arrLen; ++i) {
-                actorNumbers.Add(PhotonNetwork.PlayerList[i].ActorNumber);
+                flags.Add(arrLen > 5 ? (i < 2) : (i == 0));
             }
-            ShuffleListElements.Shuffle(actorNumbers);
+            ShuffleListElements.Shuffle(flags);
 
-            for(i = 0; i < arrLen; ++i) {
-                raiseEventOptions.TargetActors = new int[]{
-                    PhotonNetwork.PlayerList[i].ActorNumber
-                };
-                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RoleAssnEvent, i < (arrLen > 5 ? 2 : 1), raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-            }
-		}
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+                Receivers = ReceiverGroup.All
+            }; //Will receive event on local client too
+            PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RoleAssnEvent, flags.ToArray(), raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+        }
 
         private bool LevelLoadedForAllPlayers() {
             foreach(var p in PhotonNetwork.PlayerList) {
-                object playerLoadedLevel;
+				if(p.CustomProperties.TryGetValue("PlayerLoadedLevel", out object playerLoadedLevel)) { //Inline var declaration
+					if((bool)playerLoadedLevel) {
+						continue;
+					}
+				}
 
-                if(p.CustomProperties.TryGetValue("PlayerLoadedLevel", out playerLoadedLevel)) {
-                    if((bool)playerLoadedLevel) {
-                        continue;
-                    }
-                }
-
-                return false;
+				return false;
             }
 
             return true;
