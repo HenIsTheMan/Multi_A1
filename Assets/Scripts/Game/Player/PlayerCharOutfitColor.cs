@@ -34,7 +34,15 @@ namespace Impasta.Game{
         }
 
         public void OnPhotonInstantiate(PhotonMessageInfo info) {
-            int index = info.Sender.ActorNumber - 1;
+            _ = StartCoroutine(SpawnPlayerCharCoroutine(info));
+        }
+
+		private System.Collections.IEnumerator SpawnPlayerCharCoroutine(PhotonMessageInfo info) {
+			while(PlayerUniversal.Roles.Length == 0) {
+				yield return null;
+			}
+
+			int index = info.Sender.ActorNumber - 1;
 
             gameObject.name = "PlayerChar" + index;
 
@@ -55,6 +63,8 @@ namespace Impasta.Game{
             float angle = (360.0f / (float)System.Convert.ToDouble(PhotonNetwork.CurrentRoom.PlayerCount)) * Mathf.Deg2Rad * (float)System.Convert.ToDouble(index);
             float radius = 3.0f;
             gameObject.transform.position = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0.0f) * radius;
+
+            yield return null;
         }
 
         private void Start() {
