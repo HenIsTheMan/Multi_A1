@@ -3,7 +3,7 @@ using Photon.Pun.UtilityScripts;
 using UnityEngine;
 
 namespace Impasta.Game{
-    internal sealed class PlayerCharOutfitColor: MonoBehaviour {
+    internal sealed class PlayerCharOutfitColor: MonoBehaviour, IPunInstantiateMagicCallback {
         #region Fields
 
         private PhotonView photonView;
@@ -33,8 +33,18 @@ namespace Impasta.Game{
             UnityEngine.Assertions.Assert.IsNotNull(photonView);
         }
 
+        public void OnPhotonInstantiate(PhotonMessageInfo info) {
+            gameObject.name = "PlayerChar" + (info.Sender.ActorNumber - 1);
+
+            Transform childTransform = gameObject.transform.Find("PlayerNameCanvas");
+            Transform grandchildTransform = childTransform.Find("PlayerNameText");
+
+            UnityEngine.UI.Text textComponent = grandchildTransform.GetComponent<UnityEngine.UI.Text>();
+            textComponent.text = gameObject.name;
+        }
+
         private void Start() {
-            childSpriteRenderer.color = PlayerUniversal.GetPlayerColor(photonView.Owner.GetPlayerNumber());
+            childSpriteRenderer.color = PlayerUniversal.Colors[photonView.Owner.GetPlayerNumber()];
         }
 
         #endregion

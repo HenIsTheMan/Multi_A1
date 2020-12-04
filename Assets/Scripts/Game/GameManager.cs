@@ -134,27 +134,6 @@ namespace Impasta.Game{
             );
             playerChar.transform.SetParent(parentTransform, true);
 
-            int i;
-            int arrLen = PhotonNetwork.PlayerList.Length;
-            for(i = 0; i < arrLen; ++i) {
-                if(PhotonNetwork.LocalPlayer.ActorNumber == PhotonNetwork.PlayerList[i].ActorNumber) {
-                    Vector3 pos = Vector3.zero;
-                    switch(i) {
-                        case 0:
-                            pos = new Vector3(0.0f, 3.0f, 0.0f);
-                            break;
-                        case 1:
-                            pos = new Vector3(2.0f, 2.0f, 0.0f);
-                            break;
-                        case 2:
-                            pos = new Vector3(4.0f, 1.0f, 0.0f);
-                            break;
-                    }
-                    playerChar.transform.position = pos;
-                    break;
-                }
-            }
-
             GameObject playerCharCam = GameObject.Find("PlayerCharCam");
             playerCharCam.transform.position = new Vector3(playerChar.transform.position.x, playerChar.transform.position.y, gameObject.transform.position.z);
             playerCharCam.GetComponent<CamFollow>().TargetTransform = playerChar.transform;
@@ -170,22 +149,28 @@ namespace Impasta.Game{
             playerCharLightCaster.LightMask = sceneLightMask;
             //*/
 
+            //if(PhotonNetwork.IsMasterClient) {
+            //    PlayerUniversal.GenNames();
+            //} else {
+            //    RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+            //        Receivers = ReceiverGroup.MasterClient
+            //    }; //Will receive event on local client too
+            //    PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RetrievePlayerNamesEvent,
+            //        PhotonNetwork.LocalPlayer.ActorNumber, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+            //}
+
             if(PhotonNetwork.IsMasterClient) {
-                //* Player names
-
-                //*/
-
                 //* Player roles
-                List<bool> flags = new List<bool>();
-                for(i = 0; i < arrLen; ++i) {
-                    flags.Add(arrLen > 5 ? (i < 2) : (i == 0));
-                }
-                ShuffleListElements.Shuffle(flags);
+                //List<bool> flags = new List<bool>();
+                //for(i = 0; i < arrLen; ++i) {
+                //    flags.Add(arrLen > 5 ? (i < 2) : (i == 0));
+                //}
+                //ShuffleListElements.Shuffle(flags);
 
-                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-                    Receivers = ReceiverGroup.All
-                }; //Will receive event on local client too
-                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RoleAssnEvent, flags.ToArray(), raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+                //RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+                //    Receivers = ReceiverGroup.All
+                //}; //Will receive event on local client too
+                //PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RoleAssnEvent, flags.ToArray(), raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
                 //*/
             }
         }
