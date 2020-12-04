@@ -149,16 +149,6 @@ namespace Impasta.Game{
             playerCharLightCaster.LightMask = sceneLightMask;
             //*/
 
-            //if(PhotonNetwork.IsMasterClient) {
-            //    PlayerUniversal.GenNames();
-            //} else {
-            //    RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-            //        Receivers = ReceiverGroup.MasterClient
-            //    }; //Will receive event on local client too
-            //    PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RetrievePlayerNamesEvent,
-            //        PhotonNetwork.LocalPlayer.ActorNumber, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-            //}
-
             if(PhotonNetwork.IsMasterClient) {
                 //* Player roles
                 //List<bool> flags = new List<bool>();

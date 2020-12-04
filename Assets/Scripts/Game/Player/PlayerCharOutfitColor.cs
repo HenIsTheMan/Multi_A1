@@ -34,13 +34,18 @@ namespace Impasta.Game{
         }
 
         public void OnPhotonInstantiate(PhotonMessageInfo info) {
-            gameObject.name = "PlayerChar" + (info.Sender.ActorNumber - 1);
+            int index = info.Sender.ActorNumber - 1;
+            gameObject.name = "PlayerChar" + index;
 
             Transform childTransform = gameObject.transform.Find("PlayerNameCanvas");
             Transform grandchildTransform = childTransform.Find("PlayerNameText");
 
             UnityEngine.UI.Text textComponent = grandchildTransform.GetComponent<UnityEngine.UI.Text>();
-            textComponent.text = gameObject.name;
+            textComponent.text = gameObject.name + ' ' + info.Sender.NickName;
+
+            float angle = (360.0f / (float)System.Convert.ToDouble(PhotonNetwork.CurrentRoom.PlayerCount)) * Mathf.Deg2Rad * (float)System.Convert.ToDouble(index);
+            float radius = 3.0f;
+            gameObject.transform.position = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0.0f) * radius;
         }
 
         private void Start() {
