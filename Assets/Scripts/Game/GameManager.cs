@@ -202,8 +202,6 @@ namespace Impasta.Game{
             for(i = 0; i < playerRolesArrLen; ++i) {
                 isImposter = PlayerRoles.Roles[i];
 
-                Debug.Log("PlayerChar" + PhotonNetwork.PlayerList[i].ActorNumber);
-
                 GameObject playerCharGO = GameObject.Find("PlayerChar" + PhotonNetwork.PlayerList[i].ActorNumber);
 
                 if(playerCharGO == null) {

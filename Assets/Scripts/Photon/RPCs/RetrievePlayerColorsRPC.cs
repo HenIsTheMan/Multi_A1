@@ -3,7 +3,7 @@ using UnityEngine;
 using Impasta.Game;
 
 namespace Impasta {
-    internal sealed class ClientJoinedRoomRPC: MonoBehaviour {
+    internal sealed class RetrievePlayerColorsRPC: MonoBehaviour {
         #region Fields
         #endregion
 
@@ -12,7 +12,7 @@ namespace Impasta {
 
         #region Ctors and Dtor
 
-        public ClientJoinedRoomRPC() {
+        public RetrievePlayerColorsRPC() {
 
         }
 
@@ -21,7 +21,7 @@ namespace Impasta {
         #region Unity User Callback Event Funcs
         #endregion
 
-        [PunRPC] public void ClientJoinedRoom() {
+        [PunRPC] public void RetrievePlayerColors() {
             int colorsArrLen = PlayerColors.Colors.Length;
             Vector3[] vecs = new Vector3[colorsArrLen];
             for(int i = 0; i < colorsArrLen; ++i) {

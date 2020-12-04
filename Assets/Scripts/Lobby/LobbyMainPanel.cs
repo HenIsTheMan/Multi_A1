@@ -127,11 +127,11 @@ namespace Impasta.Lobby {
                 if(PhotonNetwork.IsMasterClient) {
                     PlayerColors.InitColors();
                 } else {
-                    PhotonView.Get(this).RPC("ClientJoinedRoom", RpcTarget.MasterClient);
+                    PhotonView.Get(this).RPC("RetrievePlayerColors", RpcTarget.MasterClient);
                 }
             }
 
-            StartCoroutine(My1stEverCoroutine());
+            _ = StartCoroutine("My1stEverCoroutine");
         }
 
         private System.Collections.IEnumerator My1stEverCoroutine(){

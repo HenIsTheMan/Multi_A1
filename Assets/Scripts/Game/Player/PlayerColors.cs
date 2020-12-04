@@ -51,6 +51,7 @@ namespace Impasta.Game {
 
         public static Color GetPlayerColor(int index) {
             if(index >= 0 && index < colors.Length) {
+                Debug.Log(colors[index]);
                 return colors[index];
             } else {
                 Debug.LogWarning("<color=yellow>Var 'index' is out of range!</color>");
