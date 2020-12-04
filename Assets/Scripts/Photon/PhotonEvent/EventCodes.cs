@@ -2,7 +2,6 @@
     internal sealed class EventCodes {
         public enum EventCode: byte {
             NotAnEvent,
-            RoleAssnEvent,
             Amt
         };
 

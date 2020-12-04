@@ -4,6 +4,7 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Impasta.Game;
 
 namespace Impasta.Lobby {
     internal sealed class LobbyMainPanel: MonoBehaviourPunCallbacks {

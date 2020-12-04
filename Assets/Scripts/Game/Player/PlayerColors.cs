@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Impasta{
+namespace Impasta.Game {
     internal static class PlayerColors {
         #region Fields
 

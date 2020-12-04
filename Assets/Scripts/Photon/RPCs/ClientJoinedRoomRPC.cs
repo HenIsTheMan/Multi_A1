@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using UnityEngine;
+using Impasta.Game;
 
 namespace Impasta {
     internal sealed class ClientJoinedRoomRPC: MonoBehaviour {

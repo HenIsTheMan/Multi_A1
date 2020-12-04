@@ -4,7 +4,6 @@ using Photon.Pun.UtilityScripts;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 namespace Impasta.Game{
     internal sealed class GameManager: MonoBehaviourPunCallbacks { //Singleton
@@ -170,26 +169,61 @@ namespace Impasta.Game{
             LightCaster playerCharLightCaster = playerChar.GetComponent<LightCaster>();
             playerCharLightCaster.LightMask = sceneLightMask;
 
+            PhotonView photonView = PhotonView.Get(this);
             if(PhotonNetwork.IsMasterClient) {
-                DetermineRoles();
+                PlayerRoles.GenRoles();
+            } else {
+                photonView.RPC("RetrievePlayerRoles", RpcTarget.MasterClient);
             }
+
+			_ = StartCoroutine(nameof(SetPlayerRole));
+            photonView.RPC("IncrementStartGameDoneCount", RpcTarget.All);
             //*/
         }
 
-        private void DetermineRoles() {
-            int i;
-            int arrLen = PhotonNetwork.PlayerList.Length;
-
-            List<bool> flags = new List<bool>();
-            for(i = 0; i < arrLen; ++i) {
-                flags.Add(arrLen > 5 ? (i < 2) : (i == 0));
+        private System.Collections.IEnumerator SetPlayerRole() {
+            while(PlayerRoles.Roles.Length == 0 || GameObject.Find("PlayerChar" + PhotonNetwork.CurrentRoom.PlayerCount) == null) {
+                yield return null;
             }
-            ShuffleListElements.Shuffle(flags);
 
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-                Receivers = ReceiverGroup.All
-            }; //Will receive event on local client too
-            PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RoleAssnEvent, flags.ToArray(), raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+            bool isImposter;
+            int i;
+            int playerRolesArrLen = PlayerRoles.Roles.Length;
+            bool isLocalClientImposter = false;
+
+            for(i = 0; i < playerRolesArrLen; ++i) {
+                if(PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[i]) {
+                    isLocalClientImposter = PlayerRoles.Roles[i];
+                    break;
+                }
+                UnityEngine.Assertions.Assert.IsTrue(false);
+            }
+
+            for(i = 0; i < playerRolesArrLen; ++i) {
+                isImposter = PlayerRoles.Roles[i];
+
+                Debug.Log("PlayerChar" + PhotonNetwork.PlayerList[i].ActorNumber);
+
+                GameObject playerCharGO = GameObject.Find("PlayerChar" + PhotonNetwork.PlayerList[i].ActorNumber);
+
+                if(playerCharGO == null) {
+                    continue;
+                }
+                
+                playerCharGO.GetComponent<PlayerCharKill>().IsImposter = isImposter;
+
+                Transform childTransform = playerCharGO.transform.Find("PlayerNameCanvas");
+                Transform grandchildTransform = childTransform.Find("PlayerNameText");
+                Text textComponent = grandchildTransform.GetComponent<Text>();
+
+                textComponent.text = "PlayerChar" + PhotonNetwork.LocalPlayer.ActorNumber + "   " + isImposter;
+
+                if(isLocalClientImposter && isImposter) {
+                    textComponent.color = Color.red;
+                }
+            }
+
+            yield return null;
         }
 
         private bool LevelLoadedForAllPlayers() {

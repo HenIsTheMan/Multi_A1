@@ -12,13 +12,12 @@ GameObject:
   - component: {fileID: 7457511996118607444}
   - component: {fileID: 7457511996118607445}
   - component: {fileID: 2790414773157795840}
+  - component: {fileID: 5558224177729435412}
   - component: {fileID: 4885983255657393698}
   - component: {fileID: 3515589824002141279}
   - component: {fileID: 7457511996118607451}
   - component: {fileID: 1760957751325924758}
   - component: {fileID: 3796721170814507776}
-  - component: {fileID: 5558224177729435412}
-  - component: {fileID: 6880719432487348875}
   m_Layer: 8
   m_Name: PlayerChar
   m_TagString: Player
@@ -85,6 +84,28 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: -0.05, z: 0}
+--- !u!114 &5558224177729435412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7457511996118607447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f781b133efc22c4a89e6df1c3b6ffc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showRed: 1
+  showGreen: 1
+  offset: 0.07
+  radius: 18
+  objMask:
+    serializedVersion: 2
+    m_Bits: 512
+  ignoreMe:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &4885983255657393698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,40 +183,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &5558224177729435412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7457511996118607447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f781b133efc22c4a89e6df1c3b6ffc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showRed: 1
-  showGreen: 1
-  offset: 0.07
-  radius: 18
-  objMask:
-    serializedVersion: 2
-    m_Bits: 512
-  ignoreMe:
-    serializedVersion: 2
-    m_Bits: 256
---- !u!114 &6880719432487348875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7457511996118607447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce9a04294d656bd43aa6f7fb1fc1d797, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7457511996687176550
 GameObject:
   m_ObjectHideFlags: 0

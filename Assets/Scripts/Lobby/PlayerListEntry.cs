@@ -3,6 +3,7 @@ using Photon.Pun.UtilityScripts;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Impasta.Game;
 
 namespace Impasta.Lobby {
     internal sealed class PlayerListEntry: MonoBehaviour {
