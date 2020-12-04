@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TestScript: MonoBehaviour {
+internal sealed class OnScreenConsole: MonoBehaviour {
     string myLog = "*begin log";
     string filename = "";
     bool doShow = true;

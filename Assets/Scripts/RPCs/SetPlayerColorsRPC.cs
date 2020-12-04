@@ -19,17 +19,6 @@ namespace Impasta{
         #region Unity User Callback Event Funcs
         #endregion
 
-        [PunRPC] public void ClientJoinedRoom() {
-            int colorsArrLen = PlayerColors.Colors.Length;
-			Vector3[] vecs = new Vector3[colorsArrLen];
-			for(int i = 0; i < colorsArrLen; ++i) {
-				Color color = PlayerColors.Colors[i];
-				vecs[i] = new Vector3(color.r, color.g, color.b);
-			}
-
-			PhotonView.Get(this).RPC("SetPlayerColors", RpcTarget.Others, vecs);
-        }
-
         [PunRPC] public void SetPlayerColors(Vector3[] vecs) {
             int arrLen = vecs.Length;
             PlayerColors.Colors = new Color[arrLen];

@@ -122,8 +122,6 @@ namespace Impasta.Lobby {
         }
 
         public override void OnJoinedRoom() {
-            Debug.Log("HerePro");
-
             if(PlayerColors.Colors.Length == 0) {
                 if(PhotonNetwork.IsMasterClient) {
                     PlayerColors.InitColors();
