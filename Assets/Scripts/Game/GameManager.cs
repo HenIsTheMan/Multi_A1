@@ -157,41 +157,7 @@ namespace Impasta.Game{
             };
             LightCaster playerCharLightCaster = playerChar.GetComponent<LightCaster>();
             playerCharLightCaster.LightMask = sceneLightMask;
-
-            /////Call after all clients have arr of roles??
-            //_ = StartCoroutine(nameof(SpawnPlayerCharCoroutine));
         }
-
-        //private System.Collections.IEnumerator SpawnPlayerCharCoroutine() {
-        //    while(PlayerUniversal.Roles.Length == 0) {
-        //        yield return null;
-        //    }
-
-        //    Transform parentTransform = GameObject.Find("SceneTest").transform;
-        //    GameObject playerChar = PhotonNetwork.Instantiate(
-        //       "PlayerChar",
-        //       Vector3.zero,
-        //       Quaternion.identity,
-        //       0
-        //    );
-        //    playerChar.transform.SetParent(parentTransform, true);
-
-        //    GameObject playerCharCam = GameObject.Find("PlayerCharCam");
-        //    playerCharCam.transform.position = new Vector3(playerChar.transform.position.x, playerChar.transform.position.y, gameObject.transform.position.z);
-        //    playerCharCam.GetComponent<CamFollow>().TargetTransform = playerChar.transform;
-
-        //    PlayerCharMovement playerCharMovement = playerChar.GetComponent<PlayerCharMovement>();
-        //    playerCharMovement.CanMove = true;
-
-        //    GameObject sceneLightMask = GameObject.Find("LightMask");
-        //    sceneLightMask.GetComponent<MeshRenderer>().materials = new Material[1]{
-        //        otherSideMask
-        //    };
-        //    LightCaster playerCharLightCaster = playerChar.GetComponent<LightCaster>();
-        //    playerCharLightCaster.LightMask = sceneLightMask;
-
-        //    yield return null;
-        //}
 
         private bool LevelLoadedForAllPlayers() {
             foreach(var p in PhotonNetwork.PlayerList) {
