@@ -42,7 +42,7 @@ namespace Photon.Pun.UtilityScripts
         public const string CountdownStartTime = "StartTime";
 
         [Header("Countdown time in seconds")] 
-        public float Countdown = 5.0f;
+        [SerializeField] private float Countdown; //Edited by HenIsTheMan (4/12/2020)
 
         private bool isTimerRunning;
 
@@ -57,6 +57,11 @@ namespace Photon.Pun.UtilityScripts
         /// </summary>
         public static event CountdownTimerHasExpired OnCountdownTimerHasExpired;
 
+        //* Edited by HenIsTheMan (4/12/2020)
+        public CountdownTimer() {
+            Countdown = 5.0f;
+        }
+        //*/
 
         public void Start()
         {
