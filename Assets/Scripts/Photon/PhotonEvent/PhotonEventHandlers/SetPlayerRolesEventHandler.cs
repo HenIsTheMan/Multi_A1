@@ -32,6 +32,8 @@ namespace Impasta.Game {
 
         public void OnEvent(EventData photonEvent) {
             if(photonEvent.Code == (byte)EventCodes.EventCode.SetPlayerRolesEvent) {
+                Debug.LogWarning("Here1!");
+
                 PlayerUniversal.Roles = (bool[])photonEvent.CustomData;
             }
         }

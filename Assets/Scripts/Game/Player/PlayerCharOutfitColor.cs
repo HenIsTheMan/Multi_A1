@@ -38,16 +38,8 @@ namespace Impasta.Game{
 
             gameObject.name = "PlayerChar" + index;
 
-
-            Debug.Log(PlayerUniversal.Roles.Length);
-
-
             bool isLocalClientImposter = PlayerUniversal.Roles[PhotonNetwork.LocalPlayer.ActorNumber - 1];
             bool isImposter = PlayerUniversal.Roles[index];
-
-
-            Debug.Log(PlayerUniversal.Roles.Length);
-
 
             gameObject.GetComponent<PlayerCharKill>().IsImposter = isImposter;
 

@@ -100,7 +100,7 @@ namespace Impasta.Game{
                         CountdownTimer.SetStartTime(); //Set timer start time when everyone has loaded the level
                     }
                 } else {
-                    Debug.Log("setting text waiting for players! ", infoText);
+                    //Debug.Log("Setting text waiting for players! ", infoText);
                     infoText.text = "Waiting for other players...";
                 }
             }
@@ -135,6 +135,7 @@ namespace Impasta.Game{
                     null, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
             }
 
+            ///Call after all clients have arr of roles??
             _ = StartCoroutine(nameof(SpawnPlayerCharCoroutine));
         }
 

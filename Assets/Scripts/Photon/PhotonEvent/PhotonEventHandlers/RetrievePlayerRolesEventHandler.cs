@@ -32,6 +32,8 @@ namespace Impasta.Game {
 
         public void OnEvent(EventData photonEvent) {
             if(photonEvent.Code == (byte)EventCodes.EventCode.RetrievePlayerRolesEvent) {
+                Debug.LogWarning("Here0!");
+
                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
                     Receivers = ReceiverGroup.Others
                 };
