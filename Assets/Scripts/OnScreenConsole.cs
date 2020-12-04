@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
 
 internal sealed class OnScreenConsole: MonoBehaviour {
-    string myLog = "*begin log";
-    string filename = "";
-    bool doShow = true;
-    int kChars = 700;
-    void OnEnable() {
+    private string myLog = "";
+    private string filename = "";
+    private bool doShow = false;
+    private int kChars = 700;
+
+    private void OnEnable() {
         Application.logMessageReceived += Log;
     }
-    void OnDisable() {
+    private void OnDisable() {
         Application.logMessageReceived -= Log;
     }
-    void Update() {
-        if(Input.GetKeyDown(KeyCode.Space)) {
+
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.Return)) {
             doShow = !doShow;
         }
     }
+
     public void Log(string logString, string stackTrace, LogType type) {
         // for onscreen...
         myLog = myLog + "\n" + logString;

@@ -35,6 +35,9 @@ namespace Impasta.Game {
             EventCodes.EventCode eventCode = (EventCodes.EventCode)photonEvent.Code;
             switch(eventCode) {
                 case EventCodes.EventCode.RoleAssnEvent:
+                    Debug.Log("Here!");
+
+
                     bool isImposter = (bool)photonEvent.CustomData;
 
                     gameObject.GetComponent<PlayerCharKill>().IsImposter = isImposter;

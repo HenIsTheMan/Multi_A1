@@ -70,7 +70,7 @@ namespace Photon.Pun.UtilityScripts
 
         public override void OnEnable()
         {
-            Debug.Log("OnEnable CountdownTimer");
+            //Debug.Log("OnEnable CountdownTimer");
             base.OnEnable();
 
             // the starttime may already be in the props. look it up.
@@ -80,7 +80,7 @@ namespace Photon.Pun.UtilityScripts
         public override void OnDisable()
         {
             base.OnDisable();
-            Debug.Log("OnDisable CountdownTimer");
+            //Debug.Log("OnDisable CountdownTimer");
         }
 
 
@@ -117,7 +117,7 @@ namespace Photon.Pun.UtilityScripts
 
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
         {
-            Debug.Log("CountdownTimer.OnRoomPropertiesUpdate " + propertiesThatChanged.ToStringFull());
+            //Debug.Log("CountdownTimer.OnRoomPropertiesUpdate " + propertiesThatChanged.ToStringFull());
             Initialize();
         }
 
