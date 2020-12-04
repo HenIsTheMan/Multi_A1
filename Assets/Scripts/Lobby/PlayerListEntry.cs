@@ -3,7 +3,6 @@ using Photon.Pun.UtilityScripts;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-using Photon.Realtime;
 
 namespace Impasta.Lobby {
     internal sealed class PlayerListEntry: MonoBehaviour {
@@ -39,15 +38,11 @@ namespace Impasta.Lobby {
 
         #region Unity User Callback Event Funcs
 
-        private void OnEnable() {
-            PlayerNumbering.OnPlayerNumberingChanged += OnPlayerNumberingChanged;
-        }
-
         private void Start() {
             if(PhotonNetwork.LocalPlayer.ActorNumber != ownerID) {
                 PlayerReadyButton.gameObject.SetActive(false);
             } else {
-                Hashtable initialProps = new Hashtable() {{"IsPlayerReady", isPlayerReady}, {"PlayerLives", "PlayerMaxLives"} };
+                Hashtable initialProps = new Hashtable() { { "IsPlayerReady", isPlayerReady }, { "PlayerLives", "PlayerMaxLives" } };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(initialProps);
                 PhotonNetwork.LocalPlayer.SetScore(0);
 
@@ -55,7 +50,7 @@ namespace Impasta.Lobby {
                     isPlayerReady = !isPlayerReady;
                     SetPlayerReady(isPlayerReady);
 
-                    Hashtable props = new Hashtable() {{"IsPlayerReady", isPlayerReady}};
+                    Hashtable props = new Hashtable() { { "IsPlayerReady", isPlayerReady } };
                     PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
                     if(PhotonNetwork.IsMasterClient) {
@@ -65,28 +60,11 @@ namespace Impasta.Lobby {
             }
         }
 
-        private void OnDisable() {
-            PlayerNumbering.OnPlayerNumberingChanged -= OnPlayerNumberingChanged;
-        }
-
         #endregion
 
-        public void Initialize(int playerId, string playerName) {
-            ownerID = playerId;
-            PlayerNameText.text = playerName;
-        }
+        public void SetPlayerListEntryColors() {
+            Debug.Log("HereNoob");
 
-        [PunRPC] void SetPlayerColor(Vector3[] vecs) { //private??
-            int arrLen = vecs.Length;
-            PlayerColors.Colors = new Color[arrLen];
-
-            for(int i = 0; i < arrLen; ++i) {
-                Vector3 vec = vecs[i];
-                PlayerColors.Colors[i] = new Color(vec.x, vec.y, vec.z, 1.0f);
-            }
-        }
-
-        private void OnPlayerNumberingChanged() {
             int playerListArrLen = PhotonNetwork.PlayerList.Length;
             for(int i = 0; i < playerListArrLen; ++i) {
                 if(PhotonNetwork.PlayerList[i].ActorNumber == ownerID) {
@@ -94,6 +72,11 @@ namespace Impasta.Lobby {
                     break;
                 }
             }
+        }
+
+        public void Initialize(int playerId, string playerName) {
+            ownerID = playerId;
+            PlayerNameText.text = playerName;
         }
 
         public void SetPlayerReady(bool playerReady) {

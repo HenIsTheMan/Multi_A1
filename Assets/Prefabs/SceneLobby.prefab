@@ -4944,6 +4944,9 @@ GameObject:
   - component: {fileID: 3726591497156307985}
   - component: {fileID: 3726591497156307990}
   - component: {fileID: 3726591497156307988}
+  - component: {fileID: 8030906038849688737}
+  - component: {fileID: 1584693060557715432}
+  - component: {fileID: 3506801549235870392}
   m_Layer: 5
   m_Name: MainPanel
   m_TagString: Untagged
@@ -5039,6 +5042,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftText: 'Connection Status: '
   connectionStatus: {fileID: 3726591495397084126}
+--- !u!114 &8030906038849688737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3726591497156307987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66250522b5adadb469c679696852c68f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1584693060557715432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3726591497156307987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &3506801549235870392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3726591497156307987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a218c5fdba69b4e98a879af5e798f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3726591497226262662
 GameObject:
   m_ObjectHideFlags: 0

@@ -61,7 +61,7 @@ namespace Impasta{
             if(index >= 0 && index < colors.Length) {
                 return colors[index];
             } else {
-                Debug.LogWarning("<color=yellow>Var 'index' is out of range!</color>");
+                Debug.LogWarning("<color=yellow>Var 'index' is out of range!</color>" + index + colors.Length);
                 return Color.black;
             }
         }

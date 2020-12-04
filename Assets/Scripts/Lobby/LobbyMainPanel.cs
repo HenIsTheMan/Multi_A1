@@ -122,23 +122,33 @@ namespace Impasta.Lobby {
         }
 
         public override void OnJoinedRoom() {
+            Debug.Log("HerePro");
+
             if(PhotonNetwork.IsMasterClient) {
                 PlayerColors.InitColors();
-
-                int colorsArrLen = PlayerColors.Colors.Length;
-                Vector3[] vecs = new Vector3[colorsArrLen];
-                for(int i = 0; i < colorsArrLen; ++i) {
-                    Color color = PlayerColors.Colors[i];
-                    vecs[i] = new Vector3(color.r, color.b, color.g);
-                }
-
-                PhotonView.Get(this).RPC("SetPlayerColor", RpcTarget.All, vecs);
+            } else {
+                PhotonView.Get(this).RPC("ClientJoinedRoom", RpcTarget.MasterClient);
             }
 
             SetActivePanel(InsideRoomPanel.name);
 
             if(playerListEntries == null) {
                 playerListEntries = new Dictionary<int, GameObject>();
+            }
+
+            StartCoroutine(MyCoroutine());
+
+            StartGameButton.gameObject.SetActive(CheckPlayersReady());
+
+            Hashtable props = new Hashtable {
+                {"PlayerLoadedLevel", false}
+            };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        }
+
+        private System.Collections.IEnumerator MyCoroutine(){
+            while(PlayerColors.Colors.Length == 0) {
+                yield return null;
             }
 
             foreach(Player p in PhotonNetwork.PlayerList) {
@@ -151,15 +161,12 @@ namespace Impasta.Lobby {
                     entry.GetComponent<PlayerListEntry>().SetPlayerReady((bool)isPlayerReady);
                 }
 
+                entry.GetComponent<PlayerListEntry>().SetPlayerListEntryColors();
+
                 playerListEntries.Add(p.ActorNumber, entry);
             }
 
-            StartGameButton.gameObject.SetActive(CheckPlayersReady());
-
-            Hashtable props = new Hashtable {
-                {"PlayerLoadedLevel", false}
-            };
-            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+            yield return null;
         }
 
         public override void OnLeftRoom() {
@@ -173,18 +180,22 @@ namespace Impasta.Lobby {
             playerListEntries = null;
         }
 
-        public override void OnPlayerEnteredRoom(Player newPlayer) {
-            GameObject entry = Instantiate(PlayerListEntryPrefab);
-            entry.transform.SetParent(InsideRoomPanel.transform);
-            entry.transform.localScale = Vector3.one;
-            entry.GetComponent<PlayerListEntry>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);
+		public override void OnPlayerEnteredRoom(Player newPlayer) {
+			Debug.LogError("Huh");
+
+			GameObject entry = Instantiate(PlayerListEntryPrefab);
+			entry.transform.SetParent(InsideRoomPanel.transform);
+			entry.transform.localScale = Vector3.one;
+			entry.GetComponent<PlayerListEntry>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);
+
+            entry.GetComponent<PlayerListEntry>().SetPlayerListEntryColors();
 
             playerListEntries.Add(newPlayer.ActorNumber, entry);
 
-            StartGameButton.gameObject.SetActive(CheckPlayersReady());
-        }
+			StartGameButton.gameObject.SetActive(CheckPlayersReady());
+		}
 
-        public override void OnPlayerLeftRoom(Player otherPlayer) {
+		public override void OnPlayerLeftRoom(Player otherPlayer) {
             Destroy(playerListEntries[otherPlayer.ActorNumber].gameObject);
             playerListEntries.Remove(otherPlayer.ActorNumber);
 
