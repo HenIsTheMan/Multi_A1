@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Impasta.Game {
-    internal sealed class SetRoleEventHandler: MonoBehaviour, IOnEventCallback {
+    internal sealed class RoleAssnEventHandler: MonoBehaviour, IOnEventCallback {
         #region Fields
         #endregion
 
@@ -14,7 +14,7 @@ namespace Impasta.Game {
 
         #region Ctors and Dtor
 
-        private SetRoleEventHandler() {
+        private RoleAssnEventHandler() {
         }
 
         #endregion
@@ -34,7 +34,7 @@ namespace Impasta.Game {
         public void OnEvent(EventData photonEvent) {
             EventCodes.EventCode eventCode = (EventCodes.EventCode)photonEvent.Code;
             switch(eventCode) {
-                case EventCodes.EventCode.SetRoleEvent:
+                case EventCodes.EventCode.RoleAssnEvent:
                     bool isImposter = (bool)photonEvent.CustomData;
 
                     gameObject.GetComponent<PlayerCharKill>().IsImposter = isImposter;

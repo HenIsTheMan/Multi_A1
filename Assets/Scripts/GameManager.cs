@@ -192,7 +192,7 @@ namespace Impasta.Game{
                 raiseEventOptions.TargetActors = new int[]{
                     PhotonNetwork.PlayerList[i].ActorNumber
                 };
-                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.SetRoleEvent, i < (arrLen > 5 ? 2 : 1), raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RoleAssnEvent, i < (arrLen > 5 ? 2 : 1), raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
             }
 		}
 
