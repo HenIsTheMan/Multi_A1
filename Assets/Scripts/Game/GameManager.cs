@@ -124,7 +124,25 @@ namespace Impasta.Game{
         private void StartGame() {
             ///Avoid on rejoin (JL was network-instantiated before)??
 
-            //* Spawn player char
+            ///Create roles
+            if(PhotonNetwork.IsMasterClient) {
+                PlayerUniversal.GenRoles();
+            } else {
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+                    Receivers = ReceiverGroup.MasterClient
+                };
+                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RetrievePlayerRolesEvent,
+                    null, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+            }
+
+            _ = StartCoroutine(nameof(SpawnPlayerCharCoroutine));
+        }
+
+        private System.Collections.IEnumerator SpawnPlayerCharCoroutine() {
+            while(PlayerUniversal.Roles.Length == 0) {
+                yield return null;
+            }
+
             Transform parentTransform = GameObject.Find("SceneTest").transform;
             GameObject playerChar = PhotonNetwork.Instantiate(
                "PlayerChar",
@@ -147,22 +165,8 @@ namespace Impasta.Game{
             };
             LightCaster playerCharLightCaster = playerChar.GetComponent<LightCaster>();
             playerCharLightCaster.LightMask = sceneLightMask;
-            //*/
 
-            if(PhotonNetwork.IsMasterClient) {
-                //* Player roles
-                //List<bool> flags = new List<bool>();
-                //for(i = 0; i < arrLen; ++i) {
-                //    flags.Add(arrLen > 5 ? (i < 2) : (i == 0));
-                //}
-                //ShuffleListElements.Shuffle(flags);
-
-                //RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-                //    Receivers = ReceiverGroup.All
-                //}; //Will receive event on local client too
-                //PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RoleAssnEvent, flags.ToArray(), raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-                //*/
-            }
+            yield return null;
         }
 
         private bool LevelLoadedForAllPlayers() {

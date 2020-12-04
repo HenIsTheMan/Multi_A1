@@ -35,13 +35,30 @@ namespace Impasta.Game{
 
         public void OnPhotonInstantiate(PhotonMessageInfo info) {
             int index = info.Sender.ActorNumber - 1;
+
             gameObject.name = "PlayerChar" + index;
+
+
+            Debug.Log(PlayerUniversal.Roles.Length);
+
+
+            bool isLocalClientImposter = PlayerUniversal.Roles[PhotonNetwork.LocalPlayer.ActorNumber - 1];
+            bool isImposter = PlayerUniversal.Roles[index];
+
+
+            Debug.Log(PlayerUniversal.Roles.Length);
+
+
+            gameObject.GetComponent<PlayerCharKill>().IsImposter = isImposter;
 
             Transform childTransform = gameObject.transform.Find("PlayerNameCanvas");
             Transform grandchildTransform = childTransform.Find("PlayerNameText");
 
             UnityEngine.UI.Text textComponent = grandchildTransform.GetComponent<UnityEngine.UI.Text>();
             textComponent.text = gameObject.name + ' ' + info.Sender.NickName;
+            if(isLocalClientImposter && isImposter) {
+                textComponent.color = Color.red;
+            }
 
             float angle = (360.0f / (float)System.Convert.ToDouble(PhotonNetwork.CurrentRoom.PlayerCount)) * Mathf.Deg2Rad * (float)System.Convert.ToDouble(index);
             float radius = 3.0f;
