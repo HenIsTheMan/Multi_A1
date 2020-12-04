@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFacingRight: 1
-  spd: 100
+  spd: 200
 --- !u!114 &1760957751325924758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,7 +497,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: hi
+  m_Text: 
 --- !u!1 &8004087087830328576
 GameObject:
   m_ObjectHideFlags: 0

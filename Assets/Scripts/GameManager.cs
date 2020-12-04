@@ -4,6 +4,7 @@ using Photon.Pun.UtilityScripts;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace Impasta.Game{
     internal sealed class GameManager: MonoBehaviourPunCallbacks { //Singleton
@@ -159,9 +160,6 @@ namespace Impasta.Game{
             playerCharCam.transform.position = new Vector3(playerChar.transform.position.x, playerChar.transform.position.y, gameObject.transform.position.z);
             playerCharCam.GetComponent<CamFollow>().TargetTransform = playerChar.transform;
 
-            PlayerCharKill playerCharKill = playerChar.GetComponent<PlayerCharKill>();
-            playerCharKill.IsImposter = true;
-
             PlayerCharMovement playerCharMovement = playerChar.GetComponent<PlayerCharMovement>();
             playerCharMovement.CanMove = true;
 
@@ -171,8 +169,32 @@ namespace Impasta.Game{
             };
             LightCaster playerCharLightCaster = playerChar.GetComponent<LightCaster>();
             playerCharLightCaster.LightMask = sceneLightMask;
+
+            if(PhotonNetwork.IsMasterClient) {
+                DetermineRoles();
+            }
             //*/
         }
+
+        private void DetermineRoles() {
+            int i;
+            int arrLen = PhotonNetwork.PlayerList.Length;
+
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions();
+
+            List<int> actorNumbers = new List<int>();
+            for(i = 0; i < arrLen; ++i) {
+                actorNumbers.Add(PhotonNetwork.PlayerList[i].ActorNumber);
+            }
+            ShuffleListElements.Shuffle(actorNumbers);
+
+            for(i = 0; i < arrLen; ++i) {
+                raiseEventOptions.TargetActors = new int[]{
+                    PhotonNetwork.PlayerList[i].ActorNumber
+                };
+                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.SetRoleEvent, i < (arrLen > 5 ? 2 : 1), raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+            }
+		}
 
         private bool LevelLoadedForAllPlayers() {
             foreach(var p in PhotonNetwork.PlayerList) {

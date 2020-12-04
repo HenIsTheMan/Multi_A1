@@ -1,7 +1,8 @@
-﻿namespace Impasta{
+﻿namespace Impasta.Game {
     internal sealed class EventCodes {
         public enum EventCode: byte {
             NotAnEvent,
+            SetRoleEvent,
             Amt
         };
 
