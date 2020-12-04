@@ -19,9 +19,6 @@ namespace Impasta {
 
         #endregion
 
-        #region Unity User Callback Event Funcs
-        #endregion
-
         public static void Shuffle<T>(this IList<T> list) {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
             int n = list.Count;

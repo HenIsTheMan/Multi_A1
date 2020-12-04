@@ -29,9 +29,6 @@ namespace Impasta{
 
         #endregion
 
-        #region Unity User Callback Event Funcs
-        #endregion
-
         private static Color FormRandColor() {
             Color myColor = Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, true);
             return myColor;
