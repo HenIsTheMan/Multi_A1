@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Impasta.Game {
+namespace Impasta {
     internal class LightCaster: MonoBehaviour {
         private struct angledVerts { //used for updating the vertices and UVs of the light mesh. The angle variable is for properly sorting the ray hit points.
             public Vector3 vert;

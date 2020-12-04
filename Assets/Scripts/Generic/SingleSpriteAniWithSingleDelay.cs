@@ -2,8 +2,8 @@
 using UnityEngine.Assertions;
 using System;
 
-namespace Impasta.Game {
-    internal sealed class SingleSpriteAniWithDiffDelays: MonoBehaviour {
+namespace Impasta {
+    internal sealed class SingleSpriteAniWithSingleDelay: MonoBehaviour {
         #region Fields
 
         private float BT;
@@ -11,7 +11,7 @@ namespace Impasta.Game {
         private int currFrameIndex;
         private SpriteRenderer spriteRenderer;
 
-        [SerializeField] private float[] delays;
+        [SerializeField] private float delay;
         [SerializeField] private Sprite[] frames;
 
         #endregion
@@ -21,13 +21,13 @@ namespace Impasta.Game {
 
         #region Ctors and Dtor
 
-        public SingleSpriteAniWithDiffDelays() {
+        public SingleSpriteAniWithSingleDelay() {
             BT = 0.0f;
             elapsedTime = 0.0f;
             currFrameIndex = 0;
             spriteRenderer = null;
 
-            delays = Array.Empty<float>();
+            delay = 0.0f;
             frames = Array.Empty<Sprite>();
         }
 
@@ -41,16 +41,15 @@ namespace Impasta.Game {
 
         private void Start() {
             Assert.IsTrue(currFrameIndex >= 0);
-            Assert.AreEqual(delays.Length, frames.Length);
         }
 
         private void Update() {
-            elapsedTime += Time.deltaTime; 
+            elapsedTime += Time.deltaTime;
 
             if(BT <= elapsedTime) {
                 currFrameIndex = (currFrameIndex + 1) % frames.Length;
                 spriteRenderer.sprite = frames[currFrameIndex];
-                BT = elapsedTime + delays[currFrameIndex];
+                BT = elapsedTime + delay;
             }
         }
 

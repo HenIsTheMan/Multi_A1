@@ -1,7 +1,7 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
-namespace Impasta{
+namespace Impasta {
     internal sealed class SetPlayerColorsRPC: MonoBehaviour {
         #region Fields
         #endregion

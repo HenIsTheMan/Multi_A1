@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Impasta.Game{
+namespace Impasta {
     internal sealed class CamFollow: MonoBehaviour {
         #region Fields
 

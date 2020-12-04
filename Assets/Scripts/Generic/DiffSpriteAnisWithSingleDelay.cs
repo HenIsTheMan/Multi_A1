@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Impasta.Game {
+namespace Impasta {
     internal sealed class DiffSpriteAnisWithSingleDelay: MonoBehaviour {
         #region Fields
 
