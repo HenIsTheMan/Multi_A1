@@ -22,11 +22,11 @@ namespace Impasta {
 
         [PunRPC] public void SetPlayerColors(Vector3[] vecs) {
             int arrLen = vecs.Length;
-            PlayerColors.Colors = new Color[arrLen];
+            PlayerUniversal.Colors = new Color[arrLen];
 
             for(int i = 0; i < arrLen; ++i) {
                 Vector3 vec = vecs[i];
-                PlayerColors.Colors[i] = new Color(vec.x, vec.y, vec.z, 1.0f);
+                PlayerUniversal.Colors[i] = new Color(vec.x, vec.y, vec.z, 1.0f);
             }
         }
     }

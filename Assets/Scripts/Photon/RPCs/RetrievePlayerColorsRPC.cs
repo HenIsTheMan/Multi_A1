@@ -22,10 +22,10 @@ namespace Impasta {
         #endregion
 
         [PunRPC] public void RetrievePlayerColors() {
-            int colorsArrLen = PlayerColors.Colors.Length;
+            int colorsArrLen = PlayerUniversal.Colors.Length;
             Vector3[] vecs = new Vector3[colorsArrLen];
             for(int i = 0; i < colorsArrLen; ++i) {
-                Color color = PlayerColors.Colors[i];
+                Color color = PlayerUniversal.Colors[i];
                 vecs[i] = new Vector3(color.r, color.g, color.b);
             }
 

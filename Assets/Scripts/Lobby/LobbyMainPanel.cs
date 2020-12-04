@@ -123,9 +123,9 @@ namespace Impasta.Lobby {
         }
 
         public override void OnJoinedRoom() {
-            if(PlayerColors.Colors.Length == 0) {
+            if(PlayerUniversal.Colors.Length == 0) {
                 if(PhotonNetwork.IsMasterClient) {
-                    PlayerColors.InitColors();
+                    PlayerUniversal.InitColors();
                 } else {
                     PhotonView.Get(this).RPC("RetrievePlayerColors", RpcTarget.MasterClient);
                 }
@@ -135,7 +135,7 @@ namespace Impasta.Lobby {
         }
 
         private System.Collections.IEnumerator My1stEverCoroutine(){
-            while(PlayerColors.Colors.Length == 0) {
+            while(PlayerUniversal.Colors.Length == 0) {
                 yield return null;
             }
 
@@ -186,7 +186,7 @@ namespace Impasta.Lobby {
 		}
 
         private System.Collections.IEnumerator My2ndEverCoroutine(Player newPlayer) {
-            while(PlayerColors.Colors.Length == 0) {
+            while(PlayerUniversal.Colors.Length == 0) {
                 yield return null;
             }
 

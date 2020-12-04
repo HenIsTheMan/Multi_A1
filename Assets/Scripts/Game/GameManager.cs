@@ -121,8 +121,6 @@ namespace Impasta.Game{
             StartGame();
         }
 
-        static int playerID = 0;
-
         private void StartGame() {
             ///Avoid on rejoin (JL was network-instantiated before)??
 
@@ -155,9 +153,7 @@ namespace Impasta.Game{
                     playerChar.transform.position = pos;
                     break;
                 }
-			}
-
-            playerChar.name = "PlayerChar" + playerID++;
+            }
 
             GameObject playerCharCam = GameObject.Find("PlayerCharCam");
             playerCharCam.transform.position = new Vector3(playerChar.transform.position.x, playerChar.transform.position.y, gameObject.transform.position.z);
@@ -174,16 +170,24 @@ namespace Impasta.Game{
             playerCharLightCaster.LightMask = sceneLightMask;
             //*/
 
-            List<bool> flags = new List<bool>();
-            for(i = 0; i < arrLen; ++i) {
-                flags.Add(arrLen > 5 ? (i < 2) : (i == 0));
-            }
-            ShuffleListElements.Shuffle(flags);
+            if(PhotonNetwork.IsMasterClient) {
+                //* Player names
 
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-                Receivers = ReceiverGroup.All
-            }; //Will receive event on local client too
-            PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RoleAssnEvent, flags.ToArray(), raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+                //*/
+
+                //* Player roles
+                List<bool> flags = new List<bool>();
+                for(i = 0; i < arrLen; ++i) {
+                    flags.Add(arrLen > 5 ? (i < 2) : (i == 0));
+                }
+                ShuffleListElements.Shuffle(flags);
+
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+                    Receivers = ReceiverGroup.All
+                }; //Will receive event on local client too
+                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RoleAssnEvent, flags.ToArray(), raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+                //*/
+            }
         }
 
         private bool LevelLoadedForAllPlayers() {

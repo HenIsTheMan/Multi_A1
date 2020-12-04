@@ -67,7 +67,7 @@ namespace Impasta.Lobby {
             int playerListArrLen = PhotonNetwork.PlayerList.Length;
             for(int i = 0; i < playerListArrLen; ++i) {
                 if(PhotonNetwork.PlayerList[i].ActorNumber == ownerID) {
-                    PlayerColorImage.color = PlayerColors.GetPlayerColor(i);
+                    PlayerColorImage.color = PlayerUniversal.GetPlayerColor(i);
                     break;
                 }
             }
