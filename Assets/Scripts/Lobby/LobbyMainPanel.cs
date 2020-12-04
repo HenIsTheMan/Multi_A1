@@ -124,16 +124,18 @@ namespace Impasta.Lobby {
         public override void OnJoinedRoom() {
             Debug.Log("HerePro");
 
-            if(PhotonNetwork.IsMasterClient) {
-                PlayerColors.InitColors();
-            } else {
-                PhotonView.Get(this).RPC("ClientJoinedRoom", RpcTarget.MasterClient);
+            if(PlayerColors.Colors.Length == 0) {
+                if(PhotonNetwork.IsMasterClient) {
+                    PlayerColors.InitColors();
+                } else {
+                    PhotonView.Get(this).RPC("ClientJoinedRoom", RpcTarget.MasterClient);
+                }
             }
 
-            StartCoroutine(MyCoroutine());
+            StartCoroutine(My1stEverCoroutine());
         }
 
-        private System.Collections.IEnumerator MyCoroutine(){
+        private System.Collections.IEnumerator My1stEverCoroutine(){
             while(PlayerColors.Colors.Length == 0) {
                 yield return null;
             }
@@ -181,21 +183,30 @@ namespace Impasta.Lobby {
         }
 
 		public override void OnPlayerEnteredRoom(Player newPlayer) {
-			Debug.LogError("Huh");
+            StartCoroutine(My2ndEverCoroutine(newPlayer));
+		}
 
-			GameObject entry = Instantiate(PlayerListEntryPrefab);
-			entry.transform.SetParent(InsideRoomPanel.transform);
-			entry.transform.localScale = Vector3.one;
-			entry.GetComponent<PlayerListEntry>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);
+        private System.Collections.IEnumerator My2ndEverCoroutine(Player newPlayer) {
+            while(PlayerColors.Colors.Length == 0) {
+                yield return null;
+            }
+
+            GameObject entry = Instantiate(PlayerListEntryPrefab);
+            entry.transform.SetParent(InsideRoomPanel.transform);
+            entry.transform.localScale = Vector3.one;
+            entry.GetComponent<PlayerListEntry>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);
 
             entry.GetComponent<PlayerListEntry>().SetPlayerListEntryColors();
 
             playerListEntries.Add(newPlayer.ActorNumber, entry);
 
-			StartGameButton.gameObject.SetActive(CheckPlayersReady());
-		}
+            StartGameButton.gameObject.SetActive(CheckPlayersReady());
 
-		public override void OnPlayerLeftRoom(Player otherPlayer) {
+            yield return null;
+        }
+
+
+        public override void OnPlayerLeftRoom(Player otherPlayer) {
             Destroy(playerListEntries[otherPlayer.ActorNumber].gameObject);
             playerListEntries.Remove(otherPlayer.ActorNumber);
 

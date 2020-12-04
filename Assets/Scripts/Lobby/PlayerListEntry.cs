@@ -63,8 +63,6 @@ namespace Impasta.Lobby {
         #endregion
 
         public void SetPlayerListEntryColors() {
-            Debug.Log("HereNoob");
-
             int playerListArrLen = PhotonNetwork.PlayerList.Length;
             for(int i = 0; i < playerListArrLen; ++i) {
                 if(PhotonNetwork.PlayerList[i].ActorNumber == ownerID) {
