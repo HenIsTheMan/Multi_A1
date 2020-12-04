@@ -39,9 +39,8 @@ namespace Impasta.Game {
 
                     gameObject.GetComponent<PlayerCharKill>().IsImposter = isImposter;
 
-                    Transform childTransform = gameObject.transform.Find("PlayerNameText");
-                    Text childTextComponent = childTransform.gameObject.GetComponent<Text>();
-                    childTextComponent.text = PhotonNetwork.LocalPlayer.NickName;
+                    Text textComponent = GameObject.Find("PlayerNameText").GetComponent<Text>();
+                    textComponent.text = PhotonNetwork.LocalPlayer.NickName;
                     //childTextComponent.color
 
                     break;
