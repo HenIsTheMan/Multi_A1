@@ -130,25 +130,18 @@ namespace Impasta.Lobby {
                 PhotonView.Get(this).RPC("ClientJoinedRoom", RpcTarget.MasterClient);
             }
 
-            SetActivePanel(InsideRoomPanel.name);
-
-            if(playerListEntries == null) {
-                playerListEntries = new Dictionary<int, GameObject>();
-            }
-
             StartCoroutine(MyCoroutine());
-
-            StartGameButton.gameObject.SetActive(CheckPlayersReady());
-
-            Hashtable props = new Hashtable {
-                {"PlayerLoadedLevel", false}
-            };
-            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }
 
         private System.Collections.IEnumerator MyCoroutine(){
             while(PlayerColors.Colors.Length == 0) {
                 yield return null;
+            }
+
+            SetActivePanel(InsideRoomPanel.name);
+
+            if(playerListEntries == null) {
+                playerListEntries = new Dictionary<int, GameObject>();
             }
 
             foreach(Player p in PhotonNetwork.PlayerList) {
@@ -165,6 +158,13 @@ namespace Impasta.Lobby {
 
                 playerListEntries.Add(p.ActorNumber, entry);
             }
+
+            StartGameButton.gameObject.SetActive(CheckPlayersReady());
+
+            Hashtable props = new Hashtable {
+                {"PlayerLoadedLevel", false}
+            };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
             yield return null;
         }
