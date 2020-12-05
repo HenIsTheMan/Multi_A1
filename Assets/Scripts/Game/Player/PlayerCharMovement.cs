@@ -63,7 +63,7 @@ namespace Impasta.Game {
 			bool result0 = Mathf.Approximately(horizAxis, 0.0f);
 			bool result1 = Mathf.Approximately(vertAxis, 0.0f);
 
-			PhotonView.Get(this).RPC("UpdatePlayerSpriteAni", RpcTarget.All, gameObject.name, result0, result1, horizAxis < 0.0f);
+			PhotonView.Get(this).RPC("UpdatePlayerSpriteAni", RpcTarget.All, name, result0, result1, horizAxis < 0.0f);
 		}
 
 		public void UpdateSpriteAni(bool result0, bool result1, bool isFacingLeft) {

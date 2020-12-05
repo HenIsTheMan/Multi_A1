@@ -3202,20 +3202,20 @@ namespace Photon.Pun
         /// <remarks>This is done in this class, because the Editor assembly can't access PhotonHandler.</remarks>
         public static void InternalCleanPhotonMonoFromSceneIfStuck()
         {
-            PhotonHandler[] photonHandlers = GameObject.FindObjectsOfType(typeof(PhotonHandler)) as PhotonHandler[];
+            PhotonHandler[] photonHandlers = UnityEngine.Object.FindObjectsOfType(typeof(PhotonHandler)) as PhotonHandler[];
             if (photonHandlers != null && photonHandlers.Length > 0)
             {
                 Debug.Log("Cleaning up hidden PhotonHandler instances in scene. Please save the scene to fix the problem.");
                 foreach (PhotonHandler photonHandler in photonHandlers)
                 {
                     // Debug.Log("Removing Handler: " + photonHandler + " photonHandler.gameObject: " + photonHandler.gameObject);
-                    if (photonHandler.gameObject != null && photonHandler.gameObject.name == "PhotonMono")
+                    if (photonHandler.gameObject != null && photonHandler.name == "PhotonMono")
                     {
                         photonHandler.gameObject.hideFlags = 0;
-                        GameObject.DestroyImmediate(photonHandler.gameObject);
+						UnityEngine.Object.DestroyImmediate(photonHandler.gameObject);
                     }
 
-                    Component.DestroyImmediate(photonHandler);
+					UnityEngine.Object.DestroyImmediate(photonHandler);
                 }
             }
         }

@@ -30,7 +30,7 @@ namespace Impasta.Game {
 
             int index = info.Sender.ActorNumber - 1;
 
-            gameObject.name = "PlayerChar" + index;
+            name = "PlayerChar" + index;
 
             //* Setting player char depth
             float offset = info.Sender == PhotonNetwork.LocalPlayer
@@ -62,7 +62,7 @@ namespace Impasta.Game {
             Transform grandchildTransform = canvasChildTransform.Find("PlayerNameText");
 
             UnityEngine.UI.Text textComponent = grandchildTransform.GetComponent<UnityEngine.UI.Text>();
-            textComponent.text = gameObject.name + ' ' + info.Sender.NickName;
+            textComponent.text = name + ' ' + info.Sender.NickName;
             if(isLocalClientImposter && isImposter) {
                 textComponent.color = Color.red;
             }
