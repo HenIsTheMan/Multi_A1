@@ -41,11 +41,7 @@ namespace Photon.Pun.UtilityScripts {
         }
 
         private void OnTimerRuns() {
-            Debug.LogWarning("HereStart!", this);
-
-
-
-            ///Create roles
+            ///Create player roles
             if(PhotonNetwork.IsMasterClient) {
                 PlayerUniversal.GenRoles();
             } else {
@@ -77,7 +73,11 @@ namespace Photon.Pun.UtilityScripts {
                     humanCount += Convert.ToInt32(!PlayerUniversal.Roles[i]);
                 }
 
-                mainText = "There are " + humanCount + " humans to die... ";
+                if(humanCount == 1) {
+                    mainText = "There is 1 human to die... ";
+                } else {
+                    mainText = "There are " + humanCount + " humans to die... ";
+                }
                 textComponent.color = Color.red;
             } else {
                 int impastaCount = 0;
@@ -86,7 +86,11 @@ namespace Photon.Pun.UtilityScripts {
                     impastaCount += Convert.ToInt32(!PlayerUniversal.Roles[i]);
                 }
 
-                mainText = "There are " + impastaCount + " impastas in our midst... ";
+                if(impastaCount == 1) {
+                    mainText = "There is 1 impasta in our midst... ";
+                } else {
+                    mainText = "There are " + impastaCount + " impastas in our midst... ";
+                }
             }
 
             yield return null;
