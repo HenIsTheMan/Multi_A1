@@ -185,7 +185,7 @@ namespace Impasta.Lobby {
             StartCoroutine(My2ndEverCoroutine(newPlayer));
 		}
 
-        private System.Collections.IEnumerator My2ndEverCoroutine(Player newPlayer) {
+        private System.Collections.IEnumerator My2ndEverCoroutine(Player newPlayer) { //In case
             while(PlayerUniversal.Colors.Length == 0) {
                 yield return null;
             }
@@ -286,6 +286,7 @@ namespace Impasta.Lobby {
         public void OnStartGameButtonClicked() {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
+
             PhotonNetwork.LoadLevel(lvlName);
         }
 
@@ -297,18 +298,18 @@ namespace Impasta.Lobby {
             }
 
             foreach(Player p in PhotonNetwork.PlayerList) {
-				if(p.CustomProperties.TryGetValue("IsPlayerReady", out object isPlayerReady)) { //Inline var declaration
+                if(p.CustomProperties.TryGetValue("IsPlayerReady", out object isPlayerReady)) { //Inline var declaration
                     if(!(bool)isPlayerReady) {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
 
             return true;
         }
-        
+
         private void ClearRoomListView() {
             foreach (GameObject entry in roomListEntries.Values) {
                 Destroy(entry.gameObject);

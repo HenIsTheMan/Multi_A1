@@ -20,9 +20,9 @@ namespace Impasta {
             }
         }
 
-        public void Log(string logString, string stackTrace, LogType type) {
+        public void Log(string logStr, string stackTrace, LogType type) {
             // for onscreen...
-            myLog = myLog + "\n" + logString;
+            myLog += logStr + '\n';
             if(myLog.Length > kChars) {
                 myLog = myLog.Substring(myLog.Length - kChars);
             }
@@ -36,7 +36,7 @@ namespace Impasta {
                 filename = d + "/log-" + r + ".txt";
             }
             try {
-                System.IO.File.AppendAllText(filename, logString + "\n");
+                System.IO.File.AppendAllText(filename, logStr + "\n");
             } catch { }
         }
 

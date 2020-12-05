@@ -92,9 +92,8 @@ namespace Impasta.Game{
                 return;
             }
 
-            int startTimestamp;
-            bool startTimeIsSet = CountdownTimer.TryGetStartTime(out startTimestamp);
-            if(changedProps.ContainsKey("PlayerLoadedLevel")) {
+			bool startTimeIsSet = CountdownTimer.TryGetStartTime(out int startTimestamp); //Inline var declaration
+			if(changedProps.ContainsKey("PlayerLoadedLevel")) {
                 if(LevelLoadedForAllPlayers()) {
                     if(!startTimeIsSet) {
                         CountdownTimer.SetStartTime(); //Set timer start time when everyone has loaded the level
@@ -123,18 +122,7 @@ namespace Impasta.Game{
 
         private void StartGame() {
             ///Avoid on rejoin (JL was network-instantiated before)??
-
-            ///Create roles
-            if(PhotonNetwork.IsMasterClient) {
-                PlayerUniversal.GenRoles();
-            } else {
-                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-                    Receivers = ReceiverGroup.MasterClient
-                };
-                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RetrievePlayerRolesEvent,
-                    null, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-            }
-
+            
             Transform parentTransform = GameObject.Find("SceneTest").transform;
             GameObject playerChar = PhotonNetwork.Instantiate(
                "PlayerChar",

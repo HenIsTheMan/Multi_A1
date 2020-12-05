@@ -23,7 +23,7 @@ namespace Impasta.Game {
             _ = StartCoroutine(InitPlayerAttribs(info));
         }
 
-        private System.Collections.IEnumerator InitPlayerAttribs(PhotonMessageInfo info) {
+        private System.Collections.IEnumerator InitPlayerAttribs(PhotonMessageInfo info) { //In case
             while(PlayerUniversal.Roles.Length == 0) {
                 yield return null;
             }

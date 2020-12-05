@@ -2,16 +2,17 @@
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
+using Impasta.Game;
+using System;
 
 namespace Photon.Pun.UtilityScripts {
     internal sealed class CountdownTimer: MonoBehaviourPunCallbacks {
         private bool isTimerRunning;
         private int startTime;
-        private const string CountdownStartTime = "";
+        private string mainText = "";
+        private const string countdownStartTime = "";
 
         [SerializeField] private float countdownTime;
-
-        [Header("TextComponent ")]
         [SerializeField] private Text textComponent;
 
         public delegate void CountdownTimerHasExpired();
@@ -30,18 +31,65 @@ namespace Photon.Pun.UtilityScripts {
         private void Update() {
             if(isTimerRunning) {
                 float countdown = TimeRemaining();
-                this.textComponent.text = string.Format("Game starts in {0} seconds", countdown.ToString("n0"));
+                textComponent.text = mainText + countdown.ToString("n0");
 
-                if(countdown > 0.0f)
+                if(countdown > 0.0f) {
                     return;
-
+                }
                 OnTimerEnds();
             }
         }
 
         private void OnTimerRuns() {
+            Debug.LogWarning("HereStart!", this);
+
+
+
+            ///Create roles
+            if(PhotonNetwork.IsMasterClient) {
+                PlayerUniversal.GenRoles();
+            } else {
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+                    Receivers = ReceiverGroup.MasterClient
+                };
+                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.RetrievePlayerRolesEvent,
+                    null, raiseEventOptions, SendOptions.SendReliable);
+            }
+
+            _ = StartCoroutine(nameof(InitMainText));
+        }
+
+        private System.Collections.IEnumerator InitMainText() {
+            while(PlayerUniversal.Roles.Length == 0) {
+                yield return null;
+            }
+
             isTimerRunning = true;
             enabled = true;
+
+            bool isLocalClientImposter = PlayerUniversal.Roles[PhotonNetwork.LocalPlayer.ActorNumber - 1];
+            int arrLen = PlayerUniversal.Roles.Length;
+
+            if(isLocalClientImposter) {
+                int humanCount = 0;
+
+                for(int i = 0; i < arrLen; ++i) {
+                    humanCount += Convert.ToInt32(!PlayerUniversal.Roles[i]);
+                }
+
+                mainText = "There are " + humanCount + " humans to die... ";
+                textComponent.color = Color.red;
+            } else {
+                int impastaCount = 0;
+
+                for(int i = 0; i < arrLen; ++i) {
+                    impastaCount += Convert.ToInt32(!PlayerUniversal.Roles[i]);
+                }
+
+                mainText = "There are " + impastaCount + " impastas in our midst... ";
+            }
+
+            yield return null;
         }
 
         private void OnTimerEnds() {
@@ -50,10 +98,8 @@ namespace Photon.Pun.UtilityScripts {
 
             textComponent.text = string.Empty;
 
-            if(OnCountdownTimerHasExpired != null) {
-                OnCountdownTimerHasExpired();
-            }
-        }
+			OnCountdownTimerHasExpired?.Invoke(); //Delegate invocation
+		}
 
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged) {
             Init();
@@ -64,8 +110,7 @@ namespace Photon.Pun.UtilityScripts {
                 startTime = propStartTime;
                 Debug.Log("Init sets StartTime " + startTime + " server time now: " + PhotonNetwork.ServerTimestamp + " remain: " + TimeRemaining());
 
-                isTimerRunning = TimeRemaining() > 0;
-                if(isTimerRunning) {
+                if(TimeRemaining() > 0) {
                     OnTimerRuns();
                 } else {
                     OnTimerEnds();
@@ -82,7 +127,7 @@ namespace Photon.Pun.UtilityScripts {
             if(PhotonNetwork.CurrentRoom != null) {
                 startTimestamp = PhotonNetwork.ServerTimestamp;
 
-                if(PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CountdownStartTime, out object startTimeFromProps)) { //Inline var declaration
+                if(PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(countdownStartTime, out object startTimeFromProps)) { //Inline var declaration
                     startTimestamp = (int)startTimeFromProps;
                     return true;
                 }
@@ -98,7 +143,7 @@ namespace Photon.Pun.UtilityScripts {
             bool wasSet = TryGetStartTime(out _);
 
             Hashtable props = new Hashtable {
-                {CountdownStartTime, PhotonNetwork.ServerTimestamp}
+                {countdownStartTime, PhotonNetwork.ServerTimestamp}
             };
             PhotonNetwork.CurrentRoom.SetCustomProperties(props);
 
