@@ -32,28 +32,26 @@ namespace Impasta.Game {
 
             gameObject.name = "PlayerChar" + index;
 
+            //* Setting player char depth
+            float offset = info.Sender == PhotonNetwork.LocalPlayer
+                ? (float)System.Convert.ToDouble(PhotonNetwork.CurrentRoom.MaxPlayers) / 10.0f
+                : (float)System.Convert.ToDouble(index) / 10.0f;
+
             Transform spriteChildTransform0 = gameObject.transform.GetChild(0);
-
-
-            Debug.Log("Here " + (spriteChildTransform0.position.z - (float)System.Convert.ToDouble(index) / 10.0f));
-
-
             spriteChildTransform0.position = new Vector3(
                 spriteChildTransform0.position.x,
                 spriteChildTransform0.position.y,
-                spriteChildTransform0.position.z - (float)System.Convert.ToDouble(index) / 10.0f
+                spriteChildTransform0.position.z - offset
+
             );
+
             Transform spriteChildTransform1 = gameObject.transform.GetChild(1);
-
-
-            Debug.Log("Here " + (spriteChildTransform1.position.z - (float)System.Convert.ToDouble(index) / 10.0f));
-
-
             spriteChildTransform1.position = new Vector3(
                 spriteChildTransform1.position.x,
                 spriteChildTransform1.position.y,
-                spriteChildTransform1.position.z - (float)System.Convert.ToDouble(index) / 10.0f
+                spriteChildTransform1.position.z - offset
             );
+            //*/
 
             bool isLocalClientImposter = PlayerUniversal.Roles[PhotonNetwork.LocalPlayer.ActorNumber - 1];
             bool isImposter = PlayerUniversal.Roles[index];
