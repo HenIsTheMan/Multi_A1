@@ -33,23 +33,19 @@ namespace Impasta.Game {
             name = "PlayerChar" + index;
 
             //* Setting player char depth
-            float offset = info.Sender == PhotonNetwork.LocalPlayer
-                ? (float)System.Convert.ToDouble(PhotonNetwork.CurrentRoom.MaxPlayers) / 10.0f
-                : (float)System.Convert.ToDouble(index) / 10.0f;
-
             Transform spriteChildTransform0 = gameObject.transform.GetChild(0);
             Transform spriteChildTransform1 = gameObject.transform.GetChild(1);
 
             spriteChildTransform0.position = new Vector3(
                 spriteChildTransform0.position.x,
                 spriteChildTransform0.position.y,
-                spriteChildTransform0.position.z + offset
+                -(2.0f + (float)System.Convert.ToDouble(info.Sender == PhotonNetwork.LocalPlayer ? PhotonNetwork.CurrentRoom.MaxPlayers : index) * 2.0f) / 10.0f
             );
 
             spriteChildTransform1.position = new Vector3(
                 spriteChildTransform1.position.x,
                 spriteChildTransform1.position.y,
-                spriteChildTransform1.position.z + offset
+                -(1.0f + (float)System.Convert.ToDouble(info.Sender == PhotonNetwork.LocalPlayer ? PhotonNetwork.CurrentRoom.MaxPlayers : index) * 2.0f) / 10.0f
             );
             //*/
 

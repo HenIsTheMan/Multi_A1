@@ -85,11 +85,6 @@ namespace Impasta.Game {
                         Vector3 targetPos = currClosestTargetPlayerCharKill.transform.position;
 
                         transform.position = targetPos;
-                        currClosestTargetPlayerCharKill.transform.position = new Vector3(
-                            targetPos.x,
-                            targetPos.y,
-                            -targetPos.z
-                        ); //Ensure alive players render over dead human
 
                         PhotonView.Get(this).RPC("Kill", RpcTarget.All, currClosestTargetPlayerCharKill.name, targetPos);
                     }
