@@ -19,11 +19,13 @@ namespace Impasta.Game {
             GameObject playerCharGhost = (GameObject)info.Sender.TagObject;
             name = playerCharGhost.name;
 
-            Transform spriteChildTransform = gameObject.transform.GetChild(0);
-            spriteChildTransform.GetComponent<SpriteRenderer>().color = playerCharGhost.transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+            Transform spriteChildTransform = transform.GetChild(0);
+			Color newColor = playerCharGhost.transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+			newColor.a = 1.0f;
+			spriteChildTransform.GetComponent<SpriteRenderer>().color = newColor;
 
 			//* Setting ghost player char depth
-			float offset = (float)System.Convert.ToDouble(info.Sender.ActorNumber - 1) / 10.0f;
+			int index = info.Sender.ActorNumber - 1;
 
 			Transform childTransform0 = transform.Find("PlayerCharOutfitSprite");
 			Transform childTransform1 = transform.Find("PlayerCharSprite");
@@ -33,12 +35,12 @@ namespace Impasta.Game {
 			childTransform0.position = new Vector3(
 				childPos0.x,
 				childPos0.y,
-				childPos0.z + offset
+				(1.0f + (float)System.Convert.ToDouble(info.Sender == PhotonNetwork.LocalPlayer ? PhotonNetwork.CurrentRoom.MaxPlayers : index) * 2.0f) / 10.0f
 			);
 			childTransform1.position = new Vector3(
 				childPos1.x,
 				childPos1.y,
-				childPos1.z + offset
+				(2.0f + (float)System.Convert.ToDouble(info.Sender == PhotonNetwork.LocalPlayer ? PhotonNetwork.CurrentRoom.MaxPlayers : index) * 2.0f) / 10.0f
 			);
 			//*/
 		}
