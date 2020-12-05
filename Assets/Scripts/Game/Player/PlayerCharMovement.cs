@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 namespace Impasta.Game {
 	internal sealed class PlayerCharMovement: MonoBehaviour {
@@ -69,6 +70,11 @@ namespace Impasta.Game {
 
 			bool result0 = Mathf.Approximately(horizAxis, 0.0f);
 			bool result1 = Mathf.Approximately(vertAxis, 0.0f);
+
+			PhotonView.Get(this).RPC("UpdatePlayerSpriteAni", RpcTarget.All, gameObject.name, result0, result1, horizAxis < 0.0f);
+		}
+
+		public void UpdateSpriteAni(bool result0, bool result1, bool isFacingLeft) {
 			if(result0 && result1) {
 				script0.ResetSpriteAni();
 				script0.enabled = false;
@@ -82,7 +88,7 @@ namespace Impasta.Game {
 
 			if(!result0) {
 				bool isFacingRightPrev = isFacingRight;
-				isFacingRight = horizAxis > 0.0f;
+				isFacingRight = !isFacingLeft;
 
 				if(isFacingRight != isFacingRightPrev) { //Change moving dir
 					script0.ChangeAndResetSpriteAni(System.Convert.ToInt32(isFacingRight));
