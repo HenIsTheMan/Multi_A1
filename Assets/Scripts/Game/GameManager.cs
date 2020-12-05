@@ -162,7 +162,7 @@ namespace Impasta.Game{
         public static void SpawnDeadBody(in Vector3 pos) {
             _ = PhotonNetwork.Instantiate(
                 "PlayerCharDeadBody",
-                pos,
+                new Vector3(pos.x - 0.4f, pos.y - 0.4f, pos.z),
                 Quaternion.Euler(0.0f, 0.0f, 90.0f),
                 0
             );

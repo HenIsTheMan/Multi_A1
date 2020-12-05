@@ -29,7 +29,7 @@ namespace Impasta.Game {
             }
 
             int index = info.Sender.ActorNumber - 1;
-
+            info.Sender.TagObject = gameObject;
             name = "PlayerChar" + index;
 
             //* Setting player char depth

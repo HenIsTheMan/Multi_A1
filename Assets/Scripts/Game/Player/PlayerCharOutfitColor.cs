@@ -6,8 +6,6 @@ namespace Impasta.Game {
     internal sealed class PlayerCharOutfitColor: MonoBehaviour {
         #region Fields
 
-        private PhotonView photonView;
-
         [SerializeField] private SpriteRenderer outfitRenderer;
 
         #endregion
@@ -18,7 +16,6 @@ namespace Impasta.Game {
         #region Ctors and Dtor
 
         public PlayerCharOutfitColor() {
-            photonView = null;
             outfitRenderer = null;
         }
 
@@ -26,13 +23,8 @@ namespace Impasta.Game {
 
         #region Unity User Callback Event Funcs
 
-        private void Awake() {
-            photonView = gameObject.GetComponent<PhotonView>();
-            UnityEngine.Assertions.Assert.IsNotNull(photonView);
-        }
-
         private void Start() {
-            outfitRenderer.color = PlayerUniversal.Colors[photonView.Owner.GetPlayerNumber()];
+            outfitRenderer.color = PlayerUniversal.Colors[PhotonView.Get(this).Owner.GetPlayerNumber()];
         }
 
         #endregion
