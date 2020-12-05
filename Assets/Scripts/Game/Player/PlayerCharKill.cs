@@ -53,7 +53,7 @@ namespace Impasta.Game {
         }
 
         private void FixedUpdate(){
-            if(isKillButtonPressed) {
+            if(isKillButtonPressed && isImposter && !isDead) {
                 int listCount = playerCharKillTargets.Count;
 
                 if(listCount > 0) { //Find nearest alive human to kill
@@ -94,9 +94,9 @@ namespace Impasta.Game {
             }
         }
 
-        private void OnTriggerEnter(Collider otherCollider) {
-            if(otherCollider.CompareTag("Player") && isImposter && !isDead) {
-                PlayerCharKill otherPlayerCharKill = otherCollider.gameObject.GetComponent<PlayerCharKill>();
+        public void Colliding(Collider otherCollider){
+            if(isImposter && !isDead) {
+                PlayerCharKill otherPlayerCharKill = otherCollider.transform.parent.GetComponent<PlayerCharKill>();
                 UnityEngine.Assertions.Assert.IsNotNull(otherPlayerCharKill);
 
                 if(!playerCharKillTargets.Contains(otherPlayerCharKill)) {
@@ -105,9 +105,9 @@ namespace Impasta.Game {
             }
         }
 
-        private void OnTriggerExit(Collider otherCollider) {
-            if(otherCollider.CompareTag("Player")) {
-                PlayerCharKill otherPlayerCharKill = otherCollider.gameObject.GetComponent<PlayerCharKill>();
+        public void NotColliding(Collider otherCollider) {
+            if(isImposter && !isDead) {
+                PlayerCharKill otherPlayerCharKill = otherCollider.transform.parent.GetComponent<PlayerCharKill>();
                 UnityEngine.Assertions.Assert.IsNotNull(otherPlayerCharKill);
 
                 if(playerCharKillTargets.Contains(otherPlayerCharKill)) {
