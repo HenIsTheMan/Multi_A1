@@ -117,13 +117,13 @@ namespace Impasta.Game {
 
             ///Make player look like a ghost
             try {
-                Transform childTransform = gameObject.transform.Find("PlayerCharOutfitSprite");
-                SpriteRenderer childSpriteRenderer = childTransform.GetComponent<SpriteRenderer>();
-                childSpriteRenderer.color -= new Color(0.0f, 0.0f, 0.0f, 0.5f);
+                Transform childTransform0 = gameObject.transform.Find("PlayerCharOutfitSprite");
+                SpriteRenderer childSpriteRenderer0 = childTransform0.GetComponent<SpriteRenderer>();
+                childSpriteRenderer0.color -= new Color(0.0f, 0.0f, 0.0f, 0.5f);
 
-                Transform grandchildTransform = childTransform.Find("PlayerCharSprite");
-                SpriteRenderer grandchildSpriteRenderer = grandchildTransform.GetComponent<SpriteRenderer>();
-                grandchildSpriteRenderer.color = new Color(0.5f, 0.5f, 1.0f, 0.5f);
+                Transform childTransform1 = gameObject.transform.Find("PlayerCharSprite");
+                SpriteRenderer childSpriteRenderer1 = childTransform1.GetComponent<SpriteRenderer>();
+                childSpriteRenderer1.color = new Color(0.5f, 0.5f, 1.0f, 0.5f);
             } catch(NullReferenceException) {
                 UnityEngine.Assertions.Assert.IsTrue(false);
             }

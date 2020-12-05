@@ -7,7 +7,8 @@ namespace Impasta.Game {
         #region Fields
 
         private PhotonView photonView;
-        private SpriteRenderer childSpriteRenderer;
+
+        [SerializeField] private SpriteRenderer outfitRenderer;
 
         #endregion
 
@@ -18,7 +19,7 @@ namespace Impasta.Game {
 
         public PlayerCharOutfitColor() {
             photonView = null;
-            childSpriteRenderer = null;
+            outfitRenderer = null;
         }
 
         #endregion
@@ -26,15 +27,12 @@ namespace Impasta.Game {
         #region Unity User Callback Event Funcs
 
         private void Awake() {
-            childSpriteRenderer = gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
-            UnityEngine.Assertions.Assert.IsNotNull(childSpriteRenderer);
-
             photonView = gameObject.GetComponent<PhotonView>();
             UnityEngine.Assertions.Assert.IsNotNull(photonView);
         }
 
         private void Start() {
-            childSpriteRenderer.color = PlayerUniversal.Colors[photonView.Owner.GetPlayerNumber()];
+            outfitRenderer.color = PlayerUniversal.Colors[photonView.Owner.GetPlayerNumber()];
         }
 
         #endregion

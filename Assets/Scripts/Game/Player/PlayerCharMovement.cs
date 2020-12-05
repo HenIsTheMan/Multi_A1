@@ -8,11 +8,11 @@ namespace Impasta.Game {
 		private bool canMove;
 		private float horizAxis;
 		private float vertAxis;
-		private DiffSpriteAnisWithSingleDelay script0;
-		private DiffSpriteAnisWithSingleDelay script1;
 		private Rigidbody rigidbodyComponent;
 
 		[SerializeField] private bool isFacingRight;
+		[SerializeField] private DiffSpriteAnisWithSingleDelay script0;
+		[SerializeField] private DiffSpriteAnisWithSingleDelay script1;
 		[SerializeField] private float spd;
 
 		#endregion
@@ -36,11 +36,11 @@ namespace Impasta.Game {
 			canMove = false;
 			horizAxis = 0.0f;
 			vertAxis = 0.0f;
-			script0 = null;
-			script1 = null;
 			rigidbodyComponent = null;
 
 			isFacingRight = true;
+			script0 = null;
+			script1 = null;
 			spd = 0.0f;
 		}
 
@@ -49,14 +49,6 @@ namespace Impasta.Game {
 		#region Unity User Callback Event Funcs
 
 		private void Awake() {
-			Transform childTransform = gameObject.transform.Find("PlayerCharOutfitSprite");
-			UnityEngine.Assertions.Assert.IsNotNull(childTransform);
-			script0 = childTransform.GetComponent<DiffSpriteAnisWithSingleDelay>();
-
-			Transform grandchildTransform = childTransform.Find("PlayerCharSprite");
-			UnityEngine.Assertions.Assert.IsNotNull(grandchildTransform);
-			script1 = grandchildTransform.GetComponent<DiffSpriteAnisWithSingleDelay>();
-
 			rigidbodyComponent = GetComponent<Rigidbody>();
 		}
 
