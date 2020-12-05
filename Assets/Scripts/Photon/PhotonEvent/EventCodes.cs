@@ -4,6 +4,7 @@
             NotAnEvent,
             RetrievePlayerRolesEvent,
             SetPlayerRolesEvent,
+            LogicIDUpdateEvent,
             Amt
         };
 
