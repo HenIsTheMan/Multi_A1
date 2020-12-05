@@ -4,31 +4,14 @@ using UnityEngine;
 namespace Impasta.Game {
     internal sealed class PlayerOnPhotonInstantiate: MonoBehaviour, IPunInstantiateMagicCallback {
         #region Fields
-
-        private static int logicID;
-
         #endregion
 
         #region Properties
-
-        public static int LogicID {
-            get {
-                return logicID;
-            }
-            set {
-                logicID = value;
-            }
-        }
-
         #endregion
 
         #region Ctors and Dtor
 
         private PlayerOnPhotonInstantiate() {
-        }
-
-        static PlayerOnPhotonInstantiate() {
-            logicID = -1;
         }
 
         #endregion
@@ -37,21 +20,7 @@ namespace Impasta.Game {
         #endregion
 
         public void OnPhotonInstantiate(PhotonMessageInfo info) {
-            switch(logicID) {
-                case 0:
-                    _ = StartCoroutine(InitPlayerAttribs(info));
-                    break;
-                case 1:
-                    //humanBody.name = currClosestTargetPlayerCharKill.name;
-
-                    //Transform childTransform = humanBody.transform.Find("PlayerCharOutfitSprite");
-                    //SpriteRenderer childSpriteRenderer = childTransform.GetComponent<SpriteRenderer>();
-                    //childSpriteRenderer.color -= humanPlayerChar.transform.Find("PlayerCharOutfitSprite").GetComponent<SpriteRenderer>().color;
-                    break;
-                default:
-                    UnityEngine.Assertions.Assert.IsTrue(false);
-                    break;
-            }
+            _ = StartCoroutine(InitPlayerAttribs(info));
         }
 
         private System.Collections.IEnumerator InitPlayerAttribs(PhotonMessageInfo info) { //In case

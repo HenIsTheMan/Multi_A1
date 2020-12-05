@@ -24,6 +24,9 @@ namespace Impasta {
             GameObject humanPlayerChar = GameObject.Find(humanPlayerCharName);
 
             humanPlayerChar.GetComponent<PlayerCharKill>().KennaKilled();
-        }
+
+			//GameObject humanBody = Instantiate(humanPlayerChar, humanPlayerChar.transform.position, humanPlayerChar.transform.rotation);
+			//humanBody.name
+		}
     }
 }

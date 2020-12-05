@@ -7,13 +7,11 @@ namespace Impasta.Game {
     internal sealed class PlayerCharKill: MonoBehaviour {
         #region Fields
 
-        private bool isGhost;
+        private bool isDead;
         private bool isImposter;
         private bool isKillButtonPressed;
 
         private List<PlayerCharKill> playerCharKillTargets;
-
-        private GameManager gameManager;
 
         #endregion
 
@@ -33,13 +31,11 @@ namespace Impasta.Game {
         #region Ctors and Dtor
 
         public PlayerCharKill() {
-            isGhost = false;
+            isDead = false;
             isImposter = false;
             isKillButtonPressed = false;
 
             playerCharKillTargets = null;
-
-            gameManager = null;
         }
 
         #endregion
@@ -48,8 +44,6 @@ namespace Impasta.Game {
 
         private void Start() {
             playerCharKillTargets = new List<PlayerCharKill>();
-
-            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         }
 
         private void Update() {
@@ -59,7 +53,7 @@ namespace Impasta.Game {
         }
 
         private void FixedUpdate(){
-            if(isKillButtonPressed && isImposter && !isGhost) {
+            if(isKillButtonPressed && isImposter && !isDead) {
                 int listCount = playerCharKillTargets.Count;
 
                 if(listCount > 0) { //Find nearest alive human to kill
@@ -69,7 +63,7 @@ namespace Impasta.Game {
                     for(int i = 0; i < listCount; ++i) {
                         PlayerCharKill targetPlayerCharKill = playerCharKillTargets[i];
 
-                        if(!targetPlayerCharKill.isImposter && !targetPlayerCharKill.isGhost) {
+                        if(!targetPlayerCharKill.isImposter && !targetPlayerCharKill.isDead) {
                             if(currClosestTargetPlayerCharKill == null) {
                                 currClosestTargetPlayerCharKill = targetPlayerCharKill;
                             } else {
@@ -92,8 +86,6 @@ namespace Impasta.Game {
                             -targetPos.z
                         ); //Ensure alive players render over dead human
 
-                        gameManager.SpawnDeadBody(currClosestTargetPlayerCharKill.transform.position);
-
                         PhotonView.Get(this).RPC("Kill", RpcTarget.All, currClosestTargetPlayerCharKill.name);
                     }
                 }
@@ -103,7 +95,7 @@ namespace Impasta.Game {
         }
 
         public void Colliding(Collider otherCollider){
-            if(isImposter && !isGhost) {
+            if(isImposter && !isDead) {
                 PlayerCharKill otherPlayerCharKill = otherCollider.transform.parent.GetComponent<PlayerCharKill>();
 
                 if(!playerCharKillTargets.Contains(otherPlayerCharKill)) {
@@ -113,7 +105,7 @@ namespace Impasta.Game {
         }
 
         public void NotColliding(Collider otherCollider) {
-            if(isImposter && !isGhost) {
+            if(isImposter && !isDead) {
                 PlayerCharKill otherPlayerCharKill = otherCollider.transform.parent.GetComponent<PlayerCharKill>();
 
                 if(playerCharKillTargets.Contains(otherPlayerCharKill)) {
@@ -125,7 +117,7 @@ namespace Impasta.Game {
         #endregion
 
         public void KennaKilled() {
-            isGhost = true;
+            isDead = true;
 
             ///Make player look like a ghost
             try {

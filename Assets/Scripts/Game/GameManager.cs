@@ -122,21 +122,7 @@ namespace Impasta.Game{
 
         private void StartGame() {
             ///Avoid on rejoin (JL was network-instantiated before)??
-
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-                Receivers = ReceiverGroup.All
-            };
-            PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.LogicIDUpdateEvent,
-                0, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-
-            _ = StartCoroutine(nameof(SpawnPlayerChar));
-        }
-
-        private System.Collections.IEnumerator SpawnPlayerChar() {
-            while(PlayerOnPhotonInstantiate.LogicID == -1) {
-                yield return null;
-            }
-
+            
             Transform parentTransform = GameObject.Find("SceneTest").transform;
             GameObject playerChar = PhotonNetwork.Instantiate(
                "PlayerChar",
@@ -159,14 +145,6 @@ namespace Impasta.Game{
             };
             LightCaster playerCharLightCaster = playerChar.GetComponent<LightCaster>();
             playerCharLightCaster.LightMask = sceneLightMask;
-
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-                Receivers = ReceiverGroup.All
-            };
-            PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.LogicIDUpdateEvent,
-                -1, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-
-            yield return null;
         }
 
         private bool LevelLoadedForAllPlayers() {
@@ -176,40 +154,11 @@ namespace Impasta.Game{
 						continue;
 					}
 				}
+
 				return false;
             }
+
             return true;
-        }
-
-        public void SpawnDeadBody(in Vector3 pos) {
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-                Receivers = ReceiverGroup.All
-            };
-            PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.LogicIDUpdateEvent,
-                1, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-
-            _ = StartCoroutine(SpawnGhost(pos));
-        }
-
-        private System.Collections.IEnumerator SpawnGhost(Vector3 pos) {
-            while(PlayerOnPhotonInstantiate.LogicID == -1) {
-                yield return null;
-            }
-
-            GameObject ghost = PhotonNetwork.Instantiate(
-                "PlayerChar",
-                pos,
-                Quaternion.Euler(0.0f, 0.0f, 90.0f),
-                0
-            );
-
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-                Receivers = ReceiverGroup.All
-            };
-            PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.LogicIDUpdateEvent,
-                -1, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
-
-            yield return null;
         }
     }
 }
