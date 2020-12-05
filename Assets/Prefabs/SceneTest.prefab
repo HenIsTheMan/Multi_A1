@@ -360,6 +360,8 @@ MonoBehaviour:
   prefabs:
   - prefab: {fileID: 7457511996118607447, guid: 86ca6a3a28f2a86428f98688aacf851c,
       type: 3}
+  - prefab: {fileID: 7457511996118607447, guid: a24dccc344b28af4dba2d3732c42deeb,
+      type: 3}
 --- !u!114 &3367038734204188148
 MonoBehaviour:
   m_ObjectHideFlags: 0

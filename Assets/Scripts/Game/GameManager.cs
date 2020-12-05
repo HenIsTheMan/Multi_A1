@@ -149,16 +149,23 @@ namespace Impasta.Game{
 
         private bool LevelLoadedForAllPlayers() {
             foreach(var p in PhotonNetwork.PlayerList) {
-				if(p.CustomProperties.TryGetValue("PlayerLoadedLevel", out object playerLoadedLevel)) { //Inline var declaration
-					if((bool)playerLoadedLevel) {
-						continue;
-					}
-				}
-
-				return false;
+                if(p.CustomProperties.TryGetValue("PlayerLoadedLevel", out object playerLoadedLevel)) { //Inline var declaration
+                    if((bool)playerLoadedLevel) {
+                        continue;
+                    }
+                }
+                return false;
             }
-
             return true;
+        }
+
+        public static void SpawnDeadBody(in Vector3 pos) {
+            _ = PhotonNetwork.Instantiate(
+                "PlayerCharDeadBody",
+                pos,
+                Quaternion.Euler(0.0f, 0.0f, 90.0f),
+                0
+            );
         }
     }
 }
