@@ -38,18 +38,18 @@ namespace Impasta.Game {
                 : (float)System.Convert.ToDouble(index) / 10.0f;
 
             Transform spriteChildTransform0 = gameObject.transform.GetChild(0);
+            Transform spriteChildTransform1 = gameObject.transform.GetChild(1);
+
             spriteChildTransform0.position = new Vector3(
                 spriteChildTransform0.position.x,
                 spriteChildTransform0.position.y,
-                spriteChildTransform0.position.z - offset
-
+                spriteChildTransform0.position.z + offset
             );
 
-            Transform spriteChildTransform1 = gameObject.transform.GetChild(1);
             spriteChildTransform1.position = new Vector3(
                 spriteChildTransform1.position.x,
                 spriteChildTransform1.position.y,
-                spriteChildTransform1.position.z - offset
+                spriteChildTransform1.position.z + offset
             );
             //*/
 

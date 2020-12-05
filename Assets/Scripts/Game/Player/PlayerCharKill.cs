@@ -67,7 +67,12 @@ namespace Impasta.Game {
                             if(currClosestTargetPlayerCharKill == null) {
                                 currClosestTargetPlayerCharKill = targetPlayerCharKill;
                             } else {
-                                float dist = (gameObject.transform.position - targetPlayerCharKill.gameObject.transform.position).magnitude;
+                                Vector3 GOPos = transform.position;
+                                Vector3 targetPos = targetPlayerCharKill.transform.position;
+                                Vector3 GOPosXY = new Vector3(GOPos.x, GOPos.y, 0.0f);
+                                Vector3 targetPosXY = new Vector3(targetPos.x, targetPos.y, 0.0f);
+
+                                float dist = (GOPosXY - targetPosXY).magnitude;
                                 if(dist < currShortestDist) {
                                     currShortestDist = dist;
                                     currClosestTargetPlayerCharKill = targetPlayerCharKill;
@@ -117,7 +122,7 @@ namespace Impasta.Game {
         #endregion
 
         public void KennaKilled() {
-            isDead = true;
+		    isDead = true;
 
             ///Make player look like a ghost
             try {
@@ -130,6 +135,56 @@ namespace Impasta.Game {
                 childSpriteRenderer1.color = new Color(0.5f, 0.5f, 1.0f, 0.5f);
             } catch(NullReferenceException) {
                 UnityEngine.Assertions.Assert.IsTrue(false);
+            }
+
+            ///Set visibility of ghost(s)
+            if(name == ((GameObject)PhotonNetwork.LocalPlayer.TagObject).name) {
+                GameObject[] playerCharGOs = GameObject.FindGameObjectsWithTag("Player");
+                int arrLen = playerCharGOs.Length;
+
+                for(int i = 0; i < arrLen; ++i) {
+                    GameObject playerChar = playerCharGOs[i];
+
+                    SpriteRenderer spriteRenderer0 = playerChar.transform.GetChild(0).GetComponent<SpriteRenderer>();
+                    Color color0 = spriteRenderer0.color;
+                    spriteRenderer0.GetComponent<SpriteRenderer>().color = new Color(
+                        color0.r,
+                        color0.g,
+                        color0.b,
+                        1.0f
+                    );
+
+                    SpriteRenderer spriteRenderer1 = playerChar.transform.GetChild(1).GetComponent<SpriteRenderer>();
+                    Color color1 = spriteRenderer1.GetComponent<SpriteRenderer>().color;
+                    spriteRenderer1.GetComponent<SpriteRenderer>().color = new Color(
+                        color1.r,
+                        color1.g,
+                        color1.b,
+                        1.0f
+                    );
+
+                    playerChar.transform.GetChild(3).gameObject.SetActive(true);
+                }
+            } else if(!((GameObject)PhotonNetwork.LocalPlayer.TagObject).GetComponent<PlayerCharKill>().isDead){
+                SpriteRenderer spriteRenderer0 = transform.GetChild(0).GetComponent<SpriteRenderer>();
+                Color color0 = spriteRenderer0.color;
+                spriteRenderer0.GetComponent<SpriteRenderer>().color = new Color(
+                    color0.r,
+                    color0.g,
+                    color0.b,
+                    0.0f
+                );
+
+                SpriteRenderer spriteRenderer1 = transform.GetChild(1).GetComponent<SpriteRenderer>();
+                Color color1 = spriteRenderer1.GetComponent<SpriteRenderer>().color;
+                spriteRenderer1.GetComponent<SpriteRenderer>().color = new Color(
+                    color1.r,
+                    color1.g,
+                    color1.b,
+                    0.0f
+                );
+
+                transform.GetChild(3).gameObject.SetActive(false);
             }
         }
     }

@@ -83,7 +83,7 @@ namespace Photon.Pun.UtilityScripts {
                 int impastaCount = 0;
 
                 for(int i = 0; i < arrLen; ++i) {
-                    impastaCount += Convert.ToInt32(!PlayerUniversal.Roles[i]);
+                    impastaCount += Convert.ToInt32(PlayerUniversal.Roles[i]);
                 }
 
                 if(impastaCount == 1) {

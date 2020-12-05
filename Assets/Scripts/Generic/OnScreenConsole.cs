@@ -15,7 +15,7 @@ namespace Impasta {
         }
 
         private void Update() {
-            if(Input.GetKeyDown(KeyCode.Return)) {
+            if(Input.GetKeyDown(KeyCode.RightShift)) {
                 doShow = !doShow;
             }
         }
