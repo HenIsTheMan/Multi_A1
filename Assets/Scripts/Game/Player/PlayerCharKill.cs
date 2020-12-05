@@ -86,7 +86,7 @@ namespace Impasta.Game {
                             -targetPos.z
                         ); //Ensure alive players render over dead human
 
-                        PhotonView.Get(this).RPC("KillRPC", RpcTarget.Others, currClosestTargetPlayerCharKill.gameObject);
+                        PhotonView.Get(this).RPC("Kill", RpcTarget.All, currClosestTargetPlayerCharKill.name);
                     }
                 }
 
@@ -97,7 +97,6 @@ namespace Impasta.Game {
         public void Colliding(Collider otherCollider){
             if(isImposter && !isDead) {
                 PlayerCharKill otherPlayerCharKill = otherCollider.transform.parent.GetComponent<PlayerCharKill>();
-                UnityEngine.Assertions.Assert.IsNotNull(otherPlayerCharKill);
 
                 if(!playerCharKillTargets.Contains(otherPlayerCharKill)) {
                     playerCharKillTargets.Add(otherPlayerCharKill);
@@ -108,7 +107,6 @@ namespace Impasta.Game {
         public void NotColliding(Collider otherCollider) {
             if(isImposter && !isDead) {
                 PlayerCharKill otherPlayerCharKill = otherCollider.transform.parent.GetComponent<PlayerCharKill>();
-                UnityEngine.Assertions.Assert.IsNotNull(otherPlayerCharKill);
 
                 if(playerCharKillTargets.Contains(otherPlayerCharKill)) {
                     playerCharKillTargets.Remove(otherPlayerCharKill);

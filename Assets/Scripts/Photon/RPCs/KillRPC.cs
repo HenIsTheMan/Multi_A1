@@ -20,11 +20,13 @@ namespace Impasta {
         #region Unity User Callback Event Funcs
         #endregion
 
-        [PunRPC] public void Kill(GameObject humanPlayerChar) {
-            //humanPlayerChar.GetComponent<PlayerCharKill>().KennaKilled();
+        [PunRPC] public void Kill(string humanPlayerCharName) {
+            GameObject humanPlayerChar = GameObject.Find(humanPlayerCharName);
 
-            //GameObject humanBody = Instantiate(humanPlayerChar, humanPlayerChar.transform.position, humanPlayerChar.transform.rotation);
-            //humanBody.name
-        }
+            humanPlayerChar.GetComponent<PlayerCharKill>().KennaKilled();
+
+			//GameObject humanBody = Instantiate(humanPlayerChar, humanPlayerChar.transform.position, humanPlayerChar.transform.rotation);
+			//humanBody.name
+		}
     }
 }
