@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 6352855650380738999}
   - component: {fileID: 3635167203167802749}
   m_Layer: 8
-  m_Name: Map
+  m_Name: LitMapSection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1063,7 +1063,7 @@ GameObject:
   - component: {fileID: 6944722377285424013}
   - component: {fileID: 5774207442885296788}
   m_Layer: 0
-  m_Name: Map (1)
+  m_Name: UnlitMapSection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

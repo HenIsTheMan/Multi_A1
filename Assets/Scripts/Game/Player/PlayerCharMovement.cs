@@ -105,18 +105,6 @@ namespace Impasta.Game {
 			rigidbodyComponent.velocity = new Vector3(horizAxis, vertAxis, 0.0f).normalized * spd * Time.fixedDeltaTime;
 		}
 
-		private void OnCollisionEnter(Collision otherCollision) {
-			if(otherCollision.gameObject.CompareTag("Player")) {
-				otherCollision.rigidbody.isKinematic = true; //Can freeze pos instead for diff effect
-			}
-		}
-
-		private void OnCollisionExit(Collision otherCollision) {
-			if(otherCollision.gameObject.CompareTag("Player")) {
-				otherCollision.rigidbody.isKinematic = false; //Can unfreeze pos instead for diff effect
-			}
-		}
-
 		#endregion
 	}
 }
