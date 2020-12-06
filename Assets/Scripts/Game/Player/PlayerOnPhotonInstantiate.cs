@@ -69,7 +69,7 @@ namespace Impasta.Game {
                 playerCharTasks.TotalAmtOfTasks = Random.Range(5, 10);
 
                 GameObject[] taskBlocks = GameObject.FindGameObjectsWithTag("TaskBlock");
-                ShuffleListElements.Shuffle(taskBlocks);
+                ShuffleElements.Shuffle(taskBlocks);
                 byte arrLen = (byte)taskBlocks.Length;
 
                 for(byte i = 0; i < arrLen; ++i) {

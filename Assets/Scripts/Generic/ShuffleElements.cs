@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using System.Security.Cryptography;
 using System.Collections.Generic;
 
 namespace Impasta {
-    internal static class ShuffleListElements {
+    internal static class ShuffleElements {
         #region Fields
         #endregion
 
@@ -13,7 +12,7 @@ namespace Impasta {
 
         #region Ctors and Dtor
 
-        static ShuffleListElements() {
+        static ShuffleElements() {
 
         }
 

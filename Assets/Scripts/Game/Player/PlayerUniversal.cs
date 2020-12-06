@@ -52,7 +52,7 @@ namespace Impasta.Game {
             for(int i = 0; i < arrLen; ++i) {
                 myRoles.Add(arrLen > 5 ? (i < 2) : (i == 0));
             }
-            ShuffleListElements.Shuffle(myRoles);
+            ShuffleElements.Shuffle(myRoles);
 
             roles = myRoles.ToArray();
         }
@@ -72,7 +72,7 @@ namespace Impasta.Game {
                 new Color(0.0f, Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f), 1.0f),
                 new Color(0.82f, 0.41f, 0.11f),
             };
-            ShuffleListElements.Shuffle(colors);
+            ShuffleElements.Shuffle(colors);
         }
     }
 }
