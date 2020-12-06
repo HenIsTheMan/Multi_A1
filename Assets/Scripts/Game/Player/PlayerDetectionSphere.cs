@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 namespace Impasta.Game {
     internal sealed class PlayerDetectionSphere: MonoBehaviour {
@@ -37,6 +38,9 @@ namespace Impasta.Game {
             if(otherCollider.gameObject.name == "PlayerDetectionBox") { //Detected a dead body entering
                 playerCharReport.AddPlayerCharBodyNearby(otherCollider.transform.parent.gameObject);
             }
+            if(otherCollider.gameObject.name == "TaskDetectionBox" && transform.parent.gameObject == (GameObject)PhotonNetwork.LocalPlayer.TagObject) {
+                otherCollider.transform.parent.GetComponent<TaskBlock>().PlayerCharTagObjNearby = true;
+            }
         }
 
         private void OnTriggerExit(Collider otherCollider) {
@@ -47,6 +51,9 @@ namespace Impasta.Game {
             }
             if(otherCollider.gameObject.name == "PlayerDetectionBox") { //Detected a dead body leaving
                 playerCharReport.RemovePlayerCharBodyNearby(otherCollider.transform.parent.gameObject);
+            }
+            if(otherCollider.gameObject.name == "TaskDetectionBox" && transform.parent.gameObject == (GameObject)PhotonNetwork.LocalPlayer.TagObject) {
+                otherCollider.transform.parent.GetComponent<TaskBlock>().PlayerCharTagObjNearby = false;
             }
         }
 
