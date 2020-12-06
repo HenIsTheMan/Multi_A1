@@ -4,7 +4,7 @@ namespace Impasta.Game {
     internal sealed class TaskBlock: MonoBehaviour {
         #region Fields
 
-        private bool playerCharTagObjNearby;
+        private GameObject playerCharTagObjNearby;
 
         [SerializeField] private GameObject taskCanvasGO;
         [SerializeField] private TaskTypes.TaskType taskType;
@@ -13,7 +13,7 @@ namespace Impasta.Game {
 
         #region Properties
 
-        public bool PlayerCharTagObjNearby {
+        public GameObject PlayerCharTagObjNearby {
             get {
                 return playerCharTagObjNearby;
             }
@@ -27,7 +27,7 @@ namespace Impasta.Game {
         #region Ctors and Dtor
 
         public TaskBlock() {
-           playerCharTagObjNearby = false;
+           playerCharTagObjNearby = null;
 
            taskCanvasGO = null;
            taskType = TaskTypes.TaskType.Amt;
@@ -38,8 +38,9 @@ namespace Impasta.Game {
         #region Unity User Callback Event Funcs
 
         private void Update() {
-            if(playerCharTagObjNearby && Input.GetKeyDown(KeyCode.Space)) {
+            if(playerCharTagObjNearby != null && Input.GetKeyDown(KeyCode.Space)) {
                 taskCanvasGO.SetActive(!taskCanvasGO.activeSelf);
+                playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove = !playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove;
             }
 
             if(taskCanvasGO.activeSelf) {

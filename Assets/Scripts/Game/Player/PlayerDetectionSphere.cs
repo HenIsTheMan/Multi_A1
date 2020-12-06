@@ -39,7 +39,7 @@ namespace Impasta.Game {
                 playerCharReport.AddPlayerCharBodyNearby(otherCollider.transform.parent.gameObject);
             }
             if(otherCollider.gameObject.name == "TaskDetectionBox" && transform.parent.gameObject == (GameObject)PhotonNetwork.LocalPlayer.TagObject) {
-                otherCollider.transform.parent.GetComponent<TaskBlock>().PlayerCharTagObjNearby = true;
+                otherCollider.transform.parent.GetComponent<TaskBlock>().PlayerCharTagObjNearby = (GameObject)PhotonNetwork.LocalPlayer.TagObject;
             }
         }
 
@@ -53,7 +53,7 @@ namespace Impasta.Game {
                 playerCharReport.RemovePlayerCharBodyNearby(otherCollider.transform.parent.gameObject);
             }
             if(otherCollider.gameObject.name == "TaskDetectionBox" && transform.parent.gameObject == (GameObject)PhotonNetwork.LocalPlayer.TagObject) {
-                otherCollider.transform.parent.GetComponent<TaskBlock>().PlayerCharTagObjNearby = false;
+                otherCollider.transform.parent.GetComponent<TaskBlock>().PlayerCharTagObjNearby = null;
             }
         }
 
