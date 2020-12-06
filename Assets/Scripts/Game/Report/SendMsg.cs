@@ -5,7 +5,7 @@ namespace Impasta.Game {
     internal sealed class SendMsg: MonoBehaviour {
         #region Fields
 
-        [SerializeField] private Text msg;
+        [SerializeField] private InputField msgBox;
 
         #endregion
 
@@ -15,7 +15,7 @@ namespace Impasta.Game {
         #region Ctors and Dtor
 
         public SendMsg() {
-            msg = null;
+            msgBox = null;
         }
 
         #endregion
@@ -24,7 +24,7 @@ namespace Impasta.Game {
         #endregion
 
         public void OnSendButtonPressed() {
-            msg.text = string.Empty;
+            msgBox.text = string.Empty;
         }
     }
 }
