@@ -39,7 +39,11 @@ namespace Impasta.Game {
 
             myTransform.SetParent(GameObject.Find("Content").transform, false);
 
-            myTransform.Find("Text").GetComponent<Text>().text = msg;
+            Text textComponent = myTransform.Find("Text").GetComponent<Text>();
+            GameObject playerChar = (GameObject)info.Sender.TagObject;
+            textComponent.text = playerChar.name + ' ' + info.Sender.NickName + '\t' + msg;
+            textComponent.color = playerChar.transform.Find("PlayerCharOutfitSprite").GetComponent<SpriteRenderer>().color;
+
             msg = string.Empty; //So next msg list item will only be instantiated when msg is set again
         }
     }
