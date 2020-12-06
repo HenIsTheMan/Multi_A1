@@ -7,7 +7,6 @@ namespace Impasta.Game {
         #region Fields
 
         private static bool[] roles;
-
         private static Color[] colors;
 
         #endregion
