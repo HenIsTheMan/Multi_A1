@@ -6,7 +6,7 @@ namespace Impasta.Game {
     internal sealed class PlayerCharTasks: MonoBehaviour {
         #region Fields
 
-        private int amtOfIncompleteTasks;
+        private int totalAmtOfTasks;
         private int amtOfCompleteTasks;
 
         private PlayerCharKill playerCharKill;
@@ -16,12 +16,22 @@ namespace Impasta.Game {
         #endregion
 
         #region Properties
+
+        public int TotalAmtOfTasks {
+            get {
+                return totalAmtOfTasks;
+            }
+            set {
+                totalAmtOfTasks = value;
+            }
+        }
+
         #endregion
 
         #region Ctors and Dtor
 
         public PlayerCharTasks() {
-            amtOfIncompleteTasks = 0;
+            totalAmtOfTasks = 0;
             amtOfCompleteTasks = 0;
 
             playerCharKill = null;
@@ -41,7 +51,7 @@ namespace Impasta.Game {
 
         private void Update() {
             if(!playerCharKill.IsImposter && gameObject == (GameObject)PhotonNetwork.LocalPlayer.TagObject) {
-                tasksTextComponent.text = amtOfIncompleteTasks.ToString() + '/' + amtOfCompleteTasks;
+                tasksTextComponent.text = amtOfCompleteTasks.ToString() + '/' + totalAmtOfTasks;
             }
         }
 

@@ -63,6 +63,23 @@ namespace Impasta.Game {
                 textComponent.color = Color.red;
             }
 
+            //* Assigning tasks
+            if(!isLocalClientImposter && info.Sender == PhotonNetwork.LocalPlayer) { //Assign for local client only
+                PlayerCharTasks playerCharTasks = gameObject.GetComponent<PlayerCharTasks>();
+                playerCharTasks.TotalAmtOfTasks = Random.Range(5, 10);
+
+                GameObject[] taskBlocks = GameObject.FindGameObjectsWithTag("TaskBlock");
+                ShuffleListElements.Shuffle(taskBlocks);
+                byte arrLen = (byte)taskBlocks.Length;
+
+                for(byte i = 0; i < arrLen; ++i) {
+                    taskBlocks[i].GetComponent<TaskBlock>().TaskType = i < (byte)playerCharTasks.TotalAmtOfTasks
+                        ? (TaskTypes.TaskType)Random.Range(2, (int)TaskTypes.TaskType.Amt - 1)
+                        : TaskTypes.TaskType.NoTask;
+                }
+            }
+            //*/
+
             float angle = (360.0f / (float)System.Convert.ToDouble(PhotonNetwork.CurrentRoom.PlayerCount)) * Mathf.Deg2Rad * (float)System.Convert.ToDouble(index);
             float radius = 3.0f;
             transform.position = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0.0f) * radius;

@@ -82,7 +82,7 @@ namespace Impasta.Game {
                 } else {
                     killCooldownTime = 30.0f;
                 }
-                killCooldownTimeTextComponent.text = (Mathf.Max(0, (int)killCooldownTime)).ToString();
+                killCooldownTimeTextComponent.text = (Mathf.Max(0, Mathf.Ceil(killCooldownTime))).ToString();
             }
 
             if(Input.GetButtonDown("Kill")) {

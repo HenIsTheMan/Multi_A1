@@ -5176,7 +5176,7 @@ GameObject:
   - component: {fileID: 2157500362784810927}
   m_Layer: 0
   m_Name: TaskBlock
-  m_TagString: Untagged
+  m_TagString: TaskBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
