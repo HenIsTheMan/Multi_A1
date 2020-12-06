@@ -59,12 +59,21 @@ namespace Impasta.Game {
         }
 
         public static void InitColors() {
-            colors = new Color[PhotonNetwork.CurrentRoom.MaxPlayers];
-            int arrLen = colors.Length;
+            float commonVal = Random.Range(0.0f, 1.0f);
 
-            for(int i = 0; i < arrLen; ++i) {
-                colors[i] = Color.HSVToRGB(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f, false);
-            }
+            colors = new Color[]{
+                new Color(0.0f, 0.0f, 0.0f, 1.0f),
+                new Color(1.0f, 1.0f, 1.0f, 1.0f),
+                new Color(commonVal, commonVal, commonVal, 1.0f),
+                new Color(Random.Range(0.2f, 0.8f), 0.0f, 0.0f, 1.0f),
+                new Color(0.0f, Random.Range(0.2f, 0.8f), 0.0f, 1.0f),
+                new Color(0.0f, 0.0f, Random.Range(0.2f, 0.8f), 1.0f),
+                new Color(Random.Range(0.2f, 0.8f), 0.0f, Random.Range(0.2f, 0.8f), 1.0f),
+                new Color(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f), 0.0f, 1.0f),
+                new Color(0.0f, Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f), 1.0f),
+                new Color(0.82f, 0.41f, 0.11f),
+            };
+            ShuffleListElements.Shuffle(colors);
         }
     }
 }
