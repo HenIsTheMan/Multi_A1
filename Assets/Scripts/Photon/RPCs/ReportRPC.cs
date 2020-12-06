@@ -24,7 +24,7 @@ namespace Impasta {
         #region Unity User Callback Event Funcs
 
         private void Start() {
-            reportCanvas = GameObject.Find("ReportCanvas");
+            reportCanvas = GameObject.Find("ReportCanvasWrapper").transform.GetChild(0).gameObject;
         }
 
         #endregion
