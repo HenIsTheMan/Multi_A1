@@ -149,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showRed: 1
   showGreen: 1
-  offset: 0.005
+  offset: 0.01
   radius: 9
   objMask:
     serializedVersion: 2
