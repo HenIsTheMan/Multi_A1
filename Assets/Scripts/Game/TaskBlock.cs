@@ -38,7 +38,7 @@ namespace Impasta.Game {
         #region Unity User Callback Event Funcs
 
         private void Update() {
-            if(playerCharTagObjNearby != null && Input.GetKeyDown(KeyCode.Space)) {
+            if(playerCharTagObjNearby != null && Input.GetKeyDown(KeyCode.Space) && !playerCharTagObjNearby.GetComponent<PlayerCharKill>().IsImposter) {
                 taskCanvasGO.SetActive(!taskCanvasGO.activeSelf);
                 playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove = !playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove;
             }

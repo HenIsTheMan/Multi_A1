@@ -9,6 +9,8 @@ namespace Impasta.Game {
         private int amtOfIncompleteTasks;
         private int amtOfCompleteTasks;
 
+        private PlayerCharKill playerCharKill;
+
         private Text tasksTextComponent;
 
         #endregion
@@ -22,6 +24,8 @@ namespace Impasta.Game {
             amtOfIncompleteTasks = 0;
             amtOfCompleteTasks = 0;
 
+            playerCharKill = null;
+
             tasksTextComponent = null;
         }
 
@@ -30,11 +34,13 @@ namespace Impasta.Game {
         #region Unity User Callback Event Funcs
 
         private void Awake() {
+            playerCharKill = gameObject.GetComponent<PlayerCharKill>();
+
             tasksTextComponent = GameObject.Find("TasksText").GetComponent<Text>();
         }
 
         private void Update() {
-            if(gameObject == (GameObject)PhotonNetwork.LocalPlayer.TagObject) {
+            if(!playerCharKill.IsImposter && gameObject == (GameObject)PhotonNetwork.LocalPlayer.TagObject) {
                 tasksTextComponent.text = amtOfIncompleteTasks.ToString() + '/' + amtOfCompleteTasks;
             }
         }
