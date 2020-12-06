@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 969162915715613670}
   - component: {fileID: 300418408634963800}
   m_Layer: 8
-  m_Name: DetectionBox
+  m_Name: PlayerDetectionBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

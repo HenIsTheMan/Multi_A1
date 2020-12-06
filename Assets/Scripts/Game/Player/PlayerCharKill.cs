@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Impasta.Game {
     internal sealed class PlayerCharKill: MonoBehaviour {
@@ -10,10 +11,13 @@ namespace Impasta.Game {
         private bool isDead;
         private bool isImposter;
         private bool isKillButtonPressed;
+        private float killCooldownTime;
 
         private List<PlayerCharKill> playerCharKillTargets;
 
         private PlayerCharReport playerCharReport;
+
+        private Text killCooldownTimeTextComponent;
 
         #endregion
 
@@ -36,10 +40,13 @@ namespace Impasta.Game {
             isDead = false;
             isImposter = false;
             isKillButtonPressed = false;
+            killCooldownTime = 0.0f;
 
             playerCharKillTargets = null;
 
-            playerCharReport = null;
+			playerCharReport = null;
+
+            killCooldownTimeTextComponent = null;
         }
 
         #endregion
@@ -48,6 +55,7 @@ namespace Impasta.Game {
 
         private void Awake() {
             playerCharReport = GetComponent<PlayerCharReport>();
+            killCooldownTimeTextComponent = GameObject.Find("KillCooldownTimeText").GetComponent<Text>();
         }
 
         private void Start() {
@@ -55,13 +63,16 @@ namespace Impasta.Game {
         }
 
         private void Update() {
+            killCooldownTime -= Time.deltaTime;
+            killCooldownTimeTextComponent.text = (Mathf.Max(0, (int)killCooldownTime)).ToString();
+
             if(Input.GetButtonDown("Kill")) {
                 isKillButtonPressed = true;
             }
         }
 
         private void FixedUpdate(){
-            if(isKillButtonPressed && isImposter && !isDead) {
+            if(isKillButtonPressed && isImposter && !isDead && killCooldownTime <= 0.0f) {
                 int listCount = playerCharKillTargets.Count;
 
                 if(listCount > 0) { //Find nearest alive human to kill
@@ -93,6 +104,7 @@ namespace Impasta.Game {
                         Vector3 targetPos = currClosestTargetPlayerCharKill.transform.position;
 
                         transform.position = targetPos;
+                        killCooldownTime = 30.0f;
 
                         PhotonView.Get(this).RPC("Kill", RpcTarget.All, currClosestTargetPlayerCharKill.name, targetPos);
                     }
