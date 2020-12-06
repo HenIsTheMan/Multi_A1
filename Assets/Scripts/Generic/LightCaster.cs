@@ -63,11 +63,11 @@ namespace Impasta {
             }
 
             GetColliders();
-
             lightMesh.Clear();
+            int arrLen = colliders.Length;
 
             Vector3[] vertices = colliders[0].GetComponent<MeshFilter>().mesh.vertices;
-            for(int i = 1; i < colliders.Length; i++) {
+            for(int i = 1; i < arrLen; ++i) {
                 vertices = ConcatenateArrs(vertices, colliders[i].GetComponent<MeshFilter>().mesh.vertices);
             }
 
@@ -80,9 +80,9 @@ namespace Impasta {
 
             int h = 0;
 
-            for(int j = 0; j < colliders.Length; j++)
+            for(int j = 0; j < arrLen; ++j)
             {
-                for(int i = 0; i < colliders[j].GetComponent<MeshFilter>().mesh.vertices.Length; i++)
+                for(int i = 0; i < colliders[j].GetComponent<MeshFilter>().mesh.vertices.Length; ++i)
                 {
                     Vector3 me = this.transform.position;
                     Vector3 other = colliders[j].transform.localToWorldMatrix.MultiplyPoint3x4(vertices[h]);
