@@ -29,18 +29,28 @@ namespace Impasta.Game {
         }
 
         private void OnTriggerEnter(Collider otherCollider) {
-            if(otherCollider.name == name) { //Detected another alive player entering
+			System.Type colliderType = otherCollider.GetType();
+
+            if(colliderType == typeof(SphereCollider)) { //Detected another alive player entering
                 playerCharKill.Triggering(otherCollider);
-            } else { //Detected a dead body entering
+                return;
+            }
+            if(colliderType == typeof(BoxCollider)){ //Detected a dead body entering
                 playerCharReport.AddPlayerCharBodyNearby(otherCollider.transform.parent.gameObject);
+                return;
             }
         }
 
         private void OnTriggerExit(Collider otherCollider) {
-            if(otherCollider.name == name) { //Detected another alive player leaving
+            System.Type colliderType = otherCollider.GetType();
+
+            if(colliderType == typeof(SphereCollider)) { //Detected another alive player leaving
                 playerCharKill.NotTriggering(otherCollider);
-            } else { //Detected a dead body leaving
+                return;
+            }
+            if(colliderType == typeof(BoxCollider)) { //Detected a dead body leaving
                 playerCharReport.RemovePlayerCharBodyNearby(otherCollider.transform.parent.gameObject);
+                return;
             }
         }
 
