@@ -159,6 +159,15 @@ namespace Impasta.Game{
             return true;
         }
 
+        public static void CreateMsgListItem(in Vector3 pos) {
+            _ = PhotonNetwork.Instantiate(
+                "MsgListItem",
+                new Vector3(pos.x, pos.y, pos.z),
+                Quaternion.Euler(0.0f, 0.0f, 90.0f),
+                0
+            );
+        }
+
         public static void SpawnDeadBody(in Vector3 pos) {
             _ = PhotonNetwork.Instantiate(
                 "PlayerCharDeadBody",

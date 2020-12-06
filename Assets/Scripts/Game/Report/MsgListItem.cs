@@ -2,10 +2,10 @@
 using UnityEngine.UI;
 
 namespace Impasta.Game {
-    internal sealed class SendMsg: MonoBehaviour {
+    internal sealed class MsgListItem: MonoBehaviour {
         #region Fields
 
-        [SerializeField] private InputField msgBox;
+        [SerializeField] private Text textComponent;
 
         #endregion
 
@@ -14,8 +14,8 @@ namespace Impasta.Game {
 
         #region Ctors and Dtor
 
-        public SendMsg() {
-            msgBox = null;
+        public MsgListItem() {
+            textComponent = null;
         }
 
         #endregion
@@ -23,10 +23,8 @@ namespace Impasta.Game {
         #region Unity User Callback Event Funcs
         #endregion
 
-        public void OnSendButtonPressed() {
-            GameManager.CreateMsgListItem(Vector3.zero);
-
-            msgBox.text = string.Empty;
+        public void SetMsgText(string text) {
+            textComponent.text = text;
         }
     }
 }
