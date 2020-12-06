@@ -556,7 +556,7 @@ GameObject:
   - component: {fileID: 1358745498184567906}
   - component: {fileID: 6761540163422280143}
   - component: {fileID: 7518689618322781788}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: PlayerNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -579,7 +579,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.35}
+  m_AnchoredPosition: {x: 0, y: 0.25}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6761540163422280143
@@ -610,11 +610,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 954746d370bc8934299c8c8267543f4f, type: 3}
-    m_FontSize: 150
+    m_Font: {fileID: 12800000, guid: e00995507c2406448b4c8429136104dd, type: 3}
+    m_FontSize: 60
     m_FontStyle: 1
-    m_BestFit: 1
-    m_MinSize: 150
+    m_BestFit: 0
+    m_MinSize: 0
     m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 1
@@ -635,7 +635,7 @@ GameObject:
   - component: {fileID: 3002518885448434275}
   - component: {fileID: 4889995348177880330}
   - component: {fileID: 7268141443366620215}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: PlayerNameCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -650,7 +650,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8004087087830328576}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1358745498184567906}

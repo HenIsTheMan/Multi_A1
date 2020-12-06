@@ -58,7 +58,7 @@ namespace Impasta.Game {
             Transform grandchildTransform = canvasChildTransform.Find("PlayerNameText");
 
             UnityEngine.UI.Text textComponent = grandchildTransform.GetComponent<UnityEngine.UI.Text>();
-            textComponent.text = name + ' ' + info.Sender.NickName;
+            textComponent.text = info.Sender.NickName;
             if(isLocalClientImposter && isImposter) {
                 textComponent.color = Color.red;
             }

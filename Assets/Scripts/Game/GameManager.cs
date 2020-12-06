@@ -132,6 +132,9 @@ namespace Impasta.Game{
             );
             playerChar.transform.SetParent(parentTransform, true);
 
+            GameObject playerLight = GameObject.Find("PlayerLight");
+            playerLight.transform.SetParent(playerChar.transform, false);
+
             GameObject playerCharCam = GameObject.Find("PlayerCharCam");
             playerCharCam.transform.position = new Vector3(playerChar.transform.position.x, playerChar.transform.position.y, gameObject.transform.position.z);
             playerCharCam.GetComponent<CamFollow>().TargetTransform = playerChar.transform;

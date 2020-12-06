@@ -41,7 +41,7 @@ namespace Impasta.Game {
 
             Text textComponent = myTransform.Find("Text").GetComponent<Text>();
             GameObject playerChar = (GameObject)info.Sender.TagObject;
-            textComponent.text = playerChar.name + ' ' + info.Sender.NickName + '\t' + msg;
+            textComponent.text = info.Sender.NickName + ": " + msg;
             textComponent.color = playerChar.transform.Find("PlayerCharOutfitSprite").GetComponent<SpriteRenderer>().color;
 
             msg = string.Empty; //So next msg list item will only be instantiated when msg is set again
