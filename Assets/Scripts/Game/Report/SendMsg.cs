@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Impasta.Game {
@@ -24,9 +25,21 @@ namespace Impasta.Game {
         #endregion
 
         public void OnSendButtonPressed() {
-            GameManager.CreateMsgListItem();
+            ((GameObject)PhotonNetwork.LocalPlayer.TagObject).GetComponent<PhotonView>().RPC("SetMsg", RpcTarget.All, msgBox.text);
+
+            _ = StartCoroutine(nameof(MsgListItemCreate));
 
             msgBox.text = string.Empty;
+        }
+
+        private System.Collections.IEnumerator MsgListItemCreate() {
+            while(MsgListItemOnPhotonInstantiate.Msg == string.Empty) {
+                yield return null;
+            }
+
+            GameManager.CreateMsgListItem();
+
+            yield return null;
         }
     }
 }

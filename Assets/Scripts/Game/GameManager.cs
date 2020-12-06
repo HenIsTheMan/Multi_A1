@@ -163,7 +163,7 @@ namespace Impasta.Game{
             _ = PhotonNetwork.Instantiate(
                 "MsgListItem",
                 Vector3.zero,
-                Quaternion.Euler(0.0f, 0.0f, 90.0f),
+                Quaternion.identity,
                 0
             );
         }
