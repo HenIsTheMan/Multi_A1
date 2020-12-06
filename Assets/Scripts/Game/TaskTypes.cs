@@ -1,7 +1,9 @@
 ﻿namespace Impasta.Game {
     internal sealed class TaskTypes {
         public enum TaskType: byte {
-			WaitTask,
+            NoTask,
+            TaskDone,
+            WaitTask,
             Amt
         };
 

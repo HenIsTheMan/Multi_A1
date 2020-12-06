@@ -5,9 +5,10 @@ namespace Impasta.Game {
         #region Fields
 
         private GameObject playerCharTagObjNearby;
+        private TaskTypes.TaskType taskType;
 
         [SerializeField] private GameObject taskCanvasGO;
-        [SerializeField] private TaskTypes.TaskType taskType;
+        [SerializeField] private MeshRenderer meshRendererComponent;
 
         #endregion
 
@@ -22,15 +23,34 @@ namespace Impasta.Game {
             }
         }
 
+        public TaskTypes.TaskType TaskType {
+            get {
+                return taskType;
+            }
+            set {
+                taskType = value;
+
+                Material mtl = meshRendererComponent.material;
+                if(taskType == TaskTypes.TaskType.NoTask) {
+                    mtl.SetColor("_Color", Color.white);
+                } else if(taskType == TaskTypes.TaskType.TaskDone) {
+                    mtl.SetColor("_Color", Color.green);
+                } else {
+                    mtl.SetColor("_Color", Color.red);
+                }
+            }
+        }
+
         #endregion
 
         #region Ctors and Dtor
 
         public TaskBlock() {
            playerCharTagObjNearby = null;
+           taskType = TaskTypes.TaskType.NoTask;
 
            taskCanvasGO = null;
-           taskType = TaskTypes.TaskType.Amt;
+           meshRendererComponent = null;
         }
 
         #endregion
@@ -38,7 +58,9 @@ namespace Impasta.Game {
         #region Unity User Callback Event Funcs
 
         private void Update() {
-            if(playerCharTagObjNearby != null && Input.GetKeyDown(KeyCode.Space) && !playerCharTagObjNearby.GetComponent<PlayerCharKill>().IsImposter) {
+            if(playerCharTagObjNearby != null && Input.GetKeyDown(KeyCode.Space)
+                && !playerCharTagObjNearby.GetComponent<PlayerCharKill>().IsImposter
+                && (byte)taskType > (byte)TaskTypes.TaskType.TaskDone) {
                 taskCanvasGO.SetActive(!taskCanvasGO.activeSelf);
                 playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove = !playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove;
             }
