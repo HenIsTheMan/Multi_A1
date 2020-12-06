@@ -15,6 +15,7 @@ namespace Impasta.Game {
 
         private List<PlayerCharKill> playerCharKillTargets;
 
+        private PlayerCharMovement playerCharMovement;
         private PlayerCharReport playerCharReport;
 
         private Text killCooldownTimeTextComponent;
@@ -32,6 +33,15 @@ namespace Impasta.Game {
             }
         }
 
+        public float KillCooldownTime {
+            get {
+                return killCooldownTime;
+            }
+            set {
+                killCooldownTime = value;
+            }
+        }
+
         #endregion
 
         #region Ctors and Dtor
@@ -44,7 +54,8 @@ namespace Impasta.Game {
 
             playerCharKillTargets = null;
 
-			playerCharReport = null;
+            playerCharMovement = null;
+            playerCharReport = null;
 
             killCooldownTimeTextComponent = null;
         }
@@ -54,7 +65,9 @@ namespace Impasta.Game {
         #region Unity User Callback Event Funcs
 
         private void Awake() {
+            playerCharMovement = GetComponent<PlayerCharMovement>();
             playerCharReport = GetComponent<PlayerCharReport>();
+
             killCooldownTimeTextComponent = GameObject.Find("KillCooldownTimeText").GetComponent<Text>();
         }
 
@@ -64,7 +77,11 @@ namespace Impasta.Game {
 
         private void Update() {
             if(gameObject == (GameObject)PhotonNetwork.LocalPlayer.TagObject && isImposter) {
-                killCooldownTime -= Time.deltaTime;
+                if(playerCharMovement.CanMove) {
+                    killCooldownTime -= Time.deltaTime;
+                } else {
+                    killCooldownTime = 30.0f;
+                }
                 killCooldownTimeTextComponent.text = (Mathf.Max(0, (int)killCooldownTime)).ToString();
             }
 
