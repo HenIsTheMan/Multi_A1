@@ -5,6 +5,7 @@ namespace Impasta.Game {
         #region Fields
 
         PlayerCharKill playerCharKill;
+        PlayerCharReport playerCharReport;
 
         #endregion
 
@@ -15,6 +16,7 @@ namespace Impasta.Game {
 
         private PlayerDetectionSphere() {
             playerCharKill = null;
+            playerCharReport = null;
         }
 
         #endregion
@@ -23,17 +25,22 @@ namespace Impasta.Game {
 
         private void Awake() {
             playerCharKill = transform.parent.GetComponent<PlayerCharKill>();
+            playerCharReport = transform.parent.GetComponent<PlayerCharReport>();
         }
 
         private void OnTriggerEnter(Collider otherCollider) {
-            if(otherCollider.name == name) {
-                playerCharKill.Colliding(otherCollider);
+            if(otherCollider.name == name) { //Detected another alive player entering
+                playerCharKill.Triggering(otherCollider);
+            } else { //Detected a dead body entering
+                playerCharReport.AddPlayerCharBodyNearby(otherCollider.transform.parent.gameObject);
             }
         }
 
         private void OnTriggerExit(Collider otherCollider) {
-            if(otherCollider.name == name) {
-                playerCharKill.NotColliding(otherCollider);
+            if(otherCollider.name == name) { //Detected another alive player leaving
+                playerCharKill.NotTriggering(otherCollider);
+            } else { //Detected a dead body leaving
+                playerCharReport.RemovePlayerCharBodyNearby(otherCollider.transform.parent.gameObject);
             }
         }
 

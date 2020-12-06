@@ -13,6 +13,8 @@ namespace Impasta.Game {
 
         private List<PlayerCharKill> playerCharKillTargets;
 
+        private PlayerCharReport playerCharReport;
+
         #endregion
 
         #region Properties
@@ -36,11 +38,17 @@ namespace Impasta.Game {
             isKillButtonPressed = false;
 
             playerCharKillTargets = null;
+
+            playerCharReport = null;
         }
 
         #endregion
 
         #region Unity User Callback Event Funcs
+
+        private void Awake() {
+            playerCharReport = GetComponent<PlayerCharReport>();
+        }
 
         private void Start() {
             playerCharKillTargets = new List<PlayerCharKill>();
@@ -94,7 +102,7 @@ namespace Impasta.Game {
             }
         }
 
-        public void Colliding(Collider otherCollider){
+        public void Triggering(Collider otherCollider){
             if(isImposter && !isDead) {
                 PlayerCharKill otherPlayerCharKill = otherCollider.transform.parent.GetComponent<PlayerCharKill>();
 
@@ -104,7 +112,7 @@ namespace Impasta.Game {
             }
         }
 
-        public void NotColliding(Collider otherCollider) {
+        public void NotTriggering(Collider otherCollider) {
             if(isImposter && !isDead) {
                 PlayerCharKill otherPlayerCharKill = otherCollider.transform.parent.GetComponent<PlayerCharKill>();
 
@@ -116,8 +124,13 @@ namespace Impasta.Game {
 
         #endregion
 
+        private void UpdateIsDead(bool isDead) {
+            this.isDead = isDead;
+            playerCharReport.UpdateIsDead(isDead);
+        }
+
         public void KennaKilled() {
-		    isDead = true;
+            UpdateIsDead(true);
 
             ///Make player look like a ghost
             try {
