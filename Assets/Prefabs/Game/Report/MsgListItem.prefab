@@ -90,6 +90,8 @@ GameObject:
   - component: {fileID: 3725420654929762538}
   - component: {fileID: 3725420654929762533}
   - component: {fileID: 3725420654929762532}
+  - component: {fileID: 6432569654169383881}
+  - component: {fileID: 547346447225481590}
   m_Layer: 0
   m_Name: MsgListItem
   m_TagString: Untagged
@@ -171,3 +173,28 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &6432569654169383881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3725420654929762534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c176dca98adae9b4b9b6dc4adb7eec20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 3725420654682853767}
+--- !u!114 &547346447225481590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3725420654929762534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532911edbe673fc42b3c83485d3c479c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -24,7 +24,7 @@ namespace Impasta.Game {
         #endregion
 
         public void OnSendButtonPressed() {
-            GameManager.CreateMsgListItem(Vector3.zero);
+            GameManager.CreateMsgListItem();
 
             msgBox.text = string.Empty;
         }
