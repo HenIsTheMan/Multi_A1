@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Impasta.Game {
     internal sealed class WinLoseCheck: MonoBehaviour {
@@ -7,6 +8,12 @@ namespace Impasta.Game {
         #endregion
 
         #region Properties
+
+        public static bool CheckWinLose {
+            get;
+            set;
+        } = false;
+
         #endregion
 
         #region Ctors and Dtor
@@ -15,10 +22,13 @@ namespace Impasta.Game {
         #region Unity User Callback Event Funcs
 
         private void Update() {
+            if(!CheckWinLose) {
+                return;
+            }
+
             UniversalTaskRatio.CalcSums(out int completeTasksSum, out int tasksSum);
-            if(completeTasksSum == tasksSum) {
-                Debug.Log("Here1", this);
-                //
+            if(completeTasksSum == tasksSum && tasksSum != 0) {
+                _ = StartCoroutine(nameof(DisconnectAndLoad));
                 return;
             }
 
@@ -30,21 +40,37 @@ namespace Impasta.Game {
             int arrLen = PhotonNetwork.CurrentRoom.PlayerCount;
             for(int i = 0; i < arrLen; ++i) {
                 tagObj = (GameObject)PhotonNetwork.PlayerList[i].TagObject;
-                playerCharKill = tagObj.GetComponent<PlayerCharKill>();
 
-                if(!playerCharKill.IsDead) {
-                    if(playerCharKill.IsImposter) {
-                        ++aliveImposters;
-                    } else {
-                        ++aliveHumans;
+                if(tagObj) {
+                    playerCharKill = tagObj.GetComponent<PlayerCharKill>();
+
+                    if(!playerCharKill.IsDead) {
+                        if(playerCharKill.IsImposter) {
+                            ++aliveImposters;
+                        } else {
+                            ++aliveHumans;
+                        }
                     }
                 }
             }
 
             if(aliveImposters == aliveHumans) {
-                Debug.Log("Here2", this);
-                //
+                _ = StartCoroutine(nameof(DisconnectAndLoad));
             }
+        }
+
+        private System.Collections.IEnumerator DisconnectAndLoad() {
+            PhotonNetwork.Disconnect();
+            //PhotonNetwork.LeaveRoom();
+
+            while(PhotonNetwork.IsConnected) {
+                yield return null;
+            }
+            //while(PhotonNetwork.InRoom) {
+            //  yield return null;
+            //}
+
+            SceneManager.LoadScene(0);
         }
 
         #endregion

@@ -120,6 +120,7 @@ namespace Impasta.Game{
             playerCharCam.cullingMask &= ~Bit(LayerMask.NameToLayer("OtherSide"));
 
             StartGame();
+            WinLoseCheck.CheckWinLose = true;
         }
 
         private void StartGame() {
