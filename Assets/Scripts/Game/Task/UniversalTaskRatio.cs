@@ -23,10 +23,16 @@ namespace Impasta.Game {
         #region Unity User Callback Event Funcs
 
         private void Update() {
+			CalcSums(out int completeTasksSum, out int tasksSum); //Inline var declaration
+			textComponent.text = completeTasksSum.ToString() + '/' + tasksSum;
+        }
+
+        public static void CalcSums(out int completeTasksSum, out int tasksSum) {
             GameObject[] playerChars = GameObject.FindGameObjectsWithTag("Player");
-            int completeTasksSum = 0;
-            int tasksSum = 0;
             int arrLen = playerChars.Length;
+
+            completeTasksSum = 0;
+            tasksSum = 0;
 
             for(int i = 0; i < arrLen; ++i) {
                 GameObject playerChar = playerChars[i];
@@ -36,7 +42,6 @@ namespace Impasta.Game {
                     tasksSum += playerCharTasks.TotalAmtOfTasks;
                 }
             }
-            textComponent.text = completeTasksSum.ToString() + '/' + tasksSum;
         }
 
         #endregion
