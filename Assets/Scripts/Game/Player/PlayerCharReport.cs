@@ -100,17 +100,21 @@ namespace Impasta.Game {
 
         public void VoteEnd() {
             voteTimeTextComponent.enabled = false;
-			System.Array.Clear(PlayerUniversal.Votes, 0, PlayerUniversal.Votes.Length);
-            SendVote.PrevIndex = -1;
 
-            int indexWithLargestVal = -1;
-            int arrLen = PlayerUniversal.Votes.Length;
-            for(int i = 0; i < arrLen; ++i) {
-                if(indexWithLargestVal < 0 || PlayerUniversal.Votes[i] > PlayerUniversal.Votes[indexWithLargestVal]) {
-                    indexWithLargestVal = i;
+            if(PhotonNetwork.IsMasterClient) {
+                int indexWithLargestVal = -1;
+                int arrLen = PlayerUniversal.Votes.Length;
+                for(int i = 0; i < arrLen; ++i) {
+                    if(indexWithLargestVal < 0 || PlayerUniversal.Votes[i] > PlayerUniversal.Votes[indexWithLargestVal]) {
+                        indexWithLargestVal = i;
+                    }
                 }
+
+                PhotonView.Get(this).RPC("VotedOff", RpcTarget.All, "PlayerChar" + indexWithLargestVal);
             }
-            PhotonView.Get(this).RPC("VotedOff", RpcTarget.All, "PlayerChar" + indexWithLargestVal);
+
+            System.Array.Clear(PlayerUniversal.Votes, 0, PlayerUniversal.Votes.Length);
+            SendVote.PrevIndex = -1;
         }
 
         private void UpdateVoting() {
