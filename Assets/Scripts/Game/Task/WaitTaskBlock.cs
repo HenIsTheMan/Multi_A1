@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Impasta.Game {
     internal sealed class WaitTaskBlock: TaskBlock {
         #region Fields
 
         private float waitTime;
+
+        private Text textComponent;
 
         #endregion
 
@@ -15,6 +18,8 @@ namespace Impasta.Game {
 
         public WaitTaskBlock(): base() {
             waitTime = 0.0f;
+
+            textComponent = null;
         }
 
         #endregion
@@ -23,6 +28,8 @@ namespace Impasta.Game {
 
         private void Awake() {
            waitTime = Random.Range(4.0f, 7.0f);
+
+           textComponent = taskCanvasGO.transform.GetChild(0).GetChild(0).GetComponent<Text>();
         }
 
 		private new void Update() => base.Update();
@@ -30,7 +37,9 @@ namespace Impasta.Game {
         #endregion
 
         protected override void TaskLogic() {
+            textComponent.text = Mathf.Ceil(waitTime).ToString();
             waitTime -= Time.deltaTime;
+
             if(waitTime <= 0.0f) {
                 TaskCompleted();
             }
