@@ -11,7 +11,7 @@ namespace Impasta.Game {
 
         private PlayerCharKill playerCharKill;
 
-        private Text tasksTextComponent;
+        private Text localTaskRatioTextComponent;
 
         #endregion
 
@@ -45,7 +45,7 @@ namespace Impasta.Game {
 
             playerCharKill = null;
 
-            tasksTextComponent = null;
+            localTaskRatioTextComponent = null;
         }
 
         #endregion
@@ -55,12 +55,12 @@ namespace Impasta.Game {
         private void Awake() {
             playerCharKill = gameObject.GetComponent<PlayerCharKill>();
 
-            tasksTextComponent = GameObject.Find("TasksText").GetComponent<Text>();
+            localTaskRatioTextComponent = GameObject.Find("LocalTaskRatioText").GetComponent<Text>();
         }
 
         private void Update() {
             if(!playerCharKill.IsImposter && gameObject == (GameObject)PhotonNetwork.LocalPlayer.TagObject) {
-                tasksTextComponent.text = amtOfCompleteTasks.ToString() + '/' + totalAmtOfTasks;
+                localTaskRatioTextComponent.text = amtOfCompleteTasks.ToString() + '/' + totalAmtOfTasks;
             }
         }
 
