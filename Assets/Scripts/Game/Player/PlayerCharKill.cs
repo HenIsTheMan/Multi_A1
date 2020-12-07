@@ -94,9 +94,7 @@ namespace Impasta.Game {
                 killCooldownTimeTextComponent.text = (Mathf.Max(0, Mathf.Ceil(killCooldownTime))).ToString();
             }
 
-            if(Input.GetButtonDown("Kill")) {
-                isKillButtonPressed = true;
-            }
+            isKillButtonPressed = Input.GetButtonDown("Kill");
         }
 
         private void FixedUpdate(){

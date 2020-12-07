@@ -92,7 +92,7 @@ namespace Impasta.Game {
         #endregion
 
         public void VoteStart() {
-            voteTime = 60.0f;
+            voteTime = 10.0f;
             voteTimeTextComponent.enabled = true;
             System.Array.Clear(PlayerUniversal.Votes, 0, PlayerUniversal.Votes.Length); //So votes casted during non-voting times will be cleared
             SendVote.PrevIndex = -1;
@@ -102,6 +102,15 @@ namespace Impasta.Game {
             voteTimeTextComponent.enabled = false;
 			System.Array.Clear(PlayerUniversal.Votes, 0, PlayerUniversal.Votes.Length);
             SendVote.PrevIndex = -1;
+
+            int indexWithLargestVal = -1;
+            int arrLen = PlayerUniversal.Votes.Length;
+            for(int i = 0; i < arrLen; ++i) {
+                if(indexWithLargestVal < 0 || PlayerUniversal.Votes[i] > PlayerUniversal.Votes[indexWithLargestVal]) {
+                    indexWithLargestVal = i;
+                }
+            }
+            PhotonView.Get(this).RPC("VotedOff", RpcTarget.All, "PlayerChar" + indexWithLargestVal);
         }
 
         private void UpdateVoting() {
