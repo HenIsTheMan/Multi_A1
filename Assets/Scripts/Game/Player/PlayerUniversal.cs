@@ -34,6 +34,15 @@ namespace Impasta.Game {
             }
         }
 
+        public static int[] Votes {
+            get {
+                return votes;
+            }
+            private set {
+                votes = value;
+            }
+        }
+
         #endregion
 
         #region Ctors and Dtor
@@ -87,10 +96,10 @@ namespace Impasta.Game {
 
         public static void ChangeVoteCount(int index, int amt) {
             if(prevVoteIndex >= 0) {
-                votes[prevVoteIndex] -= amt;
-            }
-            votes[index] += amt;
-            prevVoteIndex = index;
-        }
+				votes[prevVoteIndex] -= amt;
+			}
+			votes[index] += amt;
+			prevVoteIndex = index;
+		}
     }
 }

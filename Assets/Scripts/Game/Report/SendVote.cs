@@ -24,7 +24,7 @@ namespace Impasta.Game {
 
         public void OnVoteButtonPressed() {
             string buttonName = EventSystem.current.currentSelectedGameObject.name;
-            int index = Convert.ToInt32(buttonName.Last());
+            int index = Convert.ToInt32(buttonName.Last()) - 48;
 
             object[] data = new object[]{
                 index,
