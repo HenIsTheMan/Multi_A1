@@ -33,7 +33,7 @@ namespace Impasta.Game {
         public void OnEvent(EventData photonEvent) {
             if(photonEvent.Code == (byte)EventCodes.EventCode.UpdateVoteCountEvent) {
                 object[] data = (object[])photonEvent.CustomData;
-                PlayerUniversal.ChangeVoteCount((int)data[0], (int)data[1]);
+                PlayerUniversal.ChangeVoteCount((int)data[0], (int)data[1], (int)data[2]);
             }
         }
     }
