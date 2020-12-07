@@ -58,20 +58,44 @@ namespace Impasta.Game {
         #region Unity User Callback Event Funcs
 
         protected void Update() {
-            if(playerCharTagObjNearby != null && Input.GetKeyDown(KeyCode.Space)
-                && !playerCharTagObjNearby.GetComponent<PlayerCharKill>().IsImposter
-                && myTaskStatus == TaskStatuses.TaskStatus.NotDone) {
-                taskCanvasGO.SetActive(!taskCanvasGO.activeSelf);
-                playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove = !playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove;
-            }
+            if(myTaskStatus == TaskStatuses.TaskStatus.NotDone) {
+                if(playerCharTagObjNearby != null && Input.GetKeyDown(KeyCode.Space)
+                    && !playerCharTagObjNearby.GetComponent<PlayerCharKill>().IsImposter
+                ) {
+                    taskCanvasGO.SetActive(!taskCanvasGO.activeSelf);
+                    playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove = !playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove;
+                }
 
-            if(taskCanvasGO.activeSelf) {
-                TaskLogic();
+                if(taskCanvasGO.activeSelf) {
+                    TaskLogic();
+                }
             }
         }
 
+        #endregion
+
         protected abstract void TaskLogic();
 
-        #endregion
+        protected void TaskCompleted() {
+            taskCanvasGO.SetActive(false);
+            playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove = true;
+
+            //* MyTaskStatus = TaskStatuses.TaskStatus.Done;
+            myTaskStatus = TaskStatuses.TaskStatus.Done;
+            meshRendererComponent.material.SetColor("_Color", Color.green);
+            //*/
+
+            ++playerCharTagObjNearby.GetComponent<PlayerCharTasks>().AmtOfCompleteTasks;
+
+            //object[] customData = new object[]{
+            //        PhotonNetwork.LocalPlayer.NickName,
+            //        new Vector3(myTagObjColor.r, myTagObjColor.g, myTagObjColor.b)
+            //    };
+            //RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+            //    Receivers = ReceiverGroup.All
+            //};
+            //PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.MsgSentByGhostEvent,
+            //    customData, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+        }
     }
 }

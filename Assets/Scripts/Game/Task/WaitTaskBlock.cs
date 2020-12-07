@@ -1,4 +1,6 @@
-﻿namespace Impasta.Game {
+﻿using UnityEngine;
+
+namespace Impasta.Game {
     internal sealed class WaitTaskBlock: TaskBlock {
         #region Fields
 
@@ -11,20 +13,27 @@
 
         #region Ctors and Dtor
 
-        public WaitTaskBlock(): base()
-        {
-            waitTime = UnityEngine.Random.Range(4.0f, 7.0f);
-        }
-
-		#endregion
-
-		#region Unity User Callback Event Funcs
-
-		private new void Update() => base.Update();
-
-        protected override void TaskLogic() {
+        public WaitTaskBlock() : base() {
+            waitTime = 0.0f;
         }
 
         #endregion
+
+        #region Unity User Callback Event Funcs
+
+        private void Awake() {
+           waitTime = Random.Range(4.0f, 7.0f);
+        }
+
+		private new void Update() => base.Update();
+
+        #endregion
+
+        protected override void TaskLogic() {
+            waitTime -= Time.deltaTime;
+            if(waitTime <= 0.0f) {
+                TaskCompleted();
+            }
+        }
     }
 }

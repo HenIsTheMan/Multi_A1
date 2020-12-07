@@ -26,6 +26,15 @@ namespace Impasta.Game {
             }
         }
 
+        public int AmtOfCompleteTasks {
+            get {
+                return amtOfCompleteTasks;
+            }
+            set {
+                amtOfCompleteTasks = value;
+            }
+        }
+
         #endregion
 
         #region Ctors and Dtor
