@@ -2280,6 +2280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   otherSideMask: {fileID: 2100000, guid: a96e4230e1731f24f9dba5485b1331a0, type: 2}
   infoText: {fileID: 1599244413617224965}
+  universalTaskRatioText: {fileID: 2661607057421952940}
   prefabs:
   - prefab: {fileID: 7457511996118607447, guid: 86ca6a3a28f2a86428f98688aacf851c,
       type: 3}
@@ -9148,7 +9149,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8338319844318518550}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 

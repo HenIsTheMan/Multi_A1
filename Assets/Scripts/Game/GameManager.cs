@@ -14,6 +14,7 @@ namespace Impasta.Game{
 
         [SerializeField] private Material otherSideMask;
         [SerializeField] private Text infoText;
+        [SerializeField] private Text universalTaskRatioText;
 
         ///Work around for Jagged arr to be serialized
         [System.Serializable]
@@ -34,6 +35,7 @@ namespace Impasta.Game{
 
             otherSideMask = null;
             infoText = null;
+            universalTaskRatioText = null;
 
             prefabs = null;
         }
@@ -122,7 +124,9 @@ namespace Impasta.Game{
 
         private void StartGame() {
             ///Avoid on rejoin (JL was network-instantiated before)??
-            
+
+            universalTaskRatioText.enabled = true;
+
             Transform parentTransform = GameObject.Find("SceneTest").transform;
             GameObject playerChar = PhotonNetwork.Instantiate(
                "PlayerChar",

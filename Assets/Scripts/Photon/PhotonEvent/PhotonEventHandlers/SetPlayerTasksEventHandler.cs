@@ -33,18 +33,20 @@ namespace Impasta.Game {
         public void OnEvent(EventData photonEvent) {
             if(photonEvent.Code == (byte)EventCodes.EventCode.SetPlayerTasksEvent) {
                 object[] data = (object[])photonEvent.CustomData;
-
-                PlayerCharTasks playerCharTasks = GameObject.Find((string)data[0]).GetComponent<PlayerCharTasks>();
-
-                playerCharTasks.TotalAmtOfTasks = (int)data[1];
-
-                Transform canvasChildTransform = GameObject.Find((string)data[0]).transform.Find("PlayerNameCanvas");
-                Transform grandchildTransform = canvasChildTransform.Find("PlayerNameText");
-
-                UnityEngine.UI.Text textComponent = grandchildTransform.GetComponent<UnityEngine.UI.Text>();
-
-                textComponent.text = playerCharTasks.AmtOfCompleteTasks.ToString() + '/' + playerCharTasks.TotalAmtOfTasks;
+                _ = StartCoroutine(SetPlayerTask(data));
             }
+        }
+
+        private System.Collections.IEnumerator SetPlayerTask(object[] data) {
+            GameObject playerChar = GameObject.Find((string)data[0]);
+
+            while(playerChar == null) {
+                yield return null;
+            }
+
+            playerChar.GetComponent<PlayerCharTasks>().TotalAmtOfTasks = (int)data[1];
+
+            yield return null;
         }
     }
 }

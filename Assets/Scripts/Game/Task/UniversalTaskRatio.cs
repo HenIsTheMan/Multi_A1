@@ -1,5 +1,4 @@
-﻿using Photon.Pun;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Impasta.Game {
@@ -24,25 +23,20 @@ namespace Impasta.Game {
         #region Unity User Callback Event Funcs
 
         private void Update() {
-            GameObject tagObj = (GameObject)PhotonNetwork.LocalPlayer.TagObject;
-            if(tagObj != null && !tagObj.GetComponent<PlayerCharKill>().IsImposter) {
-                GameObject[] playerChars = GameObject.FindGameObjectsWithTag("Player");
-                int completeTasksSum = 0;
-                int tasksSum = 0;
-                int arrLen = playerChars.Length;
+            GameObject[] playerChars = GameObject.FindGameObjectsWithTag("Player");
+            int completeTasksSum = 0;
+            int tasksSum = 0;
+            int arrLen = playerChars.Length;
 
-                for(int i = 0; i < arrLen; ++i) {
-                    GameObject playerChar = playerChars[i];
-                    if(!playerChar.GetComponent<PlayerCharKill>().IsImposter) {
-                        PlayerCharTasks playerCharTasks = playerChar.GetComponent<PlayerCharTasks>();
-                        completeTasksSum += playerCharTasks.AmtOfCompleteTasks;
-                        tasksSum += playerCharTasks.TotalAmtOfTasks;
-                        break;
-                    }
+            for(int i = 0; i < arrLen; ++i) {
+                GameObject playerChar = playerChars[i];
+                if(!playerChar.GetComponent<PlayerCharKill>().IsImposter) {
+                    PlayerCharTasks playerCharTasks = playerChar.GetComponent<PlayerCharTasks>();
+                    completeTasksSum += playerCharTasks.AmtOfCompleteTasks;
+                    tasksSum += playerCharTasks.TotalAmtOfTasks;
                 }
-
-                textComponent.text = completeTasksSum.ToString() + '/' + tasksSum;
             }
+            textComponent.text = completeTasksSum.ToString() + '/' + tasksSum;
         }
 
         #endregion
