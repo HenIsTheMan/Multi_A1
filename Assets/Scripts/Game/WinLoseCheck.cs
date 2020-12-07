@@ -1,17 +1,21 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Impasta.Game {
     internal sealed class WinLoseCheck: MonoBehaviour {
         #region Fields
 
+        private CanvasGroup winLoseBG;
         private float timer;
 
         [SerializeField] private float fadeDuration;
         [SerializeField] private float displayImgDuration;
+
         [SerializeField] private CanvasGroup winBG;
         [SerializeField] private CanvasGroup loseBG;
+        [SerializeField] private Text infoText;
 
         #endregion
 
@@ -27,11 +31,15 @@ namespace Impasta.Game {
         #region Ctors and Dtor
 
         private WinLoseCheck() {
+            winLoseBG = null;
             timer = 0.0f;
+
             fadeDuration = 0.0f;
             displayImgDuration = 0.0f;
+
             winBG = null;
             loseBG = null;
+            infoText = null;
         }
 
         #endregion
@@ -42,10 +50,26 @@ namespace Impasta.Game {
             if(!CheckWinLose) {
                 return;
             }
+            if(winLoseBG != null) {
+                EndGame(winLoseBG);
+                return;
+            }
+
+            bool isImposter = ((GameObject)PhotonNetwork.LocalPlayer.TagObject).GetComponent<PlayerCharKill>().IsImposter;
 
             UniversalTaskRatio.CalcSums(out int completeTasksSum, out int tasksSum);
             if(completeTasksSum == tasksSum && tasksSum != 0) {
-                EndGame(loseBG); //??
+                if(isImposter) {
+                    infoText.text = "Impastas lose...";
+                    infoText.color = Color.red;
+
+                    winLoseBG = loseBG;
+                } else {
+                    infoText.text = "Humans win!";
+                    infoText.color = Color.green;
+
+                    winLoseBG = winBG;
+                }
                 return;
             }
 
@@ -72,7 +96,17 @@ namespace Impasta.Game {
             }
 
             if(aliveImposters == aliveHumans) {
-                EndGame(winBG); //??
+                if(isImposter) {
+                    infoText.text = "Impastas win!";
+                    infoText.color = Color.green;
+
+                    winLoseBG = winBG;
+                } else {
+                    infoText.text = "Humans lose...";
+                    infoText.color = Color.red;
+
+                    winLoseBG = loseBG;
+                }
             }
         }
 
@@ -87,14 +121,10 @@ namespace Impasta.Game {
 
         private System.Collections.IEnumerator DisconnectAndLoad() {
             PhotonNetwork.Disconnect();
-            //PhotonNetwork.LeaveRoom();
 
             while(PhotonNetwork.IsConnected) {
                 yield return null;
             }
-            //while(PhotonNetwork.InRoom) {
-            //  yield return null;
-            //}
 
             SceneManager.LoadScene(0);
         }

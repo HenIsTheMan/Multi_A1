@@ -120,7 +120,17 @@ namespace Impasta.Game{
             playerCharCam.cullingMask &= ~Bit(LayerMask.NameToLayer("OtherSide"));
 
             StartGame();
+            _ = StartCoroutine(nameof(StartCheckingWinLose));
+        }
+
+        private System.Collections.IEnumerator StartCheckingWinLose() {
+            while(GameObject.FindGameObjectsWithTag("Player").Length != PhotonNetwork.CurrentRoom.PlayerCount) {
+                yield return null;
+            }
+
             WinLoseCheck.CheckWinLose = true;
+
+            yield return null;
         }
 
         private void StartGame() {
