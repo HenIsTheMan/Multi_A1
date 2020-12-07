@@ -13,7 +13,7 @@ namespace Impasta.Game {
 
         #region Ctors and Dtor
 
-        public WaitTaskBlock() : base() {
+        public WaitTaskBlock(): base() {
             waitTime = 0.0f;
         }
 
