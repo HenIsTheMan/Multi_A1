@@ -59,7 +59,7 @@ namespace Impasta.Game {
             isDead = false;
             isImposter = false;
             isKillButtonPressed = false;
-            killCooldownTime = 30.0f;
+            killCooldownTime = 20.0f;
 
             playerCharKillTargets = null;
 
@@ -89,7 +89,7 @@ namespace Impasta.Game {
                 if(playerCharMovement.CanMove) {
                     killCooldownTime -= Time.deltaTime;
                 } else {
-                    killCooldownTime = 30.0f;
+                    killCooldownTime = 20.0f;
                 }
                 killCooldownTimeTextComponent.text = (Mathf.Max(0, Mathf.Ceil(killCooldownTime))).ToString();
             }
@@ -134,7 +134,7 @@ namespace Impasta.Game {
                         transform.position = targetPos;
 
                         if(gameObject == (GameObject)PhotonNetwork.LocalPlayer.TagObject) {
-                            killCooldownTime = 30.0f;
+                            killCooldownTime = 20.0f;
                         }
 
                         PhotonView.Get(this).RPC("Kill", RpcTarget.All, currClosestTargetPlayerCharKill.name, targetPos);

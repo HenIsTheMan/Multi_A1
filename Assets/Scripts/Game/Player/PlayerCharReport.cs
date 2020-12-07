@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Impasta.Game {
     internal sealed class PlayerCharReport: MonoBehaviour {
@@ -10,6 +11,9 @@ namespace Impasta.Game {
         private bool isReportButtonPressed;
 
         private List<GameObject> playerCharBodies;
+
+        private float voteTime;
+        private Text voteTimeTextComponent;
 
         #endregion
 
@@ -23,6 +27,9 @@ namespace Impasta.Game {
             isReportButtonPressed = false;
 
             playerCharBodies = null;
+
+            voteTime = 0.0f;
+            voteTimeTextComponent = null;
         }
 
         #endregion
@@ -31,15 +38,15 @@ namespace Impasta.Game {
 
         private void Start() {
             playerCharBodies = new List<GameObject>();
+
+            voteTimeTextComponent = GameObject.Find("VoteTimeText").GetComponent<Text>();
         }
 
         private void Update() {
             if(Input.GetButtonDown("Report")) {
                 isReportButtonPressed = true;
             }
-        }
 
-        private void FixedUpdate() {
             if(isReportButtonPressed && !isDead) {
                 int listCount = playerCharBodies.Count;
 
@@ -49,7 +56,7 @@ namespace Impasta.Game {
 
                     for(int i = 0; i < listCount; ++i) {
                         GameObject playerCharBody = playerCharBodies[i];
-                        if(!playerCharBody.activeSelf){
+                        if(!playerCharBody.activeSelf) {
                             continue;
                         }
 
@@ -76,9 +83,31 @@ namespace Impasta.Game {
 
                 isReportButtonPressed = false;
             }
+
+            if(voteTimeTextComponent.enabled && voteTime > 0.0f) {
+                UpdateVoting();
+            }
         }
 
         #endregion
+
+        public void VoteStart() {
+            voteTime = 30.0f;
+            voteTimeTextComponent.enabled = true;
+        }
+
+        public void VoteEnd() {
+            voteTimeTextComponent.enabled = false;
+        }
+
+        private void UpdateVoting() {
+            voteTime -= Time.deltaTime;
+            voteTimeTextComponent.text = (Mathf.Max(0, Mathf.Ceil(voteTime))).ToString();
+
+            if(voteTime <= 0.0f && PhotonNetwork.IsMasterClient) {
+                PhotonView.Get(this).RPC("EndVote", RpcTarget.All);
+            }
+        }
 
         public void UpdateIsDead(bool isDead) {
             this.isDead = isDead;

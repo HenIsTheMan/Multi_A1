@@ -71,11 +71,13 @@ namespace Impasta.Game {
                         playerCharMovement.CanMove = false;
                         playerCharMovement.RigidbodyComponent.velocity = Vector3.zero;
 
-                        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-                            Receivers = ReceiverGroup.All
-                        };
-                        PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.DisablePlayerSpriteAniEvent,
-                            playerCharTagObjNearby.name, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+                        if(PhotonNetwork.IsMasterClient) {
+                            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+                                Receivers = ReceiverGroup.All
+                            };
+                            PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.DisablePlayerSpriteAniEvent,
+                                playerCharTagObjNearby.name, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+                        }
                     } else {
                         playerCharMovement.CanMove = true;
                     }
