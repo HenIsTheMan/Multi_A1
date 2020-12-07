@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
 namespace Impasta.Game {
-    internal sealed class TaskBlock: MonoBehaviour {
+    internal abstract class TaskBlock: MonoBehaviour {
         #region Fields
 
-        private GameObject playerCharTagObjNearby;
-        private TaskTypes.TaskType taskType;
+        protected GameObject playerCharTagObjNearby;
+        protected TaskStatuses.TaskStatus myTaskStatus;
 
-        [SerializeField] private GameObject taskCanvasGO;
-        [SerializeField] private MeshRenderer meshRendererComponent;
+        [SerializeField] protected GameObject taskCanvasGO;
+        [SerializeField] protected MeshRenderer meshRendererComponent;
 
         #endregion
 
@@ -23,17 +23,17 @@ namespace Impasta.Game {
             }
         }
 
-        public TaskTypes.TaskType TaskType {
+        public TaskStatuses.TaskStatus MyTaskStatus {
             get {
-                return taskType;
+                return myTaskStatus;
             }
             set {
-                taskType = value;
+                myTaskStatus = value;
 
                 Material mtl = meshRendererComponent.material;
-                if(taskType == TaskTypes.TaskType.NoTask) {
+                if(myTaskStatus == TaskStatuses.TaskStatus.None) {
                     mtl.SetColor("_Color", Color.white);
-                } else if(taskType == TaskTypes.TaskType.TaskDone) {
+                } else if(myTaskStatus == TaskStatuses.TaskStatus.Done) {
                     mtl.SetColor("_Color", Color.green);
                 } else {
                     mtl.SetColor("_Color", Color.red);
@@ -45,9 +45,9 @@ namespace Impasta.Game {
 
         #region Ctors and Dtor
 
-        public TaskBlock() {
+        protected TaskBlock() {
            playerCharTagObjNearby = null;
-           taskType = TaskTypes.TaskType.NoTask;
+           myTaskStatus = TaskStatuses.TaskStatus.None;
 
            taskCanvasGO = null;
            meshRendererComponent = null;
@@ -57,21 +57,20 @@ namespace Impasta.Game {
 
         #region Unity User Callback Event Funcs
 
-        private void Update() {
+        protected void Update() {
             if(playerCharTagObjNearby != null && Input.GetKeyDown(KeyCode.Space)
                 && !playerCharTagObjNearby.GetComponent<PlayerCharKill>().IsImposter
-                && (byte)taskType > (byte)TaskTypes.TaskType.TaskDone) {
+                && myTaskStatus == TaskStatuses.TaskStatus.NotDone) {
                 taskCanvasGO.SetActive(!taskCanvasGO.activeSelf);
                 playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove = !playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove;
             }
 
             if(taskCanvasGO.activeSelf) {
-                switch(taskType) {
-                    case TaskTypes.TaskType.WaitTask:
-                        break;
-                }
+                TaskLogic();
             }
         }
+
+        protected abstract void TaskLogic();
 
         #endregion
     }

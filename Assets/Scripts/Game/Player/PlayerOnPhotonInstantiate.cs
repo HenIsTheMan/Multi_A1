@@ -72,12 +72,12 @@ namespace Impasta.Game {
                 ShuffleElements.Shuffle(taskBlocks);
                 byte arrLen = (byte)taskBlocks.Length;
 
-                for(byte i = 0; i < arrLen; ++i) {
-                    taskBlocks[i].GetComponent<TaskBlock>().TaskType = i < (byte)playerCharTasks.TotalAmtOfTasks
-                        ? (TaskTypes.TaskType)Random.Range(2, (int)TaskTypes.TaskType.Amt - 1)
-                        : TaskTypes.TaskType.NoTask;
-                }
-            }
+				for(byte i = 0; i < arrLen; ++i) {
+					taskBlocks[i].GetComponent<TaskBlock>().MyTaskStatus = i < (byte)playerCharTasks.TotalAmtOfTasks
+						? TaskStatuses.TaskStatus.NotDone
+                        : TaskStatuses.TaskStatus.None;
+				}
+			}
             //*/
 
             float angle = (360.0f / (float)System.Convert.ToDouble(PhotonNetwork.CurrentRoom.PlayerCount)) * Mathf.Deg2Rad * (float)System.Convert.ToDouble(index);

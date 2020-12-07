@@ -1,9 +1,9 @@
 ﻿namespace Impasta.Game {
-    internal sealed class TaskTypes {
-        public enum TaskType: byte {
-            NoTask,
-            TaskDone,
-            WaitTask,
+    internal sealed class TaskStatuses {
+        public enum TaskStatus: int {
+            None,
+            Done,
+            NotDone,
             Amt
         };
 
@@ -15,7 +15,7 @@
 
         #region Ctors and Dtor
 
-        private TaskTypes() {
+        private TaskStatuses() {
         }
 
         #endregion
