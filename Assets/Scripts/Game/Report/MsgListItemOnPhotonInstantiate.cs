@@ -35,6 +35,12 @@ namespace Impasta.Game {
         #endregion
 
         public void OnPhotonInstantiate(PhotonMessageInfo info) {
+            if(!((GameObject)PhotonNetwork.LocalPlayer.TagObject).GetComponent<PlayerCharKill>().IsDead
+                && ((GameObject)info.Sender.TagObject).GetComponent<PlayerCharKill>().IsDead) { //Destroy ghost's msg for alive player
+                Destroy(gameObject);
+                return;
+            }
+
             Transform myTransform = gameObject.transform;
 
             myTransform.SetParent(GameObject.Find("Content").transform, false);
@@ -42,7 +48,10 @@ namespace Impasta.Game {
             Text textComponent = myTransform.Find("Text").GetComponent<Text>();
             GameObject playerChar = (GameObject)info.Sender.TagObject;
             textComponent.text = info.Sender.NickName + ": " + msg;
-            textComponent.color = playerChar.transform.Find("PlayerCharOutfitSprite").GetComponent<SpriteRenderer>().color;
+
+            Color myColor = playerChar.transform.Find("PlayerCharOutfitSprite").GetComponent<SpriteRenderer>().color;
+            myColor.a = 0.8f;
+            textComponent.color = myColor;
 
             msg = string.Empty; //So next msg list item will only be instantiated when msg is set again
         }
