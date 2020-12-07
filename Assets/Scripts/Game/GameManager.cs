@@ -152,6 +152,8 @@ namespace Impasta.Game{
             };
             LightCaster playerCharLightCaster = playerChar.GetComponent<LightCaster>();
             playerCharLightCaster.LightMask = sceneLightMask;
+
+            PlayerUniversal.InitVotes();
         }
 
         private bool LevelLoadedForAllPlayers() {

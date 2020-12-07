@@ -8,6 +8,7 @@
             RetrievePlayerRolesEvent,
             SetPlayerRolesEvent,
             SetPlayerTotalAmtOfTasksEvent,
+            UpdateVoteCountEvent,
             Amt
         };
 

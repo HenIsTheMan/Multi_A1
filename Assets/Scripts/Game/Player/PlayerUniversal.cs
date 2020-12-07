@@ -9,6 +9,9 @@ namespace Impasta.Game {
         private static bool[] roles;
         private static Color[] colors;
 
+        private static int prevVoteIndex;
+        private static int[] votes;
+
         #endregion
 
         #region Properties
@@ -38,6 +41,9 @@ namespace Impasta.Game {
         static PlayerUniversal() {
             roles = System.Array.Empty<bool>();
             colors = System.Array.Empty<Color>();
+
+            prevVoteIndex = -1;
+            votes = System.Array.Empty<int>();
         }
 
         #endregion
@@ -73,6 +79,18 @@ namespace Impasta.Game {
                 new Color(0.82f, 0.41f, 0.11f),
             };
             ShuffleElements.Shuffle(colors);
+        }
+
+        public static void InitVotes() {
+            votes = new int[PhotonNetwork.CurrentRoom.PlayerCount];
+        }
+
+        public static void ChangeVoteCount(int index, int amt) {
+            if(prevVoteIndex >= 0) {
+                votes[prevVoteIndex] -= amt;
+            }
+            votes[index] += amt;
+            prevVoteIndex = index;
         }
     }
 }
