@@ -4,7 +4,7 @@ using Photon.Realtime;
 using UnityEngine;
 
 namespace Impasta.Game {
-    internal sealed class SetPlayerTasksEventHandler: MonoBehaviour, IOnEventCallback {
+    internal sealed class SetPlayerTotalAmtOfTasksEventHandler: MonoBehaviour, IOnEventCallback {
         #region Fields
         #endregion
 
@@ -13,7 +13,7 @@ namespace Impasta.Game {
 
         #region Ctors and Dtor
 
-        private SetPlayerTasksEventHandler() {
+        private SetPlayerTotalAmtOfTasksEventHandler() {
         }
 
         #endregion
@@ -31,7 +31,7 @@ namespace Impasta.Game {
         #endregion
 
         public void OnEvent(EventData photonEvent) {
-            if(photonEvent.Code == (byte)EventCodes.EventCode.SetPlayerTasksEvent) {
+            if(photonEvent.Code == (byte)EventCodes.EventCode.SetPlayerTotalAmtOfTasksEvent) {
                 object[] data = (object[])photonEvent.CustomData;
                 _ = StartCoroutine(SetPlayerTask(data));
             }

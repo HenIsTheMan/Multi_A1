@@ -87,7 +87,7 @@ namespace Impasta.Game {
                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
                     Receivers = ReceiverGroup.Others
                 };
-                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.SetPlayerTasksEvent,
+                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.SetPlayerTotalAmtOfTasksEvent,
                     data, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
             }
             //*/
