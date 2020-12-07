@@ -22,10 +22,10 @@ namespace Impasta.Game {
         #endregion
 
         public void OnPhotonInstantiate(PhotonMessageInfo info) {
-            _ = StartCoroutine(InitPlayerAttribs(info));
+            _ = StartCoroutine(InitPlayerAttribsAndMore(info));
         }
 
-        private System.Collections.IEnumerator InitPlayerAttribs(PhotonMessageInfo info) { //In case
+        private System.Collections.IEnumerator InitPlayerAttribsAndMore(PhotonMessageInfo info) { //In case
             while(PlayerUniversal.Roles.Length == 0) {
                 yield return null;
             }
@@ -34,11 +34,12 @@ namespace Impasta.Game {
             info.Sender.TagObject = gameObject;
             name = "PlayerChar" + index;
 
-            GameObject voteButton = GameObject.Find("VoteButton" + index);
-            voteButton.GetComponent<RawImage>().color = PlayerUniversal.Colors[index];
+			GameObject voteButton = GameObject.Find("ReportCanvasWrapper").transform.GetChild(0).GetChild(1).GetChild(index).gameObject;
+            voteButton.GetComponent<RawImage>().color = new Color(0.5f, 0.5f, 0.5f, 0.3f);
+			voteButton.transform.Find("Text").GetComponent<Text>().color = PlayerUniversal.Colors[index];
 
-            //* Setting player char depth
-            Transform spriteChildTransform0 = gameObject.transform.GetChild(0);
+			//* Setting player char depth
+			Transform spriteChildTransform0 = gameObject.transform.GetChild(0);
             Transform spriteChildTransform1 = gameObject.transform.GetChild(1);
 
             spriteChildTransform0.position = new Vector3(

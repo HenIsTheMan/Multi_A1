@@ -31,8 +31,9 @@ namespace Impasta.Game {
 
         private void Update() {
             for(int i = 0; i < arrLen; ++i) {
-                if(PlayerUniversal.Votes.Length > i) {
-                    voteButtons[i].transform.Find("Text").GetComponent<Text>().text = PlayerUniversal.Votes[i].ToString();
+                GameObject voteButton = voteButtons[i];
+                if(PlayerUniversal.Votes.Length > i && !Mathf.Approximately(voteButton.GetComponent<RawImage>().color.a, 0.0f)) {
+                    voteButton.transform.Find("Text").GetComponent<Text>().text = PlayerUniversal.Votes[i].ToString();
                 }
             }
         }
