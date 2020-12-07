@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Impasta.Game {
     internal sealed class PlayerOnPhotonInstantiate: MonoBehaviour, IPunInstantiateMagicCallback {
@@ -32,6 +33,9 @@ namespace Impasta.Game {
             int index = info.Sender.ActorNumber - 1;
             info.Sender.TagObject = gameObject;
             name = "PlayerChar" + index;
+
+            GameObject voteButton = GameObject.Find("VoteButton" + index);
+            voteButton.GetComponent<RawImage>().color = PlayerUniversal.Colors[index];
 
             //* Setting player char depth
             Transform spriteChildTransform0 = gameObject.transform.GetChild(0);
