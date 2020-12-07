@@ -5,6 +5,14 @@ using UnityEngine.SceneManagement;
 namespace Impasta.Game {
     internal sealed class WinLoseCheck: MonoBehaviour {
         #region Fields
+
+        private float timer;
+
+        [SerializeField] private float fadeDuration;
+        [SerializeField] private float displayImgDuration;
+        [SerializeField] private CanvasGroup winBG;
+        [SerializeField] private CanvasGroup loseBG;
+
         #endregion
 
         #region Properties
@@ -17,6 +25,15 @@ namespace Impasta.Game {
         #endregion
 
         #region Ctors and Dtor
+
+        private WinLoseCheck() {
+            timer = 0.0f;
+            fadeDuration = 0.0f;
+            displayImgDuration = 0.0f;
+            winBG = null;
+            loseBG = null;
+        }
+
         #endregion
 
         #region Unity User Callback Event Funcs
@@ -28,7 +45,7 @@ namespace Impasta.Game {
 
             UniversalTaskRatio.CalcSums(out int completeTasksSum, out int tasksSum);
             if(completeTasksSum == tasksSum && tasksSum != 0) {
-                _ = StartCoroutine(nameof(DisconnectAndLoad));
+                EndGame(loseBG); //??
                 return;
             }
 
@@ -55,6 +72,15 @@ namespace Impasta.Game {
             }
 
             if(aliveImposters == aliveHumans) {
+                EndGame(winBG); //??
+            }
+        }
+
+        private void EndGame(CanvasGroup imgCanvasGroup) {
+            timer += Time.deltaTime;
+            imgCanvasGroup.alpha = timer / fadeDuration;
+
+            if(timer > fadeDuration + displayImgDuration) {
                 _ = StartCoroutine(nameof(DisconnectAndLoad));
             }
         }
