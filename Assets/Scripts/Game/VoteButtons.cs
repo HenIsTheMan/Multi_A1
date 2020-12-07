@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,7 +34,14 @@ namespace Impasta.Game {
             for(int i = 0; i < arrLen; ++i) {
                 GameObject voteButton = voteButtons[i];
                 if(PlayerUniversal.Votes.Length > i && !Mathf.Approximately(voteButton.GetComponent<RawImage>().color.a, 0.0f)) {
-                    voteButton.transform.Find("Text").GetComponent<Text>().text = PlayerUniversal.Votes[i].ToString();
+                    if(((GameObject)PhotonNetwork.LocalPlayer.TagObject).GetComponent<PlayerCharKill>().IsDead) {
+                        voteButton.transform.Find("Text").GetComponent<Text>().text = "---";
+                    } else {
+                        voteButton.transform.Find("Text").GetComponent<Text>().text
+                            = ((GameObject)PhotonNetwork.CurrentRoom.GetPlayer(i + 1).TagObject).GetComponent<PlayerCharKill>().IsDead
+                            ? "XX"
+                            : PlayerUniversal.Votes[i].ToString();
+                    }
                 }
             }
         }

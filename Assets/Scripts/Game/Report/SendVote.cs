@@ -14,6 +14,16 @@ namespace Impasta.Game {
         #endregion
 
         #region Properties
+
+        public static int PrevIndex {
+            get {
+                return prevIndex;
+            }
+            set {
+                prevIndex = value;
+            }
+        }
+
         #endregion
 
         #region Ctors and Dtor
@@ -27,8 +37,15 @@ namespace Impasta.Game {
         #region Unity User Callback Event Funcs
 
         public void OnVoteButtonPressed() {
+            if(((GameObject)PhotonNetwork.LocalPlayer.TagObject).GetComponent<PlayerCharKill>().IsDead) { //So ghosts cannot vote
+                return;
+            }
+
             string buttonName = EventSystem.current.currentSelectedGameObject.name;
             int index = Convert.ToInt32(buttonName.Last()) - 48;
+            if(((GameObject)PhotonNetwork.CurrentRoom.GetPlayer(index + 1).TagObject).GetComponent<PlayerCharKill>().IsDead) { //So cannot vote for ghosts
+                return;
+            }
 
             object[] data = new object[]{
                 index,
