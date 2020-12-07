@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 namespace Impasta.Game {
@@ -64,20 +65,31 @@ namespace Impasta.Game {
             }
 
             //* Assigning tasks
-            if(!isLocalClientImposter && info.Sender == PhotonNetwork.LocalPlayer) { //Assign for local client only
-                PlayerCharTasks playerCharTasks = gameObject.GetComponent<PlayerCharTasks>();
+            PlayerCharTasks playerCharTasks = gameObject.GetComponent<PlayerCharTasks>();
+
+            if(!isLocalClientImposter && info.Sender == PhotonNetwork.LocalPlayer) {
                 playerCharTasks.TotalAmtOfTasks = Random.Range(5, 10);
 
                 GameObject[] taskBlocks = GameObject.FindGameObjectsWithTag("TaskBlock");
                 ShuffleElements.Shuffle(taskBlocks);
                 byte arrLen = (byte)taskBlocks.Length;
 
-				for(byte i = 0; i < arrLen; ++i) {
-					taskBlocks[i].GetComponent<TaskBlock>().MyTaskStatus = i < (byte)playerCharTasks.TotalAmtOfTasks
-						? TaskStatuses.TaskStatus.NotDone
+                for(byte i = 0; i < arrLen; ++i) {
+                    taskBlocks[i].GetComponent<TaskBlock>().MyTaskStatus = i < (byte)playerCharTasks.TotalAmtOfTasks
+                        ? TaskStatuses.TaskStatus.NotDone
                         : TaskStatuses.TaskStatus.None;
-				}
-			}
+                }
+
+                object[] data = new object[]{
+                    name,
+                    playerCharTasks.TotalAmtOfTasks
+                };
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+                    Receivers = ReceiverGroup.Others
+                };
+                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.SetPlayerTasksEvent,
+                    data, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+            }
             //*/
 
             float angle = (360.0f / (float)System.Convert.ToDouble(PhotonNetwork.CurrentRoom.PlayerCount)) * Mathf.Deg2Rad * (float)System.Convert.ToDouble(index);

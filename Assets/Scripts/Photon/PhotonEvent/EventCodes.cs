@@ -5,6 +5,7 @@
             MsgSentByGhostEvent,
             RetrievePlayerRolesEvent,
             SetPlayerRolesEvent,
+            SetPlayerTasksEvent,
             Amt
         };
 
