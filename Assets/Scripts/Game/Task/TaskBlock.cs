@@ -102,15 +102,11 @@ namespace Impasta.Game {
 
             ++playerCharTagObjNearby.GetComponent<PlayerCharTasks>().AmtOfCompleteTasks;
 
-            //object[] customData = new object[]{
-            //        PhotonNetwork.LocalPlayer.NickName,
-            //        new Vector3(myTagObjColor.r, myTagObjColor.g, myTagObjColor.b)
-            //    };
-            //RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
-            //    Receivers = ReceiverGroup.All
-            //};
-            //PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.MsgSentByGhostEvent,
-            //    customData, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+                Receivers = ReceiverGroup.Others
+            };
+            PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.CompletedTaskEvent,
+                playerCharTagObjNearby.name, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
         }
     }
 }

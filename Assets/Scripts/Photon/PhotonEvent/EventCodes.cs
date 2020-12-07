@@ -2,6 +2,7 @@
     internal sealed class EventCodes {
         public enum EventCode: byte {
             NotAnEvent,
+            CompletedTaskEvent,
             DisablePlayerSpriteAniEvent,
             MsgSentByGhostEvent,
             RetrievePlayerRolesEvent,
