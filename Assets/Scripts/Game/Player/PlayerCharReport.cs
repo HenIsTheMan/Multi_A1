@@ -102,15 +102,23 @@ namespace Impasta.Game {
             voteTimeTextComponent.enabled = false;
 
             if(PhotonNetwork.IsMasterClient) {
+                bool gotEqual = false;
                 int indexWithLargestVal = -1;
                 int arrLen = PlayerUniversal.Votes.Length;
                 for(int i = 0; i < arrLen; ++i) {
                     if(indexWithLargestVal < 0 || PlayerUniversal.Votes[i] > PlayerUniversal.Votes[indexWithLargestVal]) {
                         indexWithLargestVal = i;
+                        gotEqual = false;
+                    }
+
+                    if(PlayerUniversal.Votes[i] == PlayerUniversal.Votes[indexWithLargestVal]) {
+                        gotEqual = true;
                     }
                 }
 
-                PhotonView.Get(this).RPC("VotedOff", RpcTarget.All, "PlayerChar" + indexWithLargestVal);
+                if(!gotEqual) {
+                    PhotonView.Get(this).RPC("VotedOff", RpcTarget.All, "PlayerChar" + indexWithLargestVal);
+                }
             }
 
             System.Array.Clear(PlayerUniversal.Votes, 0, PlayerUniversal.Votes.Length);

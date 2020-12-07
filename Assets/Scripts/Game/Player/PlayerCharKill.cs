@@ -135,7 +135,9 @@ namespace Impasta.Game {
                             killCooldownTime = 20.0f;
                         }
 
-                        PhotonView.Get(this).RPC("Kill", RpcTarget.All, currClosestTargetPlayerCharKill.name, targetPos);
+                        if(PhotonNetwork.IsMasterClient) {
+                            PhotonView.Get(this).RPC("Kill", RpcTarget.All, currClosestTargetPlayerCharKill.name, targetPos);
+                        }
                     }
                 }
 
