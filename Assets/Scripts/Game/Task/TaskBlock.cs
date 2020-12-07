@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine;
 
 namespace Impasta.Game {
     internal abstract class TaskBlock: MonoBehaviour {
@@ -63,7 +65,20 @@ namespace Impasta.Game {
                     && !playerCharTagObjNearby.GetComponent<PlayerCharKill>().IsImposter
                 ) {
                     taskCanvasGO.SetActive(!taskCanvasGO.activeSelf);
-                    playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove = !playerCharTagObjNearby.GetComponent<PlayerCharMovement>().CanMove;
+
+                    PlayerCharMovement playerCharMovement = playerCharTagObjNearby.GetComponent<PlayerCharMovement>();
+                    if(taskCanvasGO.activeSelf) {
+                        playerCharMovement.CanMove = false;
+                        playerCharMovement.RigidbodyComponent.velocity = Vector3.zero;
+
+                        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+                            Receivers = ReceiverGroup.All
+                        };
+                        PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.DisablePlayerSpriteAniEvent,
+                            playerCharTagObjNearby.name, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
+                    } else {
+                        playerCharMovement.CanMove = true;
+                    }
                 }
 
                 if(taskCanvasGO.activeSelf) {

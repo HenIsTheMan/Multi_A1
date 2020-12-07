@@ -44,6 +44,15 @@ namespace Impasta.Game {
 			spd = 0.0f;
 		}
 
+		public Rigidbody RigidbodyComponent {
+			get {
+				return rigidbodyComponent;
+			}
+			private set {
+				rigidbodyComponent = value;
+			}
+		}
+
 		#endregion
 
 		#region Unity User Callback Event Funcs
@@ -68,10 +77,7 @@ namespace Impasta.Game {
 
 		public void UpdateSpriteAni(bool result0, bool result1, bool isFacingLeft) {
 			if(result0 && result1) {
-				script0.ResetSpriteAni();
-				script0.enabled = false;
-				script1.ResetSpriteAni();
-				script1.enabled = false;
+				DisableSpriteAni();
 				return;
 			} else {
 				script0.enabled = true;
@@ -87,6 +93,13 @@ namespace Impasta.Game {
 					script1.ChangeAndResetSpriteAni(System.Convert.ToInt32(isFacingRight));
 				}
 			}
+		}
+
+		public void DisableSpriteAni() {
+			script0.ResetSpriteAni();
+			script0.enabled = false;
+			script1.ResetSpriteAni();
+			script1.enabled = false;
 		}
 
 		private void FixedUpdate() {

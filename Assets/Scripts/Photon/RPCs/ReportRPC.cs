@@ -1,5 +1,6 @@
 ﻿using Impasta.Game;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 namespace Impasta {
@@ -37,11 +38,20 @@ namespace Impasta {
 
             ((GameObject)PhotonNetwork.LocalPlayer.TagObject).transform.position = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0.0f) * radius;
 
-            ///Make all players unable to move during a report
+            ///Make all players static during a report
             GameObject[] playerChars = GameObject.FindGameObjectsWithTag("Player");
             int playerCharsArrLen = playerChars.Length;
             for(int i = 0; i < playerCharsArrLen; ++i) {
-                playerChars[i].GetComponent<PlayerCharMovement>().CanMove = false;
+                GameObject playerChar = playerChars[i];
+                PlayerCharMovement playerCharMovement = playerChar.GetComponent<PlayerCharMovement>();
+                playerCharMovement.CanMove = false;
+                playerCharMovement.RigidbodyComponent.velocity = Vector3.zero;
+
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {
+                    Receivers = ReceiverGroup.All
+                };
+                PhotonNetwork.RaiseEvent((byte)EventCodes.EventCode.DisablePlayerSpriteAniEvent,
+                    playerChar.name, raiseEventOptions, ExitGames.Client.Photon.SendOptions.SendReliable);
             }
 
             ///Despawn all player char dead bodies
