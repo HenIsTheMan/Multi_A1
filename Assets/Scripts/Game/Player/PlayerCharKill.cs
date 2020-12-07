@@ -177,12 +177,12 @@ namespace Impasta.Game {
                 Transform childTransform0 = gameObject.transform.Find("PlayerCharOutfitSprite");
                 SpriteRenderer childSpriteRenderer0 = childTransform0.GetComponent<SpriteRenderer>();
                 Color myColor0 = childSpriteRenderer0.color;
-                myColor0.a = 0.5f;
+                myColor0.a = 0.7f;
                 childSpriteRenderer0.color = myColor0;
 
                 Transform childTransform1 = gameObject.transform.Find("PlayerCharSprite");
                 SpriteRenderer childSpriteRenderer1 = childTransform1.GetComponent<SpriteRenderer>();
-                childSpriteRenderer1.color = new Color(0.5f, 0.5f, 1.0f, 0.5f);
+                childSpriteRenderer1.color = new Color(0.5f, 0.5f, 1.0f, 0.7f);
             } catch(NullReferenceException) {
                 UnityEngine.Assertions.Assert.IsTrue(false);
             }
@@ -201,7 +201,7 @@ namespace Impasta.Game {
                         color0.r,
                         color0.g,
                         color0.b,
-                        1.0f
+                        0.7f
                     );
 
                     SpriteRenderer spriteRenderer1 = playerChar.transform.GetChild(1).GetComponent<SpriteRenderer>();
@@ -210,7 +210,7 @@ namespace Impasta.Game {
                         color1.r,
                         color1.g,
                         color1.b,
-                        1.0f
+                        0.7f
                     );
 
                     playerChar.transform.GetChild(3).gameObject.SetActive(true);
