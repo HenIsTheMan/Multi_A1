@@ -24,6 +24,15 @@ namespace Impasta.Game {
 
         #region Properties
 
+        public bool IsDead {
+            get {
+                return isDead;
+            }
+            private set {
+                isDead = value;
+            }
+        }
+
         public bool IsImposter {
             get {
                 return isImposter;
