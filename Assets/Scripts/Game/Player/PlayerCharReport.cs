@@ -111,7 +111,7 @@ namespace Impasta.Game {
                         gotEqual = false;
                     }
 
-                    if(PlayerUniversal.Votes[i] == PlayerUniversal.Votes[indexWithLargestVal]) {
+                    if(i != indexWithLargestVal && PlayerUniversal.Votes[i] == PlayerUniversal.Votes[indexWithLargestVal]) {
                         gotEqual = true;
                     }
                 }

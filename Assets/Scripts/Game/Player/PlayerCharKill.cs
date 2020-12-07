@@ -133,9 +133,6 @@ namespace Impasta.Game {
 
                         if(gameObject == (GameObject)PhotonNetwork.LocalPlayer.TagObject) {
                             killCooldownTime = 20.0f;
-                        }
-
-                        if(PhotonNetwork.IsMasterClient) {
                             PhotonView.Get(this).RPC("Kill", RpcTarget.All, currClosestTargetPlayerCharKill.name, targetPos);
                         }
                     }
@@ -179,7 +176,9 @@ namespace Impasta.Game {
             try {
                 Transform childTransform0 = gameObject.transform.Find("PlayerCharOutfitSprite");
                 SpriteRenderer childSpriteRenderer0 = childTransform0.GetComponent<SpriteRenderer>();
-                childSpriteRenderer0.color -= new Color(0.0f, 0.0f, 0.0f, 0.5f);
+                Color myColor0 = childSpriteRenderer0.color;
+                myColor0.a = 0.5f;
+                childSpriteRenderer0.color = myColor0;
 
                 Transform childTransform1 = gameObject.transform.Find("PlayerCharSprite");
                 SpriteRenderer childSpriteRenderer1 = childTransform1.GetComponent<SpriteRenderer>();
