@@ -34,7 +34,6 @@ namespace Impasta.Game {
 
         private void Awake() {
             holdTime = Random.Range(7.0f, 10.0f);
-            textComponent.text = Mathf.Ceil(holdTime).ToString();
 
             textComponent = taskCanvasGO.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>();
         }
