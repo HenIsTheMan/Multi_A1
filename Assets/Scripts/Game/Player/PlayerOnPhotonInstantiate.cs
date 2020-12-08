@@ -73,7 +73,7 @@ namespace Impasta.Game {
             PlayerCharTasks playerCharTasks = gameObject.GetComponent<PlayerCharTasks>();
 
             if(!isLocalClientImposter && info.Sender == PhotonNetwork.LocalPlayer) {
-                playerCharTasks.TotalAmtOfTasks = Random.Range(5, 10);
+                playerCharTasks.TotalAmtOfTasks = Random.Range(7, 12);
 
                 GameObject[] taskBlocks = GameObject.FindGameObjectsWithTag("TaskBlock");
                 ShuffleElements.Shuffle(taskBlocks);

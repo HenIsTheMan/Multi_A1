@@ -92,7 +92,7 @@ namespace Impasta.Game {
         #endregion
 
         public void VoteStart() {
-            voteTime = 10.0f;
+            voteTime = 60.0f;
             voteTimeTextComponent.enabled = true;
             System.Array.Clear(PlayerUniversal.Votes, 0, PlayerUniversal.Votes.Length); //So votes casted during non-voting times will be cleared
             SendVote.PrevIndex = -1;
