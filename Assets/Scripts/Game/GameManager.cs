@@ -4,7 +4,6 @@ using Photon.Pun.UtilityScripts;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 namespace Impasta.Game{
     internal sealed class GameManager: MonoBehaviourPunCallbacks { //Singleton
