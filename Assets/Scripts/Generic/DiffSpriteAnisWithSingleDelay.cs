@@ -14,7 +14,7 @@ namespace Impasta {
         [SerializeField] private float delay;
         [SerializeField] private int currSpriteAniIndex;
 
-        ///Work around for Jagged arr to be serialized
+        ///Workaround for Jagged arr to be serialized
         [Serializable] public class SpriteAni {
             public Sprite[] frames;
         }

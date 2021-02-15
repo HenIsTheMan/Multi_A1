@@ -15,7 +15,7 @@ namespace Impasta.Game{
         [SerializeField] private Text infoText;
         [SerializeField] private Text universalTaskRatioText;
 
-        ///Work around for Jagged arr to be serialized
+        ///Workaround for Jagged arr to be serialized
         [System.Serializable]
         public class Prefab {
             public GameObject prefab;
